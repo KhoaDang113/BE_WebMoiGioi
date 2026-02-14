@@ -1,0 +1,516 @@
+generator client {
+  provider = "prisma-client"
+  previewFeatures = ["postgresqlExtensions"]
+  output   = "../src/generated/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  extensions = [postgis]
+}
+
+// ==========================================
+// 1. QUẢN LÝ NGƯỜI DÙNG & ĐỊNH DANH (IAM)
+// ==========================================
+
+enum AccountType {
+  MEMBER
+  AGENT
+  AGENCY
+  ADMIN
+  MODERATOR
+}
+
+enum UserStatus {
+  PENDING_VERIFICATION
+  ACTIVE
+  LOCKED
+  BANNED
+}
+
+model User {
+  id                BigInt      @id @default(autoincrement())
+  publicId          String      @unique @default(uuid()) @map("public_id")
+  phoneNumber       String      @unique @map("phone_number") @db.VarChar(15)
+  email             String?     @unique @db.VarChar(255)
+  passwordHash      String?     @map("password_hash")
+  securityStamp     String      @default(uuid()) @map("security_stamp")
+  accountType       AccountType @map("account_type")
+  status            UserStatus  @default(PENDING_VERIFICATION)
+  isPhoneVerified   Boolean     @default(false) @map("is_phone_verified")
+  isEmailVerified   Boolean     @default(false) @map("is_email_verified")
+  kycLevel          Int         @default(0) @map("kyc_level")
+  createdAt         DateTime    @default(now()) @map("created_at") @db.Timestamptz
+
+  // Relations
+  profile           UserProfile?
+  socialIdentities  SocialIdentity[]
+  sessions          UserSession[]
+  listings          Listing[]
+  wallet            Wallet?
+  savedSearches     SavedSearch[]
+  conversationsBuy  Conversation[]   @relation("BuyerConversations")
+  conversationsSell Conversation[]   @relation("SellerConversations")
+  sentMessages      Message[]
+  auditLogs         AuditLog[]
+  reports           Report[]
+
+  @@index([phoneNumber])
+  @@map("users")
+}
+
+enum OTPType {
+  REGISTER
+  FORGOT_PASSWORD
+}
+
+model OTP {
+  id        Int      @id @default(autoincrement())
+  phone     String   @db.VarChar(15)
+  code      String   @db.VarChar(6)
+  type      OTPType  @default(REGISTER)
+  expiresAt DateTime @map("expires_at") @db.Timestamptz
+  isUsed    Boolean  @default(false) @map("is_used")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  @@map("otps")
+  @@index([phone, type, isUsed])
+}
+
+model UserProfile {
+  userId              BigInt  @id @map("user_id")
+  user                User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  displayName         String  @map("display_name") @db.VarChar(100)
+  avatarUrl           String? @map("avatar_url")
+  coverUrl            String? @map("cover_url")
+  bio                 String? @db.Text
+  address             String? @db.Text
+  taxCode             String? @map("tax_code") @db.VarChar(20)
+  identityCardNumber  String? @map("identity_card_number") @db.VarChar(50)
+  brokerLicenseNumber String? @map("broker_license_number") @db.VarChar(50)
+  websiteUrl          String? @map("website_url")
+  socialLinks         Json?   @map("social_links")
+  zaloContactPhone    String? @map("zalo_contact_phone") @db.VarChar(20)
+
+  @@map("user_profiles")
+}
+
+enum SocialProvider {
+  FACEBOOK
+  GOOGLE
+  ZALO
+  APPLE
+}
+
+model SocialIdentity {
+  id             BigInt         @id @default(autoincrement())
+  userId         BigInt         @map("user_id")
+  user           User           @relation(fields: [userId], references: [id])
+  provider       SocialProvider
+  providerUserId String         @map("provider_user_id") @db.VarChar(255)
+  email          String?
+  name           String?
+  accessToken    String?        @map("access_token") @db.Text
+  refreshToken   String?        @map("refresh_token") @db.Text
+  tokenExpiresAt DateTime?      @map("token_expires_at") @db.Timestamptz
+  lastLoginAt    DateTime?      @map("last_login_at") @db.Timestamptz
+
+  @@unique([provider, providerUserId])
+  @@map("social_identities")
+}
+
+model UserSession {
+  id            String   @id @default(uuid())
+  userId        BigInt   @map("user_id")
+  user          User     @relation(fields: [userId], references: [id])
+  ipAddress     String?  @map("ip_address")
+  userAgent     String?  @map("user_agent")
+  deviceInfo    Json?    @map("device_info")
+  locationGuess String?  @map("location_guess")
+  expiresAt     DateTime @map("expires_at") @db.Timestamptz
+  isRevoked     Boolean  @default(false) @map("is_revoked")
+  lastActiveAt  DateTime @map("last_active_at") @db.Timestamptz
+
+  @@map("user_sessions")
+}
+
+// ==========================================
+// 2. DỰ ÁN (PROJECTS) - Đã tích hợp địa lý
+// ==========================================
+// Đã xóa bảng Province, District, Ward
+
+enum ProjectStatus {
+  PLANNING
+  CONSTRUCTION
+  HANDOVER
+}
+
+model Project {
+  id           BigInt                   @id @default(autoincrement())
+  name         String
+  slug         String                   @unique
+  investorName String?                  @map("investor_name")
+  
+  provinceCode String?                  @map("province_code") @db.VarChar(10)
+  provinceName String?                  @map("province_name") // Lưu "Hồ Chí Minh"
+  
+  districtCode String?                  @map("district_code") @db.VarChar(10)
+  districtName String?                  @map("district_name") // Lưu "Quận 1"
+  
+  wardCode     String?                  @map("ward_code") @db.VarChar(10)
+  wardName     String?                  @map("ward_name")
+
+  addressText  String?                  @map("address_text") @db.Text
+  coordinates  Unsupported("geography(Point, 4326)")?
+  totalArea    Decimal?                 @map("total_area") @db.Decimal(10, 2)
+  status       ProjectStatus?
+  description  String?                  @db.Text
+  listings     Listing[]
+
+  // Index trên code để lọc nhanh dự án theo khu vực
+  @@index([provinceCode])
+  @@index([districtCode])
+  @@map("projects")
+}
+
+// ==========================================
+// 3. TIN ĐĂNG BẤT ĐỘNG SẢN (CORE ENGINE)
+// ==========================================
+
+enum ListingType {
+  SALE
+  RENT
+}
+
+enum PriceUnit {
+  VND
+  USD
+  GOLD_TAEL
+}
+
+enum Direction {
+  EAST
+  WEST
+  SOUTH
+  NORTH
+  SE
+  SW
+  NE
+  NW
+}
+
+enum JuridicalStatus {
+  RED_BOOK
+  PINK_BOOK
+  CONTRACT
+  WAITING
+}
+
+enum ListingStatus {
+  DRAFT
+  PENDING_REVIEW
+  PUBLISHED
+  HIDDEN
+  SOLD
+  EXPIRED
+  REJECTED
+}
+
+enum Region {
+  NORTH
+  CENTRAL
+  SOUTH
+}
+
+model PropertyType {
+  id       Int       @id @default(autoincrement())
+  name     String
+  listings Listing[]
+
+  @@map("property_types")
+}
+
+model Listing {
+  id              BigInt    @id @default(autoincrement())
+  userId          BigInt    @map("user_id")
+  user            User      @relation(fields: [userId], references: [id])
+  title           String    @db.VarChar(255)
+  slug            String    @unique @db.VarChar(300)
+  listingType     ListingType @map("listing_type")
+  propertyTypeId  Int       @map("property_type_id")
+  propertyType    PropertyType @relation(fields: [propertyTypeId], references: [id])
+  
+  // --- Geographical Data (Denormalized - Snapshot) ---
+  // Không còn Relation, lưu trực tiếp giá trị
+  provinceCode    String    @map("province_code") @db.VarChar(10)
+  provinceName    String    @map("province_name")
+  provinceSlug    String?   @map("province_slug") // SEO: "ho-chi-minh"
+
+  districtCode    String    @map("district_code") @db.VarChar(10)
+  districtName    String    @map("district_name")
+  districtSlug    String?   @map("district_slug") // SEO: "quan-7"
+
+  wardCode        String    @map("ward_code") @db.VarChar(10)
+  wardName        String    @map("ward_name")
+  wardSlug        String?   @map("ward_slug")
+  
+  region          Region?   // Miền Bắc/Trung/Nam (Lưu thêm để lọc)
+  // ---------------------------------------------------
+  
+  projectId       BigInt?   @map("project_id")
+  project         Project?  @relation(fields: [projectId], references: [id])
+  
+  addressDisplay  String?   @map("address_display")
+  coordinates     Unsupported("geography(Point, 4326)")? 
+  
+  price           Decimal?  @db.Decimal(19, 4)
+  priceUnit       PriceUnit @map("price_unit")
+  pricePerM2      Decimal?  @map("price_per_m2") @db.Decimal(19, 4) 
+  
+  areaGross       Decimal   @map("area_gross") @db.Decimal(10, 2)
+  areaNet         Decimal?  @map("area_net") @db.Decimal(10, 2)
+  
+  direction       Direction?
+  juridicalStatus JuridicalStatus? @map("juridical_status")
+  
+  vipLevelId      Int?      @map("vip_level_id")
+  status          ListingStatus @default(DRAFT)
+  
+  publishedAt     DateTime? @map("published_at") @db.Timestamptz
+  expiredAt       DateTime? @map("expired_at") @db.Timestamptz
+  
+  searchVector    Unsupported("tsvector")? @map("search_vector")
+  attributes      Json      @db.JsonB
+
+  media           ListingMedia[]
+  services        ListingService[]
+  conversations   Conversation[]
+  reports         Report[]
+
+  // Index Composite quan trọng cho bộ lọc
+  @@index([provinceCode, districtCode, price, areaGross]) 
+  @@index([expiredAt])
+  @@map("listings")
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
+  YOUTUBE
+  VR_360
+}
+
+model ListingMedia {
+  id             BigInt    @id @default(autoincrement())
+  listingId      BigInt    @map("listing_id")
+  listing        Listing   @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  mediaType      MediaType @map("media_type")
+  originalUrl    String    @map("original_url") @db.Text
+  watermarkedUrl String?   @map("watermarked_url") @db.Text
+  thumbnailUrl   String?   @map("thumbnail_url")
+  caption        String?
+  sortOrder      Int       @default(0) @map("sort_order")
+  isPrimary      Boolean   @default(false) @map("is_primary")
+  phash          String?   @db.VarChar(64)
+
+  @@map("listing_media")
+}
+
+model ListingFingerprint {
+  id            BigInt @id @default(autoincrement())
+  hashSignature String @unique @map("hash_signature") 
+  // Lưu ý: hash signature này vẫn được tạo từ provinceCode + districtCode...
+
+  @@map("listing_fingerprints")
+}
+
+// ==========================================
+// 4. TÀI CHÍNH & VÍ ĐIỆN TỬ (DOUBLE ENTRY)
+// ==========================================
+
+enum WalletStatus {
+  ACTIVE
+  LOCKED
+}
+
+model Wallet {
+  id           BigInt             @id @default(autoincrement())
+  userId       BigInt             @unique @map("user_id")
+  user         User               @relation(fields: [userId], references: [id])
+  balance      Decimal            @default(0) @db.Decimal(19, 4)
+  holdBalance  Decimal            @default(0) @map("hold_balance") @db.Decimal(19, 4)
+  currency     String             @default("VND")
+  status       WalletStatus       @default(ACTIVE)
+  transactions WalletTransaction[]
+
+  @@map("wallets")
+}
+
+enum TransactionType {
+  DEPOSIT
+  BUY_SERVICE
+  REFUND
+  PROMOTION
+}
+
+enum ReferenceType {
+  ORDER
+  MOMO_TXN
+  VNPAY_TXN
+  SYSTEM_ADJUST
+}
+
+model WalletTransaction {
+  id              BigInt          @id @default(autoincrement())
+  walletId        BigInt          @map("wallet_id")
+  wallet          Wallet          @relation(fields: [walletId], references: [id])
+  amount          Decimal         @db.Decimal(19, 4)
+  previousBalance Decimal         @map("previous_balance") @db.Decimal(19, 4)
+  newBalance      Decimal         @map("new_balance") @db.Decimal(19, 4)
+  transactionType TransactionType @map("transaction_type")
+  referenceType   ReferenceType   @map("reference_type")
+  referenceId     String?         @map("reference_id")
+  description     String?         @db.Text
+  createdAt       DateTime        @default(now()) @map("created_at") @db.Timestamptz
+
+  @@map("wallet_transactions")
+}
+
+model VipPackage {
+  id            Int      @id @default(autoincrement())
+  name          String   @db.VarChar(50)
+  priceDaily    Decimal  @map("price_daily") @db.Decimal(19, 2)
+  priorityScore Int      @default(0) @map("priority_score")
+  features      Json     @db.JsonB
+  isActive      Boolean  @default(true) @map("is_active")
+  services      ListingService[]
+
+  @@map("vip_packages")
+}
+
+enum ServiceStatus {
+  SCHEDULED
+  ACTIVE
+  EXPIRED
+}
+
+model ListingService {
+  id          BigInt        @id @default(autoincrement())
+  listingId   BigInt        @map("listing_id")
+  listing     Listing       @relation(fields: [listingId], references: [id])
+  packageId   Int           @map("package_id")
+  vipPackage  VipPackage    @relation(fields: [packageId], references: [id])
+  startAt     DateTime      @map("start_at") @db.Timestamptz
+  endAt       DateTime      @map("end_at") @db.Timestamptz
+  totalAmount Decimal       @map("total_amount") @db.Decimal(19, 4)
+  status      ServiceStatus
+
+  @@map("listing_services")
+}
+
+// ==========================================
+// 5. TƯƠNG TÁC & TIỆN ÍCH
+// ==========================================
+
+enum NotifyChannel {
+  EMAIL
+  PUSH
+  ZALO_ZNS
+}
+
+model SavedSearch {
+  id            BigInt        @id @default(autoincrement())
+  userId        BigInt        @map("user_id")
+  user          User          @relation(fields: [userId], references: [id])
+  name          String
+  criteria      Json          @db.JsonB 
+  notifyChannel NotifyChannel @map("notify_channel")
+  frequency     String?       
+  createdAt     DateTime      @default(now()) @map("created_at")
+
+  @@map("saved_searches")
+}
+
+model Conversation {
+  id             String    @id @default(uuid())
+  listingId      BigInt    @map("listing_id")
+  listing        Listing   @relation(fields: [listingId], references: [id])
+  buyerId        BigInt    @map("buyer_id")
+  buyer          User      @relation("BuyerConversations", fields: [buyerId], references: [id])
+  sellerId       BigInt    @map("seller_id")
+  seller         User      @relation("SellerConversations", fields: [sellerId], references: [id])
+  lastMessage    String?   @map("last_message_content")
+  lastMessageAt  DateTime? @map("last_message_at") @db.Timestamptz
+  messages       Message[]
+
+  @@map("conversations")
+}
+
+enum MessageType {
+  TEXT
+  IMAGE
+  LOCATION
+  LISTING_CARD
+}
+
+model Message {
+  id             BigInt       @id @default(autoincrement())
+  conversationId String       @map("conversation_id")
+  conversation   Conversation @relation(fields: [conversationId], references: [id])
+  senderId       BigInt       @map("sender_id")
+  sender         User         @relation(fields: [senderId], references: [id])
+  content        String       @db.Text
+  type           MessageType  @default(TEXT)
+  readAt         DateTime?    @map("read_at") @db.Timestamptz
+  createdAt      DateTime     @default(now()) @map("created_at")
+
+  @@map("messages")
+}
+
+// ==========================================
+// 6. QUẢN TRỊ & AUDIT
+// ==========================================
+
+enum ReportStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+}
+
+enum ReportReason {
+  FAKE_PRICE
+  SOLD
+  WRONG_IMAGE
+  SCAM
+  OTHER
+}
+
+model Report {
+  id          BigInt       @id @default(autoincrement())
+  listingId   BigInt       @map("listing_id")
+  listing     Listing      @relation(fields: [listingId], references: [id])
+  reporterId  BigInt       @map("reporter_id")
+  reporter    User         @relation(fields: [reporterId], references: [id])
+  reasonCode  ReportReason @map("reason_code")
+  description String?      @db.Text
+  status      ReportStatus @default(PENDING)
+  createdAt   DateTime     @default(now()) @map("created_at")
+
+  @@map("reports")
+}
+
+model AuditLog {
+  id         BigInt   @id @default(autoincrement())
+  actorId    BigInt?  @map("actor_id") 
+  actor      User?    @relation(fields: [actorId], references: [id])
+  action     String   @db.VarChar(50) 
+  entityType String   @map("entity_type") @db.VarChar(50) 
+  entityId   String   @map("entity_id") @db.VarChar(50)
+  oldValue   Json?    @map("old_value") @db.JsonB
+  newValue   Json?    @map("new_value") @db.JsonB
+  ipAddress  String?  @map("ip_address")
+  userAgent  String?  @map("user_agent")
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  @@map("audit_logs")
+}
