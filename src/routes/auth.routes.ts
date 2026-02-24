@@ -8,5 +8,7 @@ const authController = new AuthController();
 router.post("/register", authController.register);
 router.post("/verify-otp", authController.verify);
 router.post("/resend-otp", authController.resend);
+router.post("/login", authController.login);
+router.post("/refresh-token", authController.refreshToken);
 
 export default router;
