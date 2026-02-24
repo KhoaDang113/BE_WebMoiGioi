@@ -21,4 +21,11 @@ export class UserRepository {
       where: { phoneNumber },
     });
   }
+
+  async updateStatus(userId: bigint, status: UserStatus): Promise<User> {
+    return prisma.user.update({
+      where: { id: userId },
+      data: { status },
+    });
+  }
 }
