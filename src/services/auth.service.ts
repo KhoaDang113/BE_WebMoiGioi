@@ -40,33 +40,16 @@ export class AuthService {
     }
 
     // 2. Hash Password
-    const saltRounds = 14; // As per RULE.md
+    const saltRounds = 14;
     const passwordHash = await bcrypt.hash(data.password, saltRounds);
 
     // 3. Create User (Pending Verification)
-    // Note: We might want to use a transaction here, but for now we keep it simple as per plan.
-    // If user creation fails, we just throw.
-    // If OTP fails, we might have a user created but no OTP sent.
-    // Ideally, we should wrap this in a transaction.
-    // But since the UserRepo and OTPRepo use the main prisma client, we verify if they support transaction.
-    // For now, let's proceed sequentially.
-
-    // We create the user first.
-    // Wait, if we create the user now, and OTP fails, checking 'exists' next time will fail.
-    // But that's correct behavior. The user *exists*, just unverified.
-    // Another approach: Don't create User yet, just store registration data in Redis/Temp table.
-    // But the requirement says "Core Engine" usually implies direct DB usage.
-    // Let's create the user with PENDING_VERIFICATION status.
-
     const user = await this.userRepository.create({
       email: data.email,
       phoneNumber: data.phone,
       passwordHash: passwordHash,
       accountType: AccountType.MEMBER,
       status: UserStatus.PENDING_VERIFICATION,
-      // We need to provide required fields for UserProfile if needed, but it's nullable in schema?
-      // UserProfile is optional (User -> profile: UserProfile?)
-      // So we are good.
     });
 
     // 4. Generate OTP
@@ -81,8 +64,81 @@ export class AuthService {
     );
 
     // 5. Send Email
-    // We send to email because phone SMS costs money and user asked for Nodemailer.
-    // But the OTP is linked to phone number in DB. That's fine.
     await this.emailService.sendOTP(data.email, otpCode);
+  }
+
+  async verifyOTP(email: string, code: string): Promise<void> {
+    const user = await this.userRepository.findByEmail(email);
+    if (!user) {
+      throw new AppError("User not found", 404, "USER_NOT_FOUND");
+    }
+
+    if (user.status === UserStatus.ACTIVE) {
+      throw new AppError("User already verified", 400, "USER_ALREADY_VERIFIED");
+    }
+
+    const otp = await this.otpRepository.findValidOTP(
+      user.phoneNumber!,
+      OTPType.REGISTER,
+    );
+
+    if (!otp) {
+      throw new AppError("OTP has expired", 400, "OTP_EXPIRED");
+    }
+
+    if (otp.code !== code) {
+      throw new AppError("Invalid OTP", 400, "INVALID_OTP");
+    }
+
+    await this.otpRepository.deleteOTP(otp.id);
+    await this.userRepository.updateStatus(user.id, UserStatus.ACTIVE);
+  }
+
+  async resendOTP(email: string): Promise<void> {
+    const user = await this.userRepository.findByEmail(email);
+    if (!user) {
+      throw new AppError("User not found", 404, "USER_NOT_FOUND");
+    }
+
+    if (user.status === UserStatus.ACTIVE) {
+      throw new AppError("User already verified", 400, "USER_ALREADY_VERIFIED");
+    }
+
+    const latestOTP = await this.otpRepository.findLatestOTP(
+      user.phoneNumber!,
+      OTPType.REGISTER,
+    );
+
+    if (latestOTP) {
+      const now = new Date();
+      const timeDiff = now.getTime() - latestOTP.createdAt.getTime();
+      const cooldown = 60 * 1000; // 60 seconds
+
+      if (timeDiff < cooldown) {
+        const remainingTime = Math.ceil((cooldown - timeDiff) / 1000);
+        throw new AppError(
+          `Please wait ${remainingTime} seconds before requesting a new OTP`,
+          429,
+          // Custom error code for cooldown needed? Using generated/client might not have it.
+          // Keeping string for now or use "OTP_COOLDOWN" if we define it.
+          "OTP_COOLDOWN",
+        );
+      }
+      
+      // Delete old OTP if cooldown passed
+      await this.otpRepository.deleteOTP(latestOTP.id);
+    }
+
+    const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
+    const expiresAt = new Date(Date.now() + 5 * 60 * 1000); // 5 minutes
+
+    await this.otpRepository.createOTP(
+      user.phoneNumber!,
+      otpCode,
+      OTPType.REGISTER,
+      expiresAt,
+    );
+
+    await this.emailService.sendOTP(user.email!, otpCode);
   }
 }
