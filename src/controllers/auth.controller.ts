@@ -1,20 +1,24 @@
 import type { Request, Response, NextFunction } from "express";
 import { AuthService } from "../services/auth.service.js";
+import { SocialAuthService } from "../services/social-auth.service.js";
 import { RegisterRequestSchema } from "../dtos/auth/register.dto.js";
 import { VerifyOTPRequestSchema } from "../dtos/auth/verify-otp.dto.js";
 import { ResendOTPRequestSchema } from "../dtos/auth/resend-otp.dto.js";
 import { LoginRequestSchema, type LoginResponseDTO } from "../dtos/auth/login.dto.js";
+import { GoogleLoginRequestSchema, FacebookLoginRequestSchema } from "../dtos/auth/social-login.dto.js";
 import { Validator } from "../utils/validator.js";
 import { JWT_ACCESS_EXPIRE, JWT_REFRESH_EXPIRE } from "../contants/jwtContants.js";
 import ms from "ms";
 
 export class AuthController {
   private authService: AuthService;
+  private socialAuthService: SocialAuthService;
   private accessExpireMs = ms(JWT_ACCESS_EXPIRE as ms.StringValue);
   private refreshExpireMs = ms(JWT_REFRESH_EXPIRE as ms.StringValue);
 
   constructor() {
     this.authService = new AuthService();
+    this.socialAuthService = new SocialAuthService();
   }
 
   register = async (req: Request, res: Response, next: NextFunction) => {
@@ -105,6 +109,48 @@ export class AuthController {
       if (req.headers["user-agent"]) reqData.userAgent = req.headers["user-agent"];
 
       const result = await this.authService.refreshToken(refreshToken, reqData);
+
+      this.setCookies(res, result.accessToken, result.refreshToken);
+
+      res.status(200).json({
+        success: true,
+        data: result.user,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  googleLogin = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const validatedData = Validator.validate(GoogleLoginRequestSchema, req.body);
+
+      const reqData: { ipAddress?: string; userAgent?: string } = {};
+      if (req.ip) reqData.ipAddress = req.ip;
+      if (req.headers["user-agent"]) reqData.userAgent = req.headers["user-agent"];
+
+      const result = await this.socialAuthService.loginWithGoogle(validatedData.idToken, reqData);
+
+      this.setCookies(res, result.accessToken, result.refreshToken);
+
+      res.status(200).json({
+        success: true,
+        data: result.user,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  facebookLogin = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const validatedData = Validator.validate(FacebookLoginRequestSchema, req.body);
+
+      const reqData: { ipAddress?: string; userAgent?: string } = {};
+      if (req.ip) reqData.ipAddress = req.ip;
+      if (req.headers["user-agent"]) reqData.userAgent = req.headers["user-agent"];
+
+      const result = await this.socialAuthService.loginWithFacebook(validatedData.accessToken, reqData);
 
       this.setCookies(res, result.accessToken, result.refreshToken);
 
