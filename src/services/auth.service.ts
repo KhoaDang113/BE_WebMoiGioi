@@ -187,7 +187,7 @@ export class AuthService {
     data: LoginRequestDTO,
     reqData: { ipAddress?: string; userAgent?: string },
   ): Promise<LoginResponseDTO> {
-    const user = await this.userRepository.findByEmail(data.email);
+    const user = await this.userRepository.findAuthByEmail(data.email);
     if (!user || !user.passwordHash) {
       throw new AppError("Invalid credentials", 401, "INVALID_CREDENTIALS");
     }
