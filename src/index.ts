@@ -5,6 +5,11 @@ import morgan from "morgan";
 import cookieParser from "cookie-parser";
 dotenv.config();
 
+//fix BigInt to JSON
+(BigInt.prototype as any).toJSON = function () {
+    return this.toString();
+};
+
 //import routes
 // import { connectDB } from "./config/database.js";
 
@@ -27,11 +32,13 @@ app.use(morgan("common"));
 // connectDB();
 
 import authRoutes from "./routes/auth.routes.js";
+import userRoutes from "./routes/user.routes.js";
 
 import { errorHandler } from "./middlewares/error.middleware.js";
 
 //routes
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/user", userRoutes);
 
 // Error Handler (Must be last)
 app.use(errorHandler);
