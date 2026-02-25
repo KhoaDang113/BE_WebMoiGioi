@@ -85,6 +85,32 @@ export class UserRepository {
 
   
 
+  async createSocialUser(data: {
+    email?: string | null;
+    accountType: AccountType;
+  }) {
+    return prisma.user.create({
+      data: {
+        email: data.email ?? null,
+        accountType: data.accountType,
+        status: UserStatus.ACTIVE,
+        isEmailVerified: true,
+      },
+      select: {
+        id: true,
+        publicId: true,
+        phoneNumber: true,
+        email: true,
+        accountType: true,
+        status: true,
+        isPhoneVerified: true,
+        isEmailVerified: true,
+        kycLevel: true,
+        createdAt: true,
+      },
+    });
+  }
+
   async updateStatus(userId: bigint, status: UserStatus): Promise<User> {
     return prisma.user.update({
       where: { id: userId },
