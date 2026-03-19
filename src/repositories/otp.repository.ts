@@ -22,16 +22,15 @@ export class OTPRepository {
   }
 
   async findValidOTP(type: OTPType, phone?: string, email?: string): Promise<OTP | null> {
-    const where: any = {
+    const where: Prisma.OTPWhereInput = {
       type,
       isUsed: false,
       expiresAt: {
         gt: new Date(),
       },
+      ...(phone ? { phone } : {}),
+      ...(email ? { email } : {}),
     };
-
-    if (phone) where.phone = phone;
-    if (email) where.email = email;
 
     return prisma.oTP.findFirst({
       where,
@@ -42,9 +41,11 @@ export class OTPRepository {
   }
 
   async findLatestOTP(type: OTPType, phone?: string, email?: string): Promise<OTP | null> {
-    const where: any = { type };
-    if (phone) where.phone = phone;
-    if (email) where.email = email;
+    const where: Prisma.OTPWhereInput = { 
+      type,
+      ...(phone ? { phone } : {}),
+      ...(email ? { email } : {}),
+    };
 
     return prisma.oTP.findFirst({
       where,

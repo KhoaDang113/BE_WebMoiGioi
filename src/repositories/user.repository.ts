@@ -140,24 +140,18 @@ export class UserRepository {
       zaloContactPhone?: string | null;
     },
   ): Promise<UserProfile> {
-    const profileData: any = {
-      displayName: data.displayName,
-      bio: data.bio,
-      address: data.address,
-      avatarUrl: data.avatarUrl,
-      coverUrl: data.coverUrl,
-      taxCode: data.taxCode,
-      identityCardNumber: data.identityCardNumber,
-      brokerLicenseNumber: data.brokerLicenseNumber,
-      websiteUrl: data.websiteUrl,
-      socialLinks: data.socialLinks ?? Prisma.JsonNull,
-      zaloContactPhone: data.zaloContactPhone,
-    };
-
-    // Remove undefined fields for update
-    const updateData = Object.fromEntries(
-      Object.entries(profileData).filter(([_, v]) => v !== undefined)
-    );
+    const updateData: Prisma.UserProfileUpdateInput = {};
+    if (data.displayName !== undefined) updateData.displayName = data.displayName;
+    if (data.bio !== undefined) updateData.bio = data.bio;
+    if (data.address !== undefined) updateData.address = data.address;
+    if (data.avatarUrl !== undefined) updateData.avatarUrl = data.avatarUrl;
+    if (data.coverUrl !== undefined) updateData.coverUrl = data.coverUrl;
+    if (data.taxCode !== undefined) updateData.taxCode = data.taxCode;
+    if (data.identityCardNumber !== undefined) updateData.identityCardNumber = data.identityCardNumber;
+    if (data.brokerLicenseNumber !== undefined) updateData.brokerLicenseNumber = data.brokerLicenseNumber;
+    if (data.websiteUrl !== undefined) updateData.websiteUrl = data.websiteUrl;
+    if (data.socialLinks !== undefined) updateData.socialLinks = data.socialLinks ?? Prisma.JsonNull;
+    if (data.zaloContactPhone !== undefined) updateData.zaloContactPhone = data.zaloContactPhone;
 
     return prisma.userProfile.upsert({
       where: { userId },
@@ -165,7 +159,16 @@ export class UserRepository {
       create: {
         userId,
         displayName: data.displayName ?? "",
-        ...updateData
+        bio: data.bio ?? null,
+        address: data.address ?? null,
+        avatarUrl: data.avatarUrl ?? null,
+        coverUrl: data.coverUrl ?? null,
+        taxCode: data.taxCode ?? null,
+        identityCardNumber: data.identityCardNumber ?? null,
+        brokerLicenseNumber: data.brokerLicenseNumber ?? null,
+        websiteUrl: data.websiteUrl ?? null,
+        socialLinks: (data.socialLinks ?? Prisma.JsonNull) as Prisma.InputJsonValue,
+        zaloContactPhone: data.zaloContactPhone ?? null,
       },
     });
   }
