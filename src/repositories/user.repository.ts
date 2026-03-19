@@ -1,4 +1,5 @@
 
+import crypto from "crypto";
 import prisma from "../config/database.js";
 import { Prisma, UserStatus, AccountType } from "../generated/client/client.js";
 import type { User, UserProfile } from "../generated/client/client.js";

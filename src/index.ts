@@ -1,12 +1,17 @@
-import dotenv from "dotenv";
+import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
-dotenv.config();
 
-//fix BigInt to JSON
-(BigInt.prototype as any).toJSON = function () {
+// Extend BigInt to support JSON serialization (Prisma requirement)
+declare global {
+  interface BigInt {
+    toJSON(): string;
+  }
+}
+
+BigInt.prototype.toJSON = function () {
   return this.toString();
 };
 
