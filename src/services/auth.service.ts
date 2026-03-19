@@ -66,10 +66,10 @@ export class AuthService {
     const expiresAt = new Date(Date.now() + 5 * 60 * 1000); // 5 minutes
 
     await this.otpRepository.createOTP(
-      data.phone,
-      otpCode,
       OTPType.REGISTER,
+      otpCode,
       expiresAt,
+      data.phone,
     );
 
     // 5. Send Email
@@ -91,8 +91,8 @@ export class AuthService {
     }
 
     const otp = await this.otpRepository.findValidOTP(
-      user.phoneNumber!,
       OTPType.REGISTER,
+      user.phoneNumber!,
     );
 
     if (!otp) {
@@ -148,8 +148,8 @@ export class AuthService {
     }
 
     const latestOTP = await this.otpRepository.findLatestOTP(
-      user.phoneNumber!,
       OTPType.REGISTER,
+      user.phoneNumber!,
     );
 
     if (latestOTP) {
@@ -174,10 +174,10 @@ export class AuthService {
     const expiresAt = new Date(Date.now() + 5 * 60 * 1000); // 5 minutes
 
     await this.otpRepository.createOTP(
-      user.phoneNumber!,
-      otpCode,
       OTPType.REGISTER,
+      otpCode,
       expiresAt,
+      user.phoneNumber!,
     );
 
     await this.emailService.sendOTP(user.email!, otpCode);

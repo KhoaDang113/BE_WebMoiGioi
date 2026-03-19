@@ -7,7 +7,7 @@ dotenv.config();
 
 //fix BigInt to JSON
 (BigInt.prototype as any).toJSON = function () {
-    return this.toString();
+  return this.toString();
 };
 
 //import routes
@@ -21,7 +21,7 @@ app.use(
     origin: ["http://localhost:5173"],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: false,
+    credentials: true,
   }),
 );
 app.use(cookieParser());

@@ -32,7 +32,8 @@ export type UserStatus = (typeof UserStatus)[keyof typeof UserStatus]
 
 export const OTPType = {
   REGISTER: 'REGISTER',
-  FORGOT_PASSWORD: 'FORGOT_PASSWORD'
+  FORGOT_PASSWORD: 'FORGOT_PASSWORD',
+  SET_PASSWORD: 'SET_PASSWORD'
 } as const
 
 export type OTPType = (typeof OTPType)[keyof typeof OTPType]
