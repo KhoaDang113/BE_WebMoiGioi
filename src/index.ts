@@ -1,13 +1,18 @@
-import dotenv from "dotenv";
+import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
-dotenv.config();
 
-//fix BigInt to JSON
-(BigInt.prototype as any).toJSON = function () {
-    return this.toString();
+// Extend BigInt to support JSON serialization (Prisma requirement)
+declare global {
+  interface BigInt {
+    toJSON(): string;
+  }
+}
+
+BigInt.prototype.toJSON = function () {
+  return this.toString();
 };
 
 //import routes
@@ -21,7 +26,7 @@ app.use(
     origin: ["http://localhost:5173"],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: false,
+    credentials: true,
   }),
 );
 app.use(cookieParser());

@@ -8,7 +8,7 @@ export const errorHandler = (
   res: Response,
   next: NextFunction
 ) => {
-  console.error("Error:", err);
+  // Final error handling middleware
 
   if (err instanceof AppError) {
     res.status(err.statusCode).json({

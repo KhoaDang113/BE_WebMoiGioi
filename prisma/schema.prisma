@@ -62,11 +62,13 @@ model User {
 enum OTPType {
   REGISTER
   FORGOT_PASSWORD
+  SET_PASSWORD
 }
 
 model OTP {
   id        Int      @id @default(autoincrement())
-  phone     String   @db.VarChar(15)
+  phone     String?  @db.VarChar(15)
+  email     String?  @db.VarChar(255)
   code      String   @db.VarChar(6)
   type      OTPType  @default(REGISTER)
   expiresAt DateTime @map("expires_at") @db.Timestamptz
@@ -74,21 +76,21 @@ model OTP {
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
 
   @@map("otps")
-  @@index([phone, type, isUsed])
+  @@index([phone, email, type, isUsed])
 }
 
 model UserProfile {
   userId              BigInt  @id @map("user_id")
   user                User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   displayName         String  @map("display_name") @db.VarChar(100)
-  avatarUrl           String? @map("avatar_url")
-  coverUrl            String? @map("cover_url")
+  avatarUrl           String? @map("avatar_url") @db.Text
+  coverUrl            String? @map("cover_url") @db.Text
   bio                 String? @db.Text
   address             String? @db.Text
   taxCode             String? @map("tax_code") @db.VarChar(20)
   identityCardNumber  String? @map("identity_card_number") @db.VarChar(50)
   brokerLicenseNumber String? @map("broker_license_number") @db.VarChar(50)
-  websiteUrl          String? @map("website_url")
+  websiteUrl          String? @map("website_url") @db.Text
   socialLinks         Json?   @map("social_links")
   zaloContactPhone    String? @map("zalo_contact_phone") @db.VarChar(20)
 

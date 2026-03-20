@@ -4,14 +4,16 @@ import type { OTP } from "../generated/client/client.js";
 
 export class OTPRepository {
   async createOTP(
-    phone: string,
-    code: string,
     type: OTPType,
+    code: string,
     expiresAt: Date,
+    phone?: string,
+    email?: string,
   ): Promise<OTP> {
     return prisma.oTP.create({
       data: {
-        phone,
+        phone: phone || null,
+        email: email || null,
         code,
         type,
         expiresAt,
@@ -19,33 +21,40 @@ export class OTPRepository {
     });
   }
 
-  async findValidOTP(phone: string, type: OTPType): Promise<OTP | null> {
-    return prisma.oTP.findFirst({
-      where: {
-        phone,
-        type,
-        isUsed: false,
-        expiresAt: {
-          gt: new Date(),
-        },
+  async findValidOTP(type: OTPType, phone?: string, email?: string): Promise<OTP | null> {
+    const where: Prisma.OTPWhereInput = {
+      type,
+      isUsed: false,
+      expiresAt: {
+        gt: new Date(),
       },
+      ...(phone ? { phone } : {}),
+      ...(email ? { email } : {}),
+    };
+
+    return prisma.oTP.findFirst({
+      where,
       orderBy: {
         createdAt: "desc",
       },
     });
   }
 
-  async findLatestOTP(phone: string, type: OTPType): Promise<OTP | null> {
+  async findLatestOTP(type: OTPType, phone?: string, email?: string): Promise<OTP | null> {
+    const where: Prisma.OTPWhereInput = { 
+      type,
+      ...(phone ? { phone } : {}),
+      ...(email ? { email } : {}),
+    };
+
     return prisma.oTP.findFirst({
-      where: {
-        phone,
-        type,
-      },
+      where,
       orderBy: {
         createdAt: "desc",
       },
     });
   }
+
 
   async markAsUsed(id: number): Promise<void> {
     await prisma.oTP.update({
@@ -60,3 +69,6 @@ export class OTPRepository {
     });
   }
 }
+
+
+

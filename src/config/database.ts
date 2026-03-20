@@ -1,7 +1,7 @@
 import { AppError } from "../utils/customErrors.js";
 import { PrismaClient } from "../generated/client/client.js";
 import { PrismaPg } from "@prisma/adapter-pg";
-import "dotenv/config";
+
 const connectionString = process.env.DATABASE_URL;
 
 if (!connectionString) {
