@@ -125,6 +125,17 @@ export class UserRepository {
     });
   }
 
+  async findManyWithProfile(query: any) {
+    return prisma.user.findMany(query);
+  }
+
+  async updateUser(userId: bigint, data: any) {
+    return prisma.user.update({
+      where: { id: userId },
+      data
+    });
+  }
+
   async updateProfile(
     userId: bigint,
     data: {

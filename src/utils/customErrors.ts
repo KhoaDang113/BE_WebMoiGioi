@@ -6,6 +6,7 @@ export class AppError extends Error {
     super(message);
     this.statusCode = statusCode;
     this.errorCode = errorCode || "UNKNOWN_ERROR";
+    Object.setPrototypeOf(this, AppError.prototype);
     Error.captureStackTrace(this, this.constructor);
   }
 }

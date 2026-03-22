@@ -38,12 +38,14 @@ app.use(morgan("common"));
 
 import authRoutes from "./routes/auth.routes.js";
 import userRoutes from "./routes/user.routes.js";
+import listingRoutes from "./routes/listing.routes.js";
 
 import { errorHandler } from "./middlewares/error.middleware.js";
 
 //routes
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/user", userRoutes);
+app.use("/api/v1/listings", listingRoutes);
 
 // Error Handler (Must be last)
 app.use(errorHandler);

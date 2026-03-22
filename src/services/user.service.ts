@@ -144,5 +144,57 @@ export class UserService {
     const newHash = await bcrypt.hash(data.newPassword, saltRounds);
     await this.userRepo.updatePassword(userId, newHash);
   }
+
+  async registerBroker(userID: string, data: any, files: { idFront?: Express.Multer.File[] | undefined, idBack?: Express.Multer.File[] | undefined, brokerLicense?: Express.Multer.File[] | undefined }, uploadService: any) {
+    const userId = BigInt(userID);
+    const user = await this.userRepo.findById(userId);
+    if (!user) throw new AppError("User not found", 404);
+
+    const profile = await this.userRepo.findProfileByUserId(userId);
+    const updateData: any = {
+        displayName: data.fullName,
+        zaloContactPhone: data.phoneNumber,
+        identityCardNumber: data.identityCardNumber || "CCCD",
+        bio: `Kinh nghiệm: ${data.experienceYears} năm. Khu vực: ${data.specializedArea}`,
+    };
+
+    let socialLinks = (profile?.socialLinks as any) || {};
+    if (typeof socialLinks === 'string') socialLinks = JSON.parse(socialLinks);
+
+    // Upload files to Cloudinary if provided
+    if (files.idFront?.[0]) {
+        socialLinks.idFrontUrl = await uploadService.uploadImage(files.idFront[0].buffer, { folder: "broker_id_cards" });
+    }
+    if (files.idBack?.[0]) {
+        socialLinks.idBackUrl = await uploadService.uploadImage(files.idBack[0].buffer, { folder: "broker_id_cards" });
+    }
+    if (files.brokerLicense?.[0]) {
+        socialLinks.brokerLicenseUrl = await uploadService.uploadImage(files.brokerLicense[0].buffer, { folder: "broker_licenses" });
+    }
+
+    updateData.socialLinks = socialLinks;
+    
+    await this.userRepo.updateProfile(userId, updateData);
+    
+    // Set user condition into pending verification representing broker upgrade
+    return this.userRepo.updateUser(userId, { status: "PENDING_VERIFICATION" as any });
+  }
+
+  async getPendingBrokers() {
+    return this.userRepo.findManyWithProfile({
+        where: { status: "PENDING_VERIFICATION" },
+        include: { profile: true }
+    });
+  }
+
+  async approveBroker(brokerId: string, approve: boolean) {
+    const userId = BigInt(brokerId);
+    if (approve) {
+        return this.userRepo.updateUser(userId, { status: "ACTIVE", accountType: "AGENT" });
+    } else {
+        // Reject - fallback to member active
+        return this.userRepo.updateUser(userId, { status: "ACTIVE" });
+    }
+  }
 }
 
