@@ -62,7 +62,10 @@ export class UserController {
       }
 
       // 1. Upload to Cloudinary
-      const avatarUrl = await this.uploadService.uploadImage(file.buffer, "avatars");
+      const avatarUrl = await this.uploadService.uploadImage(file.buffer, {
+        folder: "avatars",
+        transformation: [{ width: 250, height: 250, crop: "limit" }]
+      });
 
       // 2. Update DB
       const profile = await this.userService.updateProfile(req.user!.userId, { avatarUrl });
@@ -115,6 +118,50 @@ export class UserController {
       });
     } catch (error) {
       next(error);
+    }
+  };
+
+  registerBroker = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const files = req.files as { [fieldname: string]: Express.Multer.File[] } | undefined;
+        const data = req.body;
+
+        const updated = await this.userService.registerBroker(
+            req.user!.userId, 
+            data, 
+            {
+                idFront: files?.['idFront'],
+                idBack: files?.['idBack'],
+                brokerLicense: files?.['brokerLicense']
+            },
+            this.uploadService
+        );
+
+        res.status(200).json({ success: true, message: "Yêu cầu đăng ký đã được gửi", data: updated });
+    } catch (error) {
+        next(error);
+    }
+  };
+
+  getPendingBrokers = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const pending = await this.userService.getPendingBrokers();
+        res.status(200).json({ success: true, data: pending });
+    } catch (error) {
+        next(error);
+    }
+  };
+
+  approveBroker = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { id } = req.params;
+        const { approve } = req.body; // boolean
+        if (!id) throw new Error("ID is required");
+        
+        const result = await this.userService.approveBroker(id as string, approve);
+        res.status(200).json({ success: true, message: approve ? "Đã duyệt nhân viên" : "Đã từ chối", data: result });
+    } catch (error) {
+        next(error);
     }
   };
 }

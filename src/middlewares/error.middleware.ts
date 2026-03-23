@@ -1,6 +1,7 @@
 
 import type { Request, Response, NextFunction } from "express";
 import { AppError } from "../utils/customErrors.js";
+import fs from "fs";
 
 export const errorHandler = (
   err: Error | AppError,
@@ -8,7 +9,9 @@ export const errorHandler = (
   res: Response,
   next: NextFunction
 ) => {
-  // Final error handling middleware
+  try {
+    fs.appendFileSync("e:\\Ngôn Ngữ PT\\đồ án\\BE_WebMoiGioi\\error_log.txt", `${new Date().toISOString()} - ${err.stack}\n`);
+  } catch (e) {}
 
   if (err instanceof AppError) {
     res.status(err.statusCode).json({
