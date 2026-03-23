@@ -12,12 +12,12 @@ export class ListingController {
 
   createListing = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { title, price, addressDisplay, description, areaGross, propertyTypeId } = req.body;
+      const { title, price, addressDisplay, description, areaGross, propertyTypeId, provinceCode, provinceName, districtCode, districtName, wardCode, wardName } = req.body;
       const files = req.files as Express.Multer.File[];
 
       const newListing = await this.listingService.createListing(
         req.user!.userId,
-        { title, price, addressDisplay, description, areaGross, propertyTypeId },
+        { title, price, addressDisplay, description, areaGross, propertyTypeId, provinceCode, provinceName, districtCode, districtName, wardCode, wardName },
         files
       );
 
@@ -71,13 +71,13 @@ export class ListingController {
       const { id } = req.params;
       if (!id) throw new AppError("Listing ID is required", 400);
       
-      const { title, price, addressDisplay, description, areaGross, propertyTypeId } = req.body;
+      const { title, price, addressDisplay, description, areaGross, propertyTypeId, provinceCode, provinceName, districtCode, districtName, wardCode, wardName } = req.body;
       const files = req.files as Express.Multer.File[];
 
       const updatedListing = await this.listingService.updateListing(
         req.user!.userId,
         id as string,
-        { title, price, addressDisplay, description, areaGross, propertyTypeId },
+        { title, price, addressDisplay, description, areaGross, propertyTypeId, provinceCode, provinceName, districtCode, districtName, wardCode, wardName },
         files
       );
 

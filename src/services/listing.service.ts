@@ -37,8 +37,8 @@ export class ListingService {
   }
 
   async createListing(userId: string | bigint, data: any, files?: Express.Multer.File[]) {
-    if (!data.title || !data.price || !data.addressDisplay || !data.propertyTypeId) {
-        throw new AppError("Missing essential listing information", 400);
+    if (!data.title || !data.price || !data.addressDisplay || !data.propertyTypeId || !data.provinceCode || !data.districtCode || !data.wardCode) {
+        throw new AppError("Missing essential listing information (title, price, address, type, location)", 400);
     }
 
     const priceNum = parseFloat(data.price);
@@ -52,9 +52,15 @@ export class ListingService {
                 slug: this.generateSlug(data.title),
                 listingType: ListingType.SALE, // default
                 propertyTypeId: parseInt(data.propertyTypeId),
-                provinceCode: '01', provinceName: 'Hồ Chí Minh', // Mocked geographic
-                districtCode: '001', districtName: 'Quận 1',
-                wardCode: '00001', wardName: 'Phường Bến Nghé',
+                provinceCode: data.provinceCode, 
+                provinceName: data.provinceName || '',
+                districtCode: data.districtCode, 
+                districtName: data.districtName || '',
+                wardCode: data.wardCode, 
+                wardName: data.wardName || '',
+                provinceSlug: data.provinceSlug || null,
+                districtSlug: data.districtSlug || null,
+                wardSlug: data.wardSlug || null,
                 addressDisplay: data.addressDisplay,
                 price: priceNum,
                 priceUnit: PriceUnit.VND,
@@ -115,6 +121,17 @@ export class ListingService {
       if (data.price) updateData.price = parseFloat(data.price);
       if (data.areaGross) updateData.areaGross = parseFloat(data.areaGross);
       if (data.description) updateData.attributes = { ...attrBase, description: data.description };
+      
+      // Update location fields
+      if (data.provinceCode) updateData.provinceCode = data.provinceCode;
+      if (data.provinceName) updateData.provinceName = data.provinceName;
+      if (data.districtCode) updateData.districtCode = data.districtCode;
+      if (data.districtName) updateData.districtName = data.districtName;
+      if (data.wardCode) updateData.wardCode = data.wardCode;
+      if (data.wardName) updateData.wardName = data.wardName;
+      if (data.provinceSlug) updateData.provinceSlug = data.provinceSlug;
+      if (data.districtSlug) updateData.districtSlug = data.districtSlug;
+      if (data.wardSlug) updateData.wardSlug = data.wardSlug;
       
       return prisma.$transaction(async (tx) => {
           const updated = await tx.listing.update({
