@@ -1,98 +1,49 @@
-import fs from 'fs';
-import path from 'path';
+const PROVINCES_API_BASE = 'https://provinces.open-api.vn/api/v2';
 
-
-
-
+/**
+ * LocationService gọi trực tiếp API bên ngoài (provinces.open-api.vn/api/v2)
+ * thay vì đọc file JSON tĩnh.
+ */
 export class LocationService {
-    private data: any[];
 
-    constructor() {
-        const filePath = path.join(process.cwd(), 'src', 'data', 'location_data.json');
-        const raw = fs.readFileSync(filePath, 'utf-8');
-        this.data = JSON.parse(raw);
+    async getAll(depth: number = 1) {
+        const response = await fetch(`${PROVINCES_API_BASE}/?depth=${Math.min(depth, 2)}`);
+        if (!response.ok) throw new Error(`Failed to fetch all divisions: ${response.statusText}`);
+        return response.json();
     }
 
-    getAll(depth: number = 1) {
-        if (depth === 1) {
-            return this.data.map(p => ({
-                ...p,
-                districts: p.districts.map((d: any) => {
-                    const { wards, ...rest } = d;
-                    return rest;
-                })
-            }));
-        }
-        return this.data;
+    async getProvinces(search?: string) {
+        const params = search ? `?search=${encodeURIComponent(search)}` : '';
+        const response = await fetch(`${PROVINCES_API_BASE}/p/${params}`);
+        if (!response.ok) throw new Error(`Failed to fetch provinces: ${response.statusText}`);
+        return response.json();
     }
 
-    getProvinces(search?: string) {
-        let list = this.data.map(p => ({
-            name: p.name,
-            code: p.code,
-            division_type: p.division_type,
-            codename: p.codename,
-            phone_code: p.phone_code
-        }));
-        if (search) {
-            const s = search.toLowerCase();
-            list = list.filter(p => p.name.toLowerCase().includes(s) || p.codename.includes(s));
+    async getProvince(code: number, depth: number = 1) {
+        const response = await fetch(`${PROVINCES_API_BASE}/p/${code}?depth=${Math.min(depth, 2)}`);
+        if (!response.ok) {
+            if (response.status === 404) return null;
+            throw new Error(`Failed to fetch province ${code}: ${response.statusText}`);
         }
-        return list;
+        return response.json();
     }
 
-    getProvince(code: number, depth: number = 1) {
-        const p = this.data.find(p => p.code === code);
-        if (!p) return null;
-
-        if (depth === 1) {
-            return {
-                ...p,
-                districts: p.districts.map((d: any) => {
-                    const { wards, ...rest } = d;
-                    return rest;
-                })
-            };
-        }
-        return p;
+    async getWards(search?: string, provinceCode?: number) {
+        const params = new URLSearchParams();
+        if (search) params.append('search', search);
+        if (provinceCode) params.append('province', provinceCode.toString());
+        const query = params.toString() ? `?${params.toString()}` : '';
+        const response = await fetch(`${PROVINCES_API_BASE}/w/${query}`);
+        if (!response.ok) throw new Error(`Failed to fetch wards: ${response.statusText}`);
+        return response.json();
     }
 
-    getWards(search?: string, provinceCode?: number) {
-        let wards: any[] = [];
-        this.data.forEach(p => {
-            if (provinceCode && p.code !== provinceCode) return;
-            p.districts.forEach((d: any) => {
-                if (d.wards) {
-                    const mapped = d.wards.map((w: any) => ({
-                        ...w,
-                        district_name: d.name // Append parent district name
-                    }));
-                    wards.push(...mapped);
-                }
-            });
-        });
-
-        if (search) {
-            const s = search.toLowerCase();
-            wards = wards.filter(w => w.name.toLowerCase().includes(s) || w.codename.includes(s));
+    async getWard(code: number) {
+        const response = await fetch(`${PROVINCES_API_BASE}/w/${code}`);
+        if (!response.ok) {
+            if (response.status === 404) return null;
+            throw new Error(`Failed to fetch ward ${code}: ${response.statusText}`);
         }
-        return wards;
-    }
-
-    getWard(code: number) {
-        let foundWard = null;
-        for (const p of this.data) {
-            for (const d of p.districts) {
-                if (d.wards) {
-                    const w = d.wards.find((w: any) => w.code === code);
-                    if (w) {
-                        foundWard = w;
-                        break;
-                    }
-                }
-            }
-            if (foundWard) break;
-        }
-        return foundWard;
+        return response.json();
     }
 }

@@ -37,7 +37,7 @@ export class ListingService {
   }
 
   async createListing(userId: string | bigint, data: any, files?: Express.Multer.File[]) {
-    if (!data.title || !data.price || !data.addressDisplay || !data.propertyTypeId || !data.provinceCode || !data.districtCode || !data.wardCode) {
+    if (!data.title || !data.price || !data.addressDisplay || !data.propertyTypeId || !data.provinceCode || !data.wardCode) {
         throw new AppError("Missing essential listing information (title, price, address, type, location)", 400);
     }
 
@@ -54,7 +54,7 @@ export class ListingService {
                 propertyTypeId: parseInt(data.propertyTypeId),
                 provinceCode: data.provinceCode, 
                 provinceName: data.provinceName || '',
-                districtCode: data.districtCode, 
+                districtCode: data.districtCode || '', 
                 districtName: data.districtName || '',
                 wardCode: data.wardCode, 
                 wardName: data.wardName || '',
