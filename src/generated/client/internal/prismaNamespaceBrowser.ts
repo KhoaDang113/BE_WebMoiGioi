@@ -61,10 +61,6 @@ export const ModelName = {
   Listing: 'Listing',
   ListingMedia: 'ListingMedia',
   ListingFingerprint: 'ListingFingerprint',
-  Wallet: 'Wallet',
-  WalletTransaction: 'WalletTransaction',
-  VipPackage: 'VipPackage',
-  ListingService: 'ListingService',
   SavedSearch: 'SavedSearch',
   Conversation: 'Conversation',
   Message: 'Message',
@@ -223,7 +219,6 @@ export const ListingScalarFieldEnum = {
   areaNet: 'areaNet',
   direction: 'direction',
   juridicalStatus: 'juridicalStatus',
-  vipLevelId: 'vipLevelId',
   status: 'status',
   publishedAt: 'publishedAt',
   expiredAt: 'expiredAt',
@@ -255,59 +250,6 @@ export const ListingFingerprintScalarFieldEnum = {
 } as const
 
 export type ListingFingerprintScalarFieldEnum = (typeof ListingFingerprintScalarFieldEnum)[keyof typeof ListingFingerprintScalarFieldEnum]
-
-
-export const WalletScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  balance: 'balance',
-  holdBalance: 'holdBalance',
-  currency: 'currency',
-  status: 'status'
-} as const
-
-export type WalletScalarFieldEnum = (typeof WalletScalarFieldEnum)[keyof typeof WalletScalarFieldEnum]
-
-
-export const WalletTransactionScalarFieldEnum = {
-  id: 'id',
-  walletId: 'walletId',
-  amount: 'amount',
-  previousBalance: 'previousBalance',
-  newBalance: 'newBalance',
-  transactionType: 'transactionType',
-  referenceType: 'referenceType',
-  referenceId: 'referenceId',
-  description: 'description',
-  createdAt: 'createdAt'
-} as const
-
-export type WalletTransactionScalarFieldEnum = (typeof WalletTransactionScalarFieldEnum)[keyof typeof WalletTransactionScalarFieldEnum]
-
-
-export const VipPackageScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  priceDaily: 'priceDaily',
-  priorityScore: 'priorityScore',
-  features: 'features',
-  isActive: 'isActive'
-} as const
-
-export type VipPackageScalarFieldEnum = (typeof VipPackageScalarFieldEnum)[keyof typeof VipPackageScalarFieldEnum]
-
-
-export const ListingServiceScalarFieldEnum = {
-  id: 'id',
-  listingId: 'listingId',
-  packageId: 'packageId',
-  startAt: 'startAt',
-  endAt: 'endAt',
-  totalAmount: 'totalAmount',
-  status: 'status'
-} as const
-
-export type ListingServiceScalarFieldEnum = (typeof ListingServiceScalarFieldEnum)[keyof typeof ListingServiceScalarFieldEnum]
 
 
 export const SavedSearchScalarFieldEnum = {

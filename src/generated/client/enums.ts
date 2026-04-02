@@ -12,9 +12,7 @@
 export const AccountType = {
   MEMBER: 'MEMBER',
   AGENT: 'AGENT',
-  AGENCY: 'AGENCY',
-  ADMIN: 'ADMIN',
-  MODERATOR: 'MODERATOR'
+  ADMIN: 'ADMIN'
 } as const
 
 export type AccountType = (typeof AccountType)[keyof typeof AccountType]
@@ -129,43 +127,6 @@ export const MediaType = {
 } as const
 
 export type MediaType = (typeof MediaType)[keyof typeof MediaType]
-
-
-export const WalletStatus = {
-  ACTIVE: 'ACTIVE',
-  LOCKED: 'LOCKED'
-} as const
-
-export type WalletStatus = (typeof WalletStatus)[keyof typeof WalletStatus]
-
-
-export const TransactionType = {
-  DEPOSIT: 'DEPOSIT',
-  BUY_SERVICE: 'BUY_SERVICE',
-  REFUND: 'REFUND',
-  PROMOTION: 'PROMOTION'
-} as const
-
-export type TransactionType = (typeof TransactionType)[keyof typeof TransactionType]
-
-
-export const ReferenceType = {
-  ORDER: 'ORDER',
-  MOMO_TXN: 'MOMO_TXN',
-  VNPAY_TXN: 'VNPAY_TXN',
-  SYSTEM_ADJUST: 'SYSTEM_ADJUST'
-} as const
-
-export type ReferenceType = (typeof ReferenceType)[keyof typeof ReferenceType]
-
-
-export const ServiceStatus = {
-  SCHEDULED: 'SCHEDULED',
-  ACTIVE: 'ACTIVE',
-  EXPIRED: 'EXPIRED'
-} as const
-
-export type ServiceStatus = (typeof ServiceStatus)[keyof typeof ServiceStatus]
 
 
 export const NotifyChannel = {

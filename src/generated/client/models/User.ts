@@ -280,7 +280,6 @@ export type UserWhereInput = {
   socialIdentities?: Prisma.SocialIdentityListRelationFilter
   sessions?: Prisma.UserSessionListRelationFilter
   listings?: Prisma.ListingListRelationFilter
-  wallet?: Prisma.XOR<Prisma.WalletNullableScalarRelationFilter, Prisma.WalletWhereInput> | null
   savedSearches?: Prisma.SavedSearchListRelationFilter
   conversationsBuy?: Prisma.ConversationListRelationFilter
   conversationsSell?: Prisma.ConversationListRelationFilter
@@ -306,7 +305,6 @@ export type UserOrderByWithRelationInput = {
   socialIdentities?: Prisma.SocialIdentityOrderByRelationAggregateInput
   sessions?: Prisma.UserSessionOrderByRelationAggregateInput
   listings?: Prisma.ListingOrderByRelationAggregateInput
-  wallet?: Prisma.WalletOrderByWithRelationInput
   savedSearches?: Prisma.SavedSearchOrderByRelationAggregateInput
   conversationsBuy?: Prisma.ConversationOrderByRelationAggregateInput
   conversationsSell?: Prisma.ConversationOrderByRelationAggregateInput
@@ -335,7 +333,6 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   socialIdentities?: Prisma.SocialIdentityListRelationFilter
   sessions?: Prisma.UserSessionListRelationFilter
   listings?: Prisma.ListingListRelationFilter
-  wallet?: Prisma.XOR<Prisma.WalletNullableScalarRelationFilter, Prisma.WalletWhereInput> | null
   savedSearches?: Prisma.SavedSearchListRelationFilter
   conversationsBuy?: Prisma.ConversationListRelationFilter
   conversationsSell?: Prisma.ConversationListRelationFilter
@@ -399,7 +396,6 @@ export type UserCreateInput = {
   socialIdentities?: Prisma.SocialIdentityCreateNestedManyWithoutUserInput
   sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
   listings?: Prisma.ListingCreateNestedManyWithoutUserInput
-  wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
   savedSearches?: Prisma.SavedSearchCreateNestedManyWithoutUserInput
   conversationsBuy?: Prisma.ConversationCreateNestedManyWithoutBuyerInput
   conversationsSell?: Prisma.ConversationCreateNestedManyWithoutSellerInput
@@ -425,7 +421,6 @@ export type UserUncheckedCreateInput = {
   socialIdentities?: Prisma.SocialIdentityUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
   listings?: Prisma.ListingUncheckedCreateNestedManyWithoutUserInput
-  wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
   savedSearches?: Prisma.SavedSearchUncheckedCreateNestedManyWithoutUserInput
   conversationsBuy?: Prisma.ConversationUncheckedCreateNestedManyWithoutBuyerInput
   conversationsSell?: Prisma.ConversationUncheckedCreateNestedManyWithoutSellerInput
@@ -451,7 +446,6 @@ export type UserUpdateInput = {
   socialIdentities?: Prisma.SocialIdentityUpdateManyWithoutUserNestedInput
   sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
   listings?: Prisma.ListingUpdateManyWithoutUserNestedInput
-  wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
   savedSearches?: Prisma.SavedSearchUpdateManyWithoutUserNestedInput
   conversationsBuy?: Prisma.ConversationUpdateManyWithoutBuyerNestedInput
   conversationsSell?: Prisma.ConversationUpdateManyWithoutSellerNestedInput
@@ -477,7 +471,6 @@ export type UserUncheckedUpdateInput = {
   socialIdentities?: Prisma.SocialIdentityUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
   listings?: Prisma.ListingUncheckedUpdateManyWithoutUserNestedInput
-  wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
   savedSearches?: Prisma.SavedSearchUncheckedUpdateManyWithoutUserNestedInput
   conversationsBuy?: Prisma.ConversationUncheckedUpdateManyWithoutBuyerNestedInput
   conversationsSell?: Prisma.ConversationUncheckedUpdateManyWithoutSellerNestedInput
@@ -692,20 +685,6 @@ export type UserUpdateOneRequiredWithoutListingsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutListingsInput, Prisma.UserUpdateWithoutListingsInput>, Prisma.UserUncheckedUpdateWithoutListingsInput>
 }
 
-export type UserCreateNestedOneWithoutWalletInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutWalletInput, Prisma.UserUncheckedCreateWithoutWalletInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutWalletInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserUpdateOneRequiredWithoutWalletNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutWalletInput, Prisma.UserUncheckedCreateWithoutWalletInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutWalletInput
-  upsert?: Prisma.UserUpsertWithoutWalletInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutWalletInput, Prisma.UserUpdateWithoutWalletInput>, Prisma.UserUncheckedUpdateWithoutWalletInput>
-}
-
 export type UserCreateNestedOneWithoutSavedSearchesInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutSavedSearchesInput, Prisma.UserUncheckedCreateWithoutSavedSearchesInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutSavedSearchesInput
@@ -808,7 +787,6 @@ export type UserCreateWithoutProfileInput = {
   socialIdentities?: Prisma.SocialIdentityCreateNestedManyWithoutUserInput
   sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
   listings?: Prisma.ListingCreateNestedManyWithoutUserInput
-  wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
   savedSearches?: Prisma.SavedSearchCreateNestedManyWithoutUserInput
   conversationsBuy?: Prisma.ConversationCreateNestedManyWithoutBuyerInput
   conversationsSell?: Prisma.ConversationCreateNestedManyWithoutSellerInput
@@ -833,7 +811,6 @@ export type UserUncheckedCreateWithoutProfileInput = {
   socialIdentities?: Prisma.SocialIdentityUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
   listings?: Prisma.ListingUncheckedCreateNestedManyWithoutUserInput
-  wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
   savedSearches?: Prisma.SavedSearchUncheckedCreateNestedManyWithoutUserInput
   conversationsBuy?: Prisma.ConversationUncheckedCreateNestedManyWithoutBuyerInput
   conversationsSell?: Prisma.ConversationUncheckedCreateNestedManyWithoutSellerInput
@@ -874,7 +851,6 @@ export type UserUpdateWithoutProfileInput = {
   socialIdentities?: Prisma.SocialIdentityUpdateManyWithoutUserNestedInput
   sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
   listings?: Prisma.ListingUpdateManyWithoutUserNestedInput
-  wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
   savedSearches?: Prisma.SavedSearchUpdateManyWithoutUserNestedInput
   conversationsBuy?: Prisma.ConversationUpdateManyWithoutBuyerNestedInput
   conversationsSell?: Prisma.ConversationUpdateManyWithoutSellerNestedInput
@@ -899,7 +875,6 @@ export type UserUncheckedUpdateWithoutProfileInput = {
   socialIdentities?: Prisma.SocialIdentityUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
   listings?: Prisma.ListingUncheckedUpdateManyWithoutUserNestedInput
-  wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
   savedSearches?: Prisma.SavedSearchUncheckedUpdateManyWithoutUserNestedInput
   conversationsBuy?: Prisma.ConversationUncheckedUpdateManyWithoutBuyerNestedInput
   conversationsSell?: Prisma.ConversationUncheckedUpdateManyWithoutSellerNestedInput
@@ -924,7 +899,6 @@ export type UserCreateWithoutSocialIdentitiesInput = {
   profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
   sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
   listings?: Prisma.ListingCreateNestedManyWithoutUserInput
-  wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
   savedSearches?: Prisma.SavedSearchCreateNestedManyWithoutUserInput
   conversationsBuy?: Prisma.ConversationCreateNestedManyWithoutBuyerInput
   conversationsSell?: Prisma.ConversationCreateNestedManyWithoutSellerInput
@@ -949,7 +923,6 @@ export type UserUncheckedCreateWithoutSocialIdentitiesInput = {
   profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
   sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
   listings?: Prisma.ListingUncheckedCreateNestedManyWithoutUserInput
-  wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
   savedSearches?: Prisma.SavedSearchUncheckedCreateNestedManyWithoutUserInput
   conversationsBuy?: Prisma.ConversationUncheckedCreateNestedManyWithoutBuyerInput
   conversationsSell?: Prisma.ConversationUncheckedCreateNestedManyWithoutSellerInput
@@ -990,7 +963,6 @@ export type UserUpdateWithoutSocialIdentitiesInput = {
   profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
   sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
   listings?: Prisma.ListingUpdateManyWithoutUserNestedInput
-  wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
   savedSearches?: Prisma.SavedSearchUpdateManyWithoutUserNestedInput
   conversationsBuy?: Prisma.ConversationUpdateManyWithoutBuyerNestedInput
   conversationsSell?: Prisma.ConversationUpdateManyWithoutSellerNestedInput
@@ -1015,7 +987,6 @@ export type UserUncheckedUpdateWithoutSocialIdentitiesInput = {
   profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
   sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
   listings?: Prisma.ListingUncheckedUpdateManyWithoutUserNestedInput
-  wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
   savedSearches?: Prisma.SavedSearchUncheckedUpdateManyWithoutUserNestedInput
   conversationsBuy?: Prisma.ConversationUncheckedUpdateManyWithoutBuyerNestedInput
   conversationsSell?: Prisma.ConversationUncheckedUpdateManyWithoutSellerNestedInput
@@ -1040,7 +1011,6 @@ export type UserCreateWithoutSessionsInput = {
   profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
   socialIdentities?: Prisma.SocialIdentityCreateNestedManyWithoutUserInput
   listings?: Prisma.ListingCreateNestedManyWithoutUserInput
-  wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
   savedSearches?: Prisma.SavedSearchCreateNestedManyWithoutUserInput
   conversationsBuy?: Prisma.ConversationCreateNestedManyWithoutBuyerInput
   conversationsSell?: Prisma.ConversationCreateNestedManyWithoutSellerInput
@@ -1065,7 +1035,6 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
   socialIdentities?: Prisma.SocialIdentityUncheckedCreateNestedManyWithoutUserInput
   listings?: Prisma.ListingUncheckedCreateNestedManyWithoutUserInput
-  wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
   savedSearches?: Prisma.SavedSearchUncheckedCreateNestedManyWithoutUserInput
   conversationsBuy?: Prisma.ConversationUncheckedCreateNestedManyWithoutBuyerInput
   conversationsSell?: Prisma.ConversationUncheckedCreateNestedManyWithoutSellerInput
@@ -1106,7 +1075,6 @@ export type UserUpdateWithoutSessionsInput = {
   profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
   socialIdentities?: Prisma.SocialIdentityUpdateManyWithoutUserNestedInput
   listings?: Prisma.ListingUpdateManyWithoutUserNestedInput
-  wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
   savedSearches?: Prisma.SavedSearchUpdateManyWithoutUserNestedInput
   conversationsBuy?: Prisma.ConversationUpdateManyWithoutBuyerNestedInput
   conversationsSell?: Prisma.ConversationUpdateManyWithoutSellerNestedInput
@@ -1131,7 +1099,6 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
   socialIdentities?: Prisma.SocialIdentityUncheckedUpdateManyWithoutUserNestedInput
   listings?: Prisma.ListingUncheckedUpdateManyWithoutUserNestedInput
-  wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
   savedSearches?: Prisma.SavedSearchUncheckedUpdateManyWithoutUserNestedInput
   conversationsBuy?: Prisma.ConversationUncheckedUpdateManyWithoutBuyerNestedInput
   conversationsSell?: Prisma.ConversationUncheckedUpdateManyWithoutSellerNestedInput
@@ -1156,7 +1123,6 @@ export type UserCreateWithoutListingsInput = {
   profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
   socialIdentities?: Prisma.SocialIdentityCreateNestedManyWithoutUserInput
   sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
-  wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
   savedSearches?: Prisma.SavedSearchCreateNestedManyWithoutUserInput
   conversationsBuy?: Prisma.ConversationCreateNestedManyWithoutBuyerInput
   conversationsSell?: Prisma.ConversationCreateNestedManyWithoutSellerInput
@@ -1181,7 +1147,6 @@ export type UserUncheckedCreateWithoutListingsInput = {
   profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
   socialIdentities?: Prisma.SocialIdentityUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
-  wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
   savedSearches?: Prisma.SavedSearchUncheckedCreateNestedManyWithoutUserInput
   conversationsBuy?: Prisma.ConversationUncheckedCreateNestedManyWithoutBuyerInput
   conversationsSell?: Prisma.ConversationUncheckedCreateNestedManyWithoutSellerInput
@@ -1222,7 +1187,6 @@ export type UserUpdateWithoutListingsInput = {
   profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
   socialIdentities?: Prisma.SocialIdentityUpdateManyWithoutUserNestedInput
   sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
-  wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
   savedSearches?: Prisma.SavedSearchUpdateManyWithoutUserNestedInput
   conversationsBuy?: Prisma.ConversationUpdateManyWithoutBuyerNestedInput
   conversationsSell?: Prisma.ConversationUpdateManyWithoutSellerNestedInput
@@ -1247,123 +1211,6 @@ export type UserUncheckedUpdateWithoutListingsInput = {
   profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
   socialIdentities?: Prisma.SocialIdentityUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
-  wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
-  savedSearches?: Prisma.SavedSearchUncheckedUpdateManyWithoutUserNestedInput
-  conversationsBuy?: Prisma.ConversationUncheckedUpdateManyWithoutBuyerNestedInput
-  conversationsSell?: Prisma.ConversationUncheckedUpdateManyWithoutSellerNestedInput
-  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
-  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
-  reports?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
-}
-
-export type UserCreateWithoutWalletInput = {
-  id?: bigint | number
-  publicId?: string
-  phoneNumber?: string | null
-  email?: string | null
-  passwordHash?: string | null
-  securityStamp?: string
-  accountType: $Enums.AccountType
-  status?: $Enums.UserStatus
-  isPhoneVerified?: boolean
-  isEmailVerified?: boolean
-  kycLevel?: number
-  createdAt?: Date | string
-  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
-  socialIdentities?: Prisma.SocialIdentityCreateNestedManyWithoutUserInput
-  sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
-  listings?: Prisma.ListingCreateNestedManyWithoutUserInput
-  savedSearches?: Prisma.SavedSearchCreateNestedManyWithoutUserInput
-  conversationsBuy?: Prisma.ConversationCreateNestedManyWithoutBuyerInput
-  conversationsSell?: Prisma.ConversationCreateNestedManyWithoutSellerInput
-  sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
-  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
-  reports?: Prisma.ReportCreateNestedManyWithoutReporterInput
-}
-
-export type UserUncheckedCreateWithoutWalletInput = {
-  id?: bigint | number
-  publicId?: string
-  phoneNumber?: string | null
-  email?: string | null
-  passwordHash?: string | null
-  securityStamp?: string
-  accountType: $Enums.AccountType
-  status?: $Enums.UserStatus
-  isPhoneVerified?: boolean
-  isEmailVerified?: boolean
-  kycLevel?: number
-  createdAt?: Date | string
-  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
-  socialIdentities?: Prisma.SocialIdentityUncheckedCreateNestedManyWithoutUserInput
-  sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
-  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutUserInput
-  savedSearches?: Prisma.SavedSearchUncheckedCreateNestedManyWithoutUserInput
-  conversationsBuy?: Prisma.ConversationUncheckedCreateNestedManyWithoutBuyerInput
-  conversationsSell?: Prisma.ConversationUncheckedCreateNestedManyWithoutSellerInput
-  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
-  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
-  reports?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
-}
-
-export type UserCreateOrConnectWithoutWalletInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutWalletInput, Prisma.UserUncheckedCreateWithoutWalletInput>
-}
-
-export type UserUpsertWithoutWalletInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutWalletInput, Prisma.UserUncheckedUpdateWithoutWalletInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutWalletInput, Prisma.UserUncheckedCreateWithoutWalletInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutWalletInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutWalletInput, Prisma.UserUncheckedUpdateWithoutWalletInput>
-}
-
-export type UserUpdateWithoutWalletInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  publicId?: Prisma.StringFieldUpdateOperationsInput | string
-  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  securityStamp?: Prisma.StringFieldUpdateOperationsInput | string
-  accountType?: Prisma.EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
-  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-  isPhoneVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  kycLevel?: Prisma.IntFieldUpdateOperationsInput | number
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
-  socialIdentities?: Prisma.SocialIdentityUpdateManyWithoutUserNestedInput
-  sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
-  listings?: Prisma.ListingUpdateManyWithoutUserNestedInput
-  savedSearches?: Prisma.SavedSearchUpdateManyWithoutUserNestedInput
-  conversationsBuy?: Prisma.ConversationUpdateManyWithoutBuyerNestedInput
-  conversationsSell?: Prisma.ConversationUpdateManyWithoutSellerNestedInput
-  sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
-  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
-  reports?: Prisma.ReportUpdateManyWithoutReporterNestedInput
-}
-
-export type UserUncheckedUpdateWithoutWalletInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  publicId?: Prisma.StringFieldUpdateOperationsInput | string
-  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  securityStamp?: Prisma.StringFieldUpdateOperationsInput | string
-  accountType?: Prisma.EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
-  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-  isPhoneVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  kycLevel?: Prisma.IntFieldUpdateOperationsInput | number
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
-  socialIdentities?: Prisma.SocialIdentityUncheckedUpdateManyWithoutUserNestedInput
-  sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
-  listings?: Prisma.ListingUncheckedUpdateManyWithoutUserNestedInput
   savedSearches?: Prisma.SavedSearchUncheckedUpdateManyWithoutUserNestedInput
   conversationsBuy?: Prisma.ConversationUncheckedUpdateManyWithoutBuyerNestedInput
   conversationsSell?: Prisma.ConversationUncheckedUpdateManyWithoutSellerNestedInput
@@ -1389,7 +1236,6 @@ export type UserCreateWithoutSavedSearchesInput = {
   socialIdentities?: Prisma.SocialIdentityCreateNestedManyWithoutUserInput
   sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
   listings?: Prisma.ListingCreateNestedManyWithoutUserInput
-  wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
   conversationsBuy?: Prisma.ConversationCreateNestedManyWithoutBuyerInput
   conversationsSell?: Prisma.ConversationCreateNestedManyWithoutSellerInput
   sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
@@ -1414,7 +1260,6 @@ export type UserUncheckedCreateWithoutSavedSearchesInput = {
   socialIdentities?: Prisma.SocialIdentityUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
   listings?: Prisma.ListingUncheckedCreateNestedManyWithoutUserInput
-  wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
   conversationsBuy?: Prisma.ConversationUncheckedCreateNestedManyWithoutBuyerInput
   conversationsSell?: Prisma.ConversationUncheckedCreateNestedManyWithoutSellerInput
   sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
@@ -1455,7 +1300,6 @@ export type UserUpdateWithoutSavedSearchesInput = {
   socialIdentities?: Prisma.SocialIdentityUpdateManyWithoutUserNestedInput
   sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
   listings?: Prisma.ListingUpdateManyWithoutUserNestedInput
-  wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
   conversationsBuy?: Prisma.ConversationUpdateManyWithoutBuyerNestedInput
   conversationsSell?: Prisma.ConversationUpdateManyWithoutSellerNestedInput
   sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
@@ -1480,7 +1324,6 @@ export type UserUncheckedUpdateWithoutSavedSearchesInput = {
   socialIdentities?: Prisma.SocialIdentityUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
   listings?: Prisma.ListingUncheckedUpdateManyWithoutUserNestedInput
-  wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
   conversationsBuy?: Prisma.ConversationUncheckedUpdateManyWithoutBuyerNestedInput
   conversationsSell?: Prisma.ConversationUncheckedUpdateManyWithoutSellerNestedInput
   sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
@@ -1505,7 +1348,6 @@ export type UserCreateWithoutConversationsBuyInput = {
   socialIdentities?: Prisma.SocialIdentityCreateNestedManyWithoutUserInput
   sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
   listings?: Prisma.ListingCreateNestedManyWithoutUserInput
-  wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
   savedSearches?: Prisma.SavedSearchCreateNestedManyWithoutUserInput
   conversationsSell?: Prisma.ConversationCreateNestedManyWithoutSellerInput
   sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
@@ -1530,7 +1372,6 @@ export type UserUncheckedCreateWithoutConversationsBuyInput = {
   socialIdentities?: Prisma.SocialIdentityUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
   listings?: Prisma.ListingUncheckedCreateNestedManyWithoutUserInput
-  wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
   savedSearches?: Prisma.SavedSearchUncheckedCreateNestedManyWithoutUserInput
   conversationsSell?: Prisma.ConversationUncheckedCreateNestedManyWithoutSellerInput
   sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
@@ -1560,7 +1401,6 @@ export type UserCreateWithoutConversationsSellInput = {
   socialIdentities?: Prisma.SocialIdentityCreateNestedManyWithoutUserInput
   sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
   listings?: Prisma.ListingCreateNestedManyWithoutUserInput
-  wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
   savedSearches?: Prisma.SavedSearchCreateNestedManyWithoutUserInput
   conversationsBuy?: Prisma.ConversationCreateNestedManyWithoutBuyerInput
   sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
@@ -1585,7 +1425,6 @@ export type UserUncheckedCreateWithoutConversationsSellInput = {
   socialIdentities?: Prisma.SocialIdentityUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
   listings?: Prisma.ListingUncheckedCreateNestedManyWithoutUserInput
-  wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
   savedSearches?: Prisma.SavedSearchUncheckedCreateNestedManyWithoutUserInput
   conversationsBuy?: Prisma.ConversationUncheckedCreateNestedManyWithoutBuyerInput
   sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
@@ -1626,7 +1465,6 @@ export type UserUpdateWithoutConversationsBuyInput = {
   socialIdentities?: Prisma.SocialIdentityUpdateManyWithoutUserNestedInput
   sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
   listings?: Prisma.ListingUpdateManyWithoutUserNestedInput
-  wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
   savedSearches?: Prisma.SavedSearchUpdateManyWithoutUserNestedInput
   conversationsSell?: Prisma.ConversationUpdateManyWithoutSellerNestedInput
   sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
@@ -1651,7 +1489,6 @@ export type UserUncheckedUpdateWithoutConversationsBuyInput = {
   socialIdentities?: Prisma.SocialIdentityUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
   listings?: Prisma.ListingUncheckedUpdateManyWithoutUserNestedInput
-  wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
   savedSearches?: Prisma.SavedSearchUncheckedUpdateManyWithoutUserNestedInput
   conversationsSell?: Prisma.ConversationUncheckedUpdateManyWithoutSellerNestedInput
   sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
@@ -1687,7 +1524,6 @@ export type UserUpdateWithoutConversationsSellInput = {
   socialIdentities?: Prisma.SocialIdentityUpdateManyWithoutUserNestedInput
   sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
   listings?: Prisma.ListingUpdateManyWithoutUserNestedInput
-  wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
   savedSearches?: Prisma.SavedSearchUpdateManyWithoutUserNestedInput
   conversationsBuy?: Prisma.ConversationUpdateManyWithoutBuyerNestedInput
   sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
@@ -1712,7 +1548,6 @@ export type UserUncheckedUpdateWithoutConversationsSellInput = {
   socialIdentities?: Prisma.SocialIdentityUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
   listings?: Prisma.ListingUncheckedUpdateManyWithoutUserNestedInput
-  wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
   savedSearches?: Prisma.SavedSearchUncheckedUpdateManyWithoutUserNestedInput
   conversationsBuy?: Prisma.ConversationUncheckedUpdateManyWithoutBuyerNestedInput
   sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
@@ -1737,7 +1572,6 @@ export type UserCreateWithoutSentMessagesInput = {
   socialIdentities?: Prisma.SocialIdentityCreateNestedManyWithoutUserInput
   sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
   listings?: Prisma.ListingCreateNestedManyWithoutUserInput
-  wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
   savedSearches?: Prisma.SavedSearchCreateNestedManyWithoutUserInput
   conversationsBuy?: Prisma.ConversationCreateNestedManyWithoutBuyerInput
   conversationsSell?: Prisma.ConversationCreateNestedManyWithoutSellerInput
@@ -1762,7 +1596,6 @@ export type UserUncheckedCreateWithoutSentMessagesInput = {
   socialIdentities?: Prisma.SocialIdentityUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
   listings?: Prisma.ListingUncheckedCreateNestedManyWithoutUserInput
-  wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
   savedSearches?: Prisma.SavedSearchUncheckedCreateNestedManyWithoutUserInput
   conversationsBuy?: Prisma.ConversationUncheckedCreateNestedManyWithoutBuyerInput
   conversationsSell?: Prisma.ConversationUncheckedCreateNestedManyWithoutSellerInput
@@ -1803,7 +1636,6 @@ export type UserUpdateWithoutSentMessagesInput = {
   socialIdentities?: Prisma.SocialIdentityUpdateManyWithoutUserNestedInput
   sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
   listings?: Prisma.ListingUpdateManyWithoutUserNestedInput
-  wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
   savedSearches?: Prisma.SavedSearchUpdateManyWithoutUserNestedInput
   conversationsBuy?: Prisma.ConversationUpdateManyWithoutBuyerNestedInput
   conversationsSell?: Prisma.ConversationUpdateManyWithoutSellerNestedInput
@@ -1828,7 +1660,6 @@ export type UserUncheckedUpdateWithoutSentMessagesInput = {
   socialIdentities?: Prisma.SocialIdentityUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
   listings?: Prisma.ListingUncheckedUpdateManyWithoutUserNestedInput
-  wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
   savedSearches?: Prisma.SavedSearchUncheckedUpdateManyWithoutUserNestedInput
   conversationsBuy?: Prisma.ConversationUncheckedUpdateManyWithoutBuyerNestedInput
   conversationsSell?: Prisma.ConversationUncheckedUpdateManyWithoutSellerNestedInput
@@ -1853,7 +1684,6 @@ export type UserCreateWithoutReportsInput = {
   socialIdentities?: Prisma.SocialIdentityCreateNestedManyWithoutUserInput
   sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
   listings?: Prisma.ListingCreateNestedManyWithoutUserInput
-  wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
   savedSearches?: Prisma.SavedSearchCreateNestedManyWithoutUserInput
   conversationsBuy?: Prisma.ConversationCreateNestedManyWithoutBuyerInput
   conversationsSell?: Prisma.ConversationCreateNestedManyWithoutSellerInput
@@ -1878,7 +1708,6 @@ export type UserUncheckedCreateWithoutReportsInput = {
   socialIdentities?: Prisma.SocialIdentityUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
   listings?: Prisma.ListingUncheckedCreateNestedManyWithoutUserInput
-  wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
   savedSearches?: Prisma.SavedSearchUncheckedCreateNestedManyWithoutUserInput
   conversationsBuy?: Prisma.ConversationUncheckedCreateNestedManyWithoutBuyerInput
   conversationsSell?: Prisma.ConversationUncheckedCreateNestedManyWithoutSellerInput
@@ -1919,7 +1748,6 @@ export type UserUpdateWithoutReportsInput = {
   socialIdentities?: Prisma.SocialIdentityUpdateManyWithoutUserNestedInput
   sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
   listings?: Prisma.ListingUpdateManyWithoutUserNestedInput
-  wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
   savedSearches?: Prisma.SavedSearchUpdateManyWithoutUserNestedInput
   conversationsBuy?: Prisma.ConversationUpdateManyWithoutBuyerNestedInput
   conversationsSell?: Prisma.ConversationUpdateManyWithoutSellerNestedInput
@@ -1944,7 +1772,6 @@ export type UserUncheckedUpdateWithoutReportsInput = {
   socialIdentities?: Prisma.SocialIdentityUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
   listings?: Prisma.ListingUncheckedUpdateManyWithoutUserNestedInput
-  wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
   savedSearches?: Prisma.SavedSearchUncheckedUpdateManyWithoutUserNestedInput
   conversationsBuy?: Prisma.ConversationUncheckedUpdateManyWithoutBuyerNestedInput
   conversationsSell?: Prisma.ConversationUncheckedUpdateManyWithoutSellerNestedInput
@@ -1969,7 +1796,6 @@ export type UserCreateWithoutAuditLogsInput = {
   socialIdentities?: Prisma.SocialIdentityCreateNestedManyWithoutUserInput
   sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
   listings?: Prisma.ListingCreateNestedManyWithoutUserInput
-  wallet?: Prisma.WalletCreateNestedOneWithoutUserInput
   savedSearches?: Prisma.SavedSearchCreateNestedManyWithoutUserInput
   conversationsBuy?: Prisma.ConversationCreateNestedManyWithoutBuyerInput
   conversationsSell?: Prisma.ConversationCreateNestedManyWithoutSellerInput
@@ -1994,7 +1820,6 @@ export type UserUncheckedCreateWithoutAuditLogsInput = {
   socialIdentities?: Prisma.SocialIdentityUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
   listings?: Prisma.ListingUncheckedCreateNestedManyWithoutUserInput
-  wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutUserInput
   savedSearches?: Prisma.SavedSearchUncheckedCreateNestedManyWithoutUserInput
   conversationsBuy?: Prisma.ConversationUncheckedCreateNestedManyWithoutBuyerInput
   conversationsSell?: Prisma.ConversationUncheckedCreateNestedManyWithoutSellerInput
@@ -2035,7 +1860,6 @@ export type UserUpdateWithoutAuditLogsInput = {
   socialIdentities?: Prisma.SocialIdentityUpdateManyWithoutUserNestedInput
   sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
   listings?: Prisma.ListingUpdateManyWithoutUserNestedInput
-  wallet?: Prisma.WalletUpdateOneWithoutUserNestedInput
   savedSearches?: Prisma.SavedSearchUpdateManyWithoutUserNestedInput
   conversationsBuy?: Prisma.ConversationUpdateManyWithoutBuyerNestedInput
   conversationsSell?: Prisma.ConversationUpdateManyWithoutSellerNestedInput
@@ -2060,7 +1884,6 @@ export type UserUncheckedUpdateWithoutAuditLogsInput = {
   socialIdentities?: Prisma.SocialIdentityUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
   listings?: Prisma.ListingUncheckedUpdateManyWithoutUserNestedInput
-  wallet?: Prisma.WalletUncheckedUpdateOneWithoutUserNestedInput
   savedSearches?: Prisma.SavedSearchUncheckedUpdateManyWithoutUserNestedInput
   conversationsBuy?: Prisma.ConversationUncheckedUpdateManyWithoutBuyerNestedInput
   conversationsSell?: Prisma.ConversationUncheckedUpdateManyWithoutSellerNestedInput
@@ -2188,7 +2011,6 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   socialIdentities?: boolean | Prisma.User$socialIdentitiesArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   listings?: boolean | Prisma.User$listingsArgs<ExtArgs>
-  wallet?: boolean | Prisma.User$walletArgs<ExtArgs>
   savedSearches?: boolean | Prisma.User$savedSearchesArgs<ExtArgs>
   conversationsBuy?: boolean | Prisma.User$conversationsBuyArgs<ExtArgs>
   conversationsSell?: boolean | Prisma.User$conversationsSellArgs<ExtArgs>
@@ -2249,7 +2071,6 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   socialIdentities?: boolean | Prisma.User$socialIdentitiesArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   listings?: boolean | Prisma.User$listingsArgs<ExtArgs>
-  wallet?: boolean | Prisma.User$walletArgs<ExtArgs>
   savedSearches?: boolean | Prisma.User$savedSearchesArgs<ExtArgs>
   conversationsBuy?: boolean | Prisma.User$conversationsBuyArgs<ExtArgs>
   conversationsSell?: boolean | Prisma.User$conversationsSellArgs<ExtArgs>
@@ -2268,7 +2089,6 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     socialIdentities: Prisma.$SocialIdentityPayload<ExtArgs>[]
     sessions: Prisma.$UserSessionPayload<ExtArgs>[]
     listings: Prisma.$ListingPayload<ExtArgs>[]
-    wallet: Prisma.$WalletPayload<ExtArgs> | null
     savedSearches: Prisma.$SavedSearchPayload<ExtArgs>[]
     conversationsBuy: Prisma.$ConversationPayload<ExtArgs>[]
     conversationsSell: Prisma.$ConversationPayload<ExtArgs>[]
@@ -2687,7 +2507,6 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   socialIdentities<T extends Prisma.User$socialIdentitiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$socialIdentitiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SocialIdentityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sessions<T extends Prisma.User$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   listings<T extends Prisma.User$listingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$listingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  wallet<T extends Prisma.User$walletArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$walletArgs<ExtArgs>>): Prisma.Prisma__WalletClient<runtime.Types.Result.GetResult<Prisma.$WalletPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   savedSearches<T extends Prisma.User$savedSearchesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$savedSearchesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SavedSearchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   conversationsBuy<T extends Prisma.User$conversationsBuyArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$conversationsBuyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   conversationsSell<T extends Prisma.User$conversationsSellArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$conversationsSellArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -3211,25 +3030,6 @@ export type User$listingsArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   distinct?: Prisma.ListingScalarFieldEnum | Prisma.ListingScalarFieldEnum[]
-}
-
-/**
- * User.wallet
- */
-export type User$walletArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Wallet
-   */
-  select?: Prisma.WalletSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Wallet
-   */
-  omit?: Prisma.WalletOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.WalletInclude<ExtArgs> | null
-  where?: Prisma.WalletWhereInput
 }
 
 /**
