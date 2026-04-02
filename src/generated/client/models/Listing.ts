@@ -35,7 +35,6 @@ export type ListingAvgAggregateOutputType = {
   pricePerM2: runtime.Decimal | null
   areaGross: runtime.Decimal | null
   areaNet: runtime.Decimal | null
-  vipLevelId: number | null
 }
 
 export type ListingSumAggregateOutputType = {
@@ -47,7 +46,6 @@ export type ListingSumAggregateOutputType = {
   pricePerM2: runtime.Decimal | null
   areaGross: runtime.Decimal | null
   areaNet: runtime.Decimal | null
-  vipLevelId: number | null
 }
 
 export type ListingMinAggregateOutputType = {
@@ -76,7 +74,6 @@ export type ListingMinAggregateOutputType = {
   areaNet: runtime.Decimal | null
   direction: $Enums.Direction | null
   juridicalStatus: $Enums.JuridicalStatus | null
-  vipLevelId: number | null
   status: $Enums.ListingStatus | null
   publishedAt: Date | null
   expiredAt: Date | null
@@ -108,7 +105,6 @@ export type ListingMaxAggregateOutputType = {
   areaNet: runtime.Decimal | null
   direction: $Enums.Direction | null
   juridicalStatus: $Enums.JuridicalStatus | null
-  vipLevelId: number | null
   status: $Enums.ListingStatus | null
   publishedAt: Date | null
   expiredAt: Date | null
@@ -140,7 +136,6 @@ export type ListingCountAggregateOutputType = {
   areaNet: number
   direction: number
   juridicalStatus: number
-  vipLevelId: number
   status: number
   publishedAt: number
   expiredAt: number
@@ -158,7 +153,6 @@ export type ListingAvgAggregateInputType = {
   pricePerM2?: true
   areaGross?: true
   areaNet?: true
-  vipLevelId?: true
 }
 
 export type ListingSumAggregateInputType = {
@@ -170,7 +164,6 @@ export type ListingSumAggregateInputType = {
   pricePerM2?: true
   areaGross?: true
   areaNet?: true
-  vipLevelId?: true
 }
 
 export type ListingMinAggregateInputType = {
@@ -199,7 +192,6 @@ export type ListingMinAggregateInputType = {
   areaNet?: true
   direction?: true
   juridicalStatus?: true
-  vipLevelId?: true
   status?: true
   publishedAt?: true
   expiredAt?: true
@@ -231,7 +223,6 @@ export type ListingMaxAggregateInputType = {
   areaNet?: true
   direction?: true
   juridicalStatus?: true
-  vipLevelId?: true
   status?: true
   publishedAt?: true
   expiredAt?: true
@@ -263,7 +254,6 @@ export type ListingCountAggregateInputType = {
   areaNet?: true
   direction?: true
   juridicalStatus?: true
-  vipLevelId?: true
   status?: true
   publishedAt?: true
   expiredAt?: true
@@ -383,7 +373,6 @@ export type ListingGroupByOutputType = {
   areaNet: runtime.Decimal | null
   direction: $Enums.Direction | null
   juridicalStatus: $Enums.JuridicalStatus | null
-  vipLevelId: number | null
   status: $Enums.ListingStatus
   publishedAt: Date | null
   expiredAt: Date | null
@@ -439,7 +428,6 @@ export type ListingWhereInput = {
   areaNet?: Prisma.DecimalNullableFilter<"Listing"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   direction?: Prisma.EnumDirectionNullableFilter<"Listing"> | $Enums.Direction | null
   juridicalStatus?: Prisma.EnumJuridicalStatusNullableFilter<"Listing"> | $Enums.JuridicalStatus | null
-  vipLevelId?: Prisma.IntNullableFilter<"Listing"> | number | null
   status?: Prisma.EnumListingStatusFilter<"Listing"> | $Enums.ListingStatus
   publishedAt?: Prisma.DateTimeNullableFilter<"Listing"> | Date | string | null
   expiredAt?: Prisma.DateTimeNullableFilter<"Listing"> | Date | string | null
@@ -448,7 +436,6 @@ export type ListingWhereInput = {
   propertyType?: Prisma.XOR<Prisma.PropertyTypeScalarRelationFilter, Prisma.PropertyTypeWhereInput>
   project?: Prisma.XOR<Prisma.ProjectNullableScalarRelationFilter, Prisma.ProjectWhereInput> | null
   media?: Prisma.ListingMediaListRelationFilter
-  services?: Prisma.ListingServiceListRelationFilter
   conversations?: Prisma.ConversationListRelationFilter
   reports?: Prisma.ReportListRelationFilter
 }
@@ -479,7 +466,6 @@ export type ListingOrderByWithRelationInput = {
   areaNet?: Prisma.SortOrderInput | Prisma.SortOrder
   direction?: Prisma.SortOrderInput | Prisma.SortOrder
   juridicalStatus?: Prisma.SortOrderInput | Prisma.SortOrder
-  vipLevelId?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   expiredAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -488,7 +474,6 @@ export type ListingOrderByWithRelationInput = {
   propertyType?: Prisma.PropertyTypeOrderByWithRelationInput
   project?: Prisma.ProjectOrderByWithRelationInput
   media?: Prisma.ListingMediaOrderByRelationAggregateInput
-  services?: Prisma.ListingServiceOrderByRelationAggregateInput
   conversations?: Prisma.ConversationOrderByRelationAggregateInput
   reports?: Prisma.ReportOrderByRelationAggregateInput
 }
@@ -522,7 +507,6 @@ export type ListingWhereUniqueInput = Prisma.AtLeast<{
   areaNet?: Prisma.DecimalNullableFilter<"Listing"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   direction?: Prisma.EnumDirectionNullableFilter<"Listing"> | $Enums.Direction | null
   juridicalStatus?: Prisma.EnumJuridicalStatusNullableFilter<"Listing"> | $Enums.JuridicalStatus | null
-  vipLevelId?: Prisma.IntNullableFilter<"Listing"> | number | null
   status?: Prisma.EnumListingStatusFilter<"Listing"> | $Enums.ListingStatus
   publishedAt?: Prisma.DateTimeNullableFilter<"Listing"> | Date | string | null
   expiredAt?: Prisma.DateTimeNullableFilter<"Listing"> | Date | string | null
@@ -531,7 +515,6 @@ export type ListingWhereUniqueInput = Prisma.AtLeast<{
   propertyType?: Prisma.XOR<Prisma.PropertyTypeScalarRelationFilter, Prisma.PropertyTypeWhereInput>
   project?: Prisma.XOR<Prisma.ProjectNullableScalarRelationFilter, Prisma.ProjectWhereInput> | null
   media?: Prisma.ListingMediaListRelationFilter
-  services?: Prisma.ListingServiceListRelationFilter
   conversations?: Prisma.ConversationListRelationFilter
   reports?: Prisma.ReportListRelationFilter
 }, "id" | "slug">
@@ -562,7 +545,6 @@ export type ListingOrderByWithAggregationInput = {
   areaNet?: Prisma.SortOrderInput | Prisma.SortOrder
   direction?: Prisma.SortOrderInput | Prisma.SortOrder
   juridicalStatus?: Prisma.SortOrderInput | Prisma.SortOrder
-  vipLevelId?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   expiredAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -603,7 +585,6 @@ export type ListingScalarWhereWithAggregatesInput = {
   areaNet?: Prisma.DecimalNullableWithAggregatesFilter<"Listing"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   direction?: Prisma.EnumDirectionNullableWithAggregatesFilter<"Listing"> | $Enums.Direction | null
   juridicalStatus?: Prisma.EnumJuridicalStatusNullableWithAggregatesFilter<"Listing"> | $Enums.JuridicalStatus | null
-  vipLevelId?: Prisma.IntNullableWithAggregatesFilter<"Listing"> | number | null
   status?: Prisma.EnumListingStatusWithAggregatesFilter<"Listing"> | $Enums.ListingStatus
   publishedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Listing"> | Date | string | null
   expiredAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Listing"> | Date | string | null
@@ -633,7 +614,6 @@ export type ListingCreateInput = {
   areaNet?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   direction?: $Enums.Direction | null
   juridicalStatus?: $Enums.JuridicalStatus | null
-  vipLevelId?: number | null
   status?: $Enums.ListingStatus
   publishedAt?: Date | string | null
   expiredAt?: Date | string | null
@@ -642,7 +622,6 @@ export type ListingCreateInput = {
   propertyType: Prisma.PropertyTypeCreateNestedOneWithoutListingsInput
   project?: Prisma.ProjectCreateNestedOneWithoutListingsInput
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
-  services?: Prisma.ListingServiceCreateNestedManyWithoutListingInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutListingInput
   reports?: Prisma.ReportCreateNestedManyWithoutListingInput
 }
@@ -673,13 +652,11 @@ export type ListingUncheckedCreateInput = {
   areaNet?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   direction?: $Enums.Direction | null
   juridicalStatus?: $Enums.JuridicalStatus | null
-  vipLevelId?: number | null
   status?: $Enums.ListingStatus
   publishedAt?: Date | string | null
   expiredAt?: Date | string | null
   attributes: Prisma.JsonNullValueInput | runtime.InputJsonValue
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
-  services?: Prisma.ListingServiceUncheckedCreateNestedManyWithoutListingInput
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutListingInput
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutListingInput
 }
@@ -707,7 +684,6 @@ export type ListingUpdateInput = {
   areaNet?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   direction?: Prisma.NullableEnumDirectionFieldUpdateOperationsInput | $Enums.Direction | null
   juridicalStatus?: Prisma.NullableEnumJuridicalStatusFieldUpdateOperationsInput | $Enums.JuridicalStatus | null
-  vipLevelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -716,7 +692,6 @@ export type ListingUpdateInput = {
   propertyType?: Prisma.PropertyTypeUpdateOneRequiredWithoutListingsNestedInput
   project?: Prisma.ProjectUpdateOneWithoutListingsNestedInput
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
-  services?: Prisma.ListingServiceUpdateManyWithoutListingNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutListingNestedInput
   reports?: Prisma.ReportUpdateManyWithoutListingNestedInput
 }
@@ -747,13 +722,11 @@ export type ListingUncheckedUpdateInput = {
   areaNet?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   direction?: Prisma.NullableEnumDirectionFieldUpdateOperationsInput | $Enums.Direction | null
   juridicalStatus?: Prisma.NullableEnumJuridicalStatusFieldUpdateOperationsInput | $Enums.JuridicalStatus | null
-  vipLevelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   attributes?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
-  services?: Prisma.ListingServiceUncheckedUpdateManyWithoutListingNestedInput
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutListingNestedInput
   reports?: Prisma.ReportUncheckedUpdateManyWithoutListingNestedInput
 }
@@ -784,7 +757,6 @@ export type ListingCreateManyInput = {
   areaNet?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   direction?: $Enums.Direction | null
   juridicalStatus?: $Enums.JuridicalStatus | null
-  vipLevelId?: number | null
   status?: $Enums.ListingStatus
   publishedAt?: Date | string | null
   expiredAt?: Date | string | null
@@ -814,7 +786,6 @@ export type ListingUpdateManyMutationInput = {
   areaNet?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   direction?: Prisma.NullableEnumDirectionFieldUpdateOperationsInput | $Enums.Direction | null
   juridicalStatus?: Prisma.NullableEnumJuridicalStatusFieldUpdateOperationsInput | $Enums.JuridicalStatus | null
-  vipLevelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -847,7 +818,6 @@ export type ListingUncheckedUpdateManyInput = {
   areaNet?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   direction?: Prisma.NullableEnumDirectionFieldUpdateOperationsInput | $Enums.Direction | null
   juridicalStatus?: Prisma.NullableEnumJuridicalStatusFieldUpdateOperationsInput | $Enums.JuridicalStatus | null
-  vipLevelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -890,7 +860,6 @@ export type ListingCountOrderByAggregateInput = {
   areaNet?: Prisma.SortOrder
   direction?: Prisma.SortOrder
   juridicalStatus?: Prisma.SortOrder
-  vipLevelId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrder
   expiredAt?: Prisma.SortOrder
@@ -906,7 +875,6 @@ export type ListingAvgOrderByAggregateInput = {
   pricePerM2?: Prisma.SortOrder
   areaGross?: Prisma.SortOrder
   areaNet?: Prisma.SortOrder
-  vipLevelId?: Prisma.SortOrder
 }
 
 export type ListingMaxOrderByAggregateInput = {
@@ -935,7 +903,6 @@ export type ListingMaxOrderByAggregateInput = {
   areaNet?: Prisma.SortOrder
   direction?: Prisma.SortOrder
   juridicalStatus?: Prisma.SortOrder
-  vipLevelId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrder
   expiredAt?: Prisma.SortOrder
@@ -967,7 +934,6 @@ export type ListingMinOrderByAggregateInput = {
   areaNet?: Prisma.SortOrder
   direction?: Prisma.SortOrder
   juridicalStatus?: Prisma.SortOrder
-  vipLevelId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrder
   expiredAt?: Prisma.SortOrder
@@ -982,7 +948,6 @@ export type ListingSumOrderByAggregateInput = {
   pricePerM2?: Prisma.SortOrder
   areaGross?: Prisma.SortOrder
   areaNet?: Prisma.SortOrder
-  vipLevelId?: Prisma.SortOrder
 }
 
 export type ListingScalarRelationFilter = {
@@ -1144,14 +1109,6 @@ export type NullableEnumJuridicalStatusFieldUpdateOperationsInput = {
   set?: $Enums.JuridicalStatus | null
 }
 
-export type NullableIntFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type EnumListingStatusFieldUpdateOperationsInput = {
   set?: $Enums.ListingStatus
 }
@@ -1176,20 +1133,6 @@ export type ListingUpdateOneRequiredWithoutMediaNestedInput = {
   upsert?: Prisma.ListingUpsertWithoutMediaInput
   connect?: Prisma.ListingWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.ListingUpdateToOneWithWhereWithoutMediaInput, Prisma.ListingUpdateWithoutMediaInput>, Prisma.ListingUncheckedUpdateWithoutMediaInput>
-}
-
-export type ListingCreateNestedOneWithoutServicesInput = {
-  create?: Prisma.XOR<Prisma.ListingCreateWithoutServicesInput, Prisma.ListingUncheckedCreateWithoutServicesInput>
-  connectOrCreate?: Prisma.ListingCreateOrConnectWithoutServicesInput
-  connect?: Prisma.ListingWhereUniqueInput
-}
-
-export type ListingUpdateOneRequiredWithoutServicesNestedInput = {
-  create?: Prisma.XOR<Prisma.ListingCreateWithoutServicesInput, Prisma.ListingUncheckedCreateWithoutServicesInput>
-  connectOrCreate?: Prisma.ListingCreateOrConnectWithoutServicesInput
-  upsert?: Prisma.ListingUpsertWithoutServicesInput
-  connect?: Prisma.ListingWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.ListingUpdateToOneWithWhereWithoutServicesInput, Prisma.ListingUpdateWithoutServicesInput>, Prisma.ListingUncheckedUpdateWithoutServicesInput>
 }
 
 export type ListingCreateNestedOneWithoutConversationsInput = {
@@ -1243,7 +1186,6 @@ export type ListingCreateWithoutUserInput = {
   areaNet?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   direction?: $Enums.Direction | null
   juridicalStatus?: $Enums.JuridicalStatus | null
-  vipLevelId?: number | null
   status?: $Enums.ListingStatus
   publishedAt?: Date | string | null
   expiredAt?: Date | string | null
@@ -1251,7 +1193,6 @@ export type ListingCreateWithoutUserInput = {
   propertyType: Prisma.PropertyTypeCreateNestedOneWithoutListingsInput
   project?: Prisma.ProjectCreateNestedOneWithoutListingsInput
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
-  services?: Prisma.ListingServiceCreateNestedManyWithoutListingInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutListingInput
   reports?: Prisma.ReportCreateNestedManyWithoutListingInput
 }
@@ -1281,13 +1222,11 @@ export type ListingUncheckedCreateWithoutUserInput = {
   areaNet?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   direction?: $Enums.Direction | null
   juridicalStatus?: $Enums.JuridicalStatus | null
-  vipLevelId?: number | null
   status?: $Enums.ListingStatus
   publishedAt?: Date | string | null
   expiredAt?: Date | string | null
   attributes: Prisma.JsonNullValueInput | runtime.InputJsonValue
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
-  services?: Prisma.ListingServiceUncheckedCreateNestedManyWithoutListingInput
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutListingInput
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutListingInput
 }
@@ -1347,7 +1286,6 @@ export type ListingScalarWhereInput = {
   areaNet?: Prisma.DecimalNullableFilter<"Listing"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   direction?: Prisma.EnumDirectionNullableFilter<"Listing"> | $Enums.Direction | null
   juridicalStatus?: Prisma.EnumJuridicalStatusNullableFilter<"Listing"> | $Enums.JuridicalStatus | null
-  vipLevelId?: Prisma.IntNullableFilter<"Listing"> | number | null
   status?: Prisma.EnumListingStatusFilter<"Listing"> | $Enums.ListingStatus
   publishedAt?: Prisma.DateTimeNullableFilter<"Listing"> | Date | string | null
   expiredAt?: Prisma.DateTimeNullableFilter<"Listing"> | Date | string | null
@@ -1377,7 +1315,6 @@ export type ListingCreateWithoutProjectInput = {
   areaNet?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   direction?: $Enums.Direction | null
   juridicalStatus?: $Enums.JuridicalStatus | null
-  vipLevelId?: number | null
   status?: $Enums.ListingStatus
   publishedAt?: Date | string | null
   expiredAt?: Date | string | null
@@ -1385,7 +1322,6 @@ export type ListingCreateWithoutProjectInput = {
   user: Prisma.UserCreateNestedOneWithoutListingsInput
   propertyType: Prisma.PropertyTypeCreateNestedOneWithoutListingsInput
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
-  services?: Prisma.ListingServiceCreateNestedManyWithoutListingInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutListingInput
   reports?: Prisma.ReportCreateNestedManyWithoutListingInput
 }
@@ -1415,13 +1351,11 @@ export type ListingUncheckedCreateWithoutProjectInput = {
   areaNet?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   direction?: $Enums.Direction | null
   juridicalStatus?: $Enums.JuridicalStatus | null
-  vipLevelId?: number | null
   status?: $Enums.ListingStatus
   publishedAt?: Date | string | null
   expiredAt?: Date | string | null
   attributes: Prisma.JsonNullValueInput | runtime.InputJsonValue
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
-  services?: Prisma.ListingServiceUncheckedCreateNestedManyWithoutListingInput
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutListingInput
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutListingInput
 }
@@ -1475,7 +1409,6 @@ export type ListingCreateWithoutPropertyTypeInput = {
   areaNet?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   direction?: $Enums.Direction | null
   juridicalStatus?: $Enums.JuridicalStatus | null
-  vipLevelId?: number | null
   status?: $Enums.ListingStatus
   publishedAt?: Date | string | null
   expiredAt?: Date | string | null
@@ -1483,7 +1416,6 @@ export type ListingCreateWithoutPropertyTypeInput = {
   user: Prisma.UserCreateNestedOneWithoutListingsInput
   project?: Prisma.ProjectCreateNestedOneWithoutListingsInput
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
-  services?: Prisma.ListingServiceCreateNestedManyWithoutListingInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutListingInput
   reports?: Prisma.ReportCreateNestedManyWithoutListingInput
 }
@@ -1513,13 +1445,11 @@ export type ListingUncheckedCreateWithoutPropertyTypeInput = {
   areaNet?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   direction?: $Enums.Direction | null
   juridicalStatus?: $Enums.JuridicalStatus | null
-  vipLevelId?: number | null
   status?: $Enums.ListingStatus
   publishedAt?: Date | string | null
   expiredAt?: Date | string | null
   attributes: Prisma.JsonNullValueInput | runtime.InputJsonValue
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
-  services?: Prisma.ListingServiceUncheckedCreateNestedManyWithoutListingInput
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutListingInput
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutListingInput
 }
@@ -1573,7 +1503,6 @@ export type ListingCreateWithoutMediaInput = {
   areaNet?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   direction?: $Enums.Direction | null
   juridicalStatus?: $Enums.JuridicalStatus | null
-  vipLevelId?: number | null
   status?: $Enums.ListingStatus
   publishedAt?: Date | string | null
   expiredAt?: Date | string | null
@@ -1581,7 +1510,6 @@ export type ListingCreateWithoutMediaInput = {
   user: Prisma.UserCreateNestedOneWithoutListingsInput
   propertyType: Prisma.PropertyTypeCreateNestedOneWithoutListingsInput
   project?: Prisma.ProjectCreateNestedOneWithoutListingsInput
-  services?: Prisma.ListingServiceCreateNestedManyWithoutListingInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutListingInput
   reports?: Prisma.ReportCreateNestedManyWithoutListingInput
 }
@@ -1612,12 +1540,10 @@ export type ListingUncheckedCreateWithoutMediaInput = {
   areaNet?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   direction?: $Enums.Direction | null
   juridicalStatus?: $Enums.JuridicalStatus | null
-  vipLevelId?: number | null
   status?: $Enums.ListingStatus
   publishedAt?: Date | string | null
   expiredAt?: Date | string | null
   attributes: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  services?: Prisma.ListingServiceUncheckedCreateNestedManyWithoutListingInput
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutListingInput
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutListingInput
 }
@@ -1661,7 +1587,6 @@ export type ListingUpdateWithoutMediaInput = {
   areaNet?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   direction?: Prisma.NullableEnumDirectionFieldUpdateOperationsInput | $Enums.Direction | null
   juridicalStatus?: Prisma.NullableEnumJuridicalStatusFieldUpdateOperationsInput | $Enums.JuridicalStatus | null
-  vipLevelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1669,7 +1594,6 @@ export type ListingUpdateWithoutMediaInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutListingsNestedInput
   propertyType?: Prisma.PropertyTypeUpdateOneRequiredWithoutListingsNestedInput
   project?: Prisma.ProjectUpdateOneWithoutListingsNestedInput
-  services?: Prisma.ListingServiceUpdateManyWithoutListingNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutListingNestedInput
   reports?: Prisma.ReportUpdateManyWithoutListingNestedInput
 }
@@ -1700,172 +1624,10 @@ export type ListingUncheckedUpdateWithoutMediaInput = {
   areaNet?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   direction?: Prisma.NullableEnumDirectionFieldUpdateOperationsInput | $Enums.Direction | null
   juridicalStatus?: Prisma.NullableEnumJuridicalStatusFieldUpdateOperationsInput | $Enums.JuridicalStatus | null
-  vipLevelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   attributes?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  services?: Prisma.ListingServiceUncheckedUpdateManyWithoutListingNestedInput
-  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutListingNestedInput
-  reports?: Prisma.ReportUncheckedUpdateManyWithoutListingNestedInput
-}
-
-export type ListingCreateWithoutServicesInput = {
-  id?: bigint | number
-  title: string
-  slug: string
-  listingType: $Enums.ListingType
-  provinceCode: string
-  provinceName: string
-  provinceSlug?: string | null
-  districtCode: string
-  districtName: string
-  districtSlug?: string | null
-  wardCode: string
-  wardName: string
-  wardSlug?: string | null
-  region?: $Enums.Region | null
-  addressDisplay?: string | null
-  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  priceUnit: $Enums.PriceUnit
-  pricePerM2?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  areaGross: runtime.Decimal | runtime.DecimalJsLike | number | string
-  areaNet?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  direction?: $Enums.Direction | null
-  juridicalStatus?: $Enums.JuridicalStatus | null
-  vipLevelId?: number | null
-  status?: $Enums.ListingStatus
-  publishedAt?: Date | string | null
-  expiredAt?: Date | string | null
-  attributes: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  user: Prisma.UserCreateNestedOneWithoutListingsInput
-  propertyType: Prisma.PropertyTypeCreateNestedOneWithoutListingsInput
-  project?: Prisma.ProjectCreateNestedOneWithoutListingsInput
-  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
-  conversations?: Prisma.ConversationCreateNestedManyWithoutListingInput
-  reports?: Prisma.ReportCreateNestedManyWithoutListingInput
-}
-
-export type ListingUncheckedCreateWithoutServicesInput = {
-  id?: bigint | number
-  userId: bigint | number
-  title: string
-  slug: string
-  listingType: $Enums.ListingType
-  propertyTypeId: number
-  provinceCode: string
-  provinceName: string
-  provinceSlug?: string | null
-  districtCode: string
-  districtName: string
-  districtSlug?: string | null
-  wardCode: string
-  wardName: string
-  wardSlug?: string | null
-  region?: $Enums.Region | null
-  projectId?: bigint | number | null
-  addressDisplay?: string | null
-  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  priceUnit: $Enums.PriceUnit
-  pricePerM2?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  areaGross: runtime.Decimal | runtime.DecimalJsLike | number | string
-  areaNet?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  direction?: $Enums.Direction | null
-  juridicalStatus?: $Enums.JuridicalStatus | null
-  vipLevelId?: number | null
-  status?: $Enums.ListingStatus
-  publishedAt?: Date | string | null
-  expiredAt?: Date | string | null
-  attributes: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
-  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutListingInput
-  reports?: Prisma.ReportUncheckedCreateNestedManyWithoutListingInput
-}
-
-export type ListingCreateOrConnectWithoutServicesInput = {
-  where: Prisma.ListingWhereUniqueInput
-  create: Prisma.XOR<Prisma.ListingCreateWithoutServicesInput, Prisma.ListingUncheckedCreateWithoutServicesInput>
-}
-
-export type ListingUpsertWithoutServicesInput = {
-  update: Prisma.XOR<Prisma.ListingUpdateWithoutServicesInput, Prisma.ListingUncheckedUpdateWithoutServicesInput>
-  create: Prisma.XOR<Prisma.ListingCreateWithoutServicesInput, Prisma.ListingUncheckedCreateWithoutServicesInput>
-  where?: Prisma.ListingWhereInput
-}
-
-export type ListingUpdateToOneWithWhereWithoutServicesInput = {
-  where?: Prisma.ListingWhereInput
-  data: Prisma.XOR<Prisma.ListingUpdateWithoutServicesInput, Prisma.ListingUncheckedUpdateWithoutServicesInput>
-}
-
-export type ListingUpdateWithoutServicesInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  slug?: Prisma.StringFieldUpdateOperationsInput | string
-  listingType?: Prisma.EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
-  provinceCode?: Prisma.StringFieldUpdateOperationsInput | string
-  provinceName?: Prisma.StringFieldUpdateOperationsInput | string
-  provinceSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  districtCode?: Prisma.StringFieldUpdateOperationsInput | string
-  districtName?: Prisma.StringFieldUpdateOperationsInput | string
-  districtSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  wardCode?: Prisma.StringFieldUpdateOperationsInput | string
-  wardName?: Prisma.StringFieldUpdateOperationsInput | string
-  wardSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  region?: Prisma.NullableEnumRegionFieldUpdateOperationsInput | $Enums.Region | null
-  addressDisplay?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  priceUnit?: Prisma.EnumPriceUnitFieldUpdateOperationsInput | $Enums.PriceUnit
-  pricePerM2?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  areaGross?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  areaNet?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  direction?: Prisma.NullableEnumDirectionFieldUpdateOperationsInput | $Enums.Direction | null
-  juridicalStatus?: Prisma.NullableEnumJuridicalStatusFieldUpdateOperationsInput | $Enums.JuridicalStatus | null
-  vipLevelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
-  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  attributes?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  user?: Prisma.UserUpdateOneRequiredWithoutListingsNestedInput
-  propertyType?: Prisma.PropertyTypeUpdateOneRequiredWithoutListingsNestedInput
-  project?: Prisma.ProjectUpdateOneWithoutListingsNestedInput
-  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
-  conversations?: Prisma.ConversationUpdateManyWithoutListingNestedInput
-  reports?: Prisma.ReportUpdateManyWithoutListingNestedInput
-}
-
-export type ListingUncheckedUpdateWithoutServicesInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  userId?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  slug?: Prisma.StringFieldUpdateOperationsInput | string
-  listingType?: Prisma.EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
-  propertyTypeId?: Prisma.IntFieldUpdateOperationsInput | number
-  provinceCode?: Prisma.StringFieldUpdateOperationsInput | string
-  provinceName?: Prisma.StringFieldUpdateOperationsInput | string
-  provinceSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  districtCode?: Prisma.StringFieldUpdateOperationsInput | string
-  districtName?: Prisma.StringFieldUpdateOperationsInput | string
-  districtSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  wardCode?: Prisma.StringFieldUpdateOperationsInput | string
-  wardName?: Prisma.StringFieldUpdateOperationsInput | string
-  wardSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  region?: Prisma.NullableEnumRegionFieldUpdateOperationsInput | $Enums.Region | null
-  projectId?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  addressDisplay?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  priceUnit?: Prisma.EnumPriceUnitFieldUpdateOperationsInput | $Enums.PriceUnit
-  pricePerM2?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  areaGross?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  areaNet?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  direction?: Prisma.NullableEnumDirectionFieldUpdateOperationsInput | $Enums.Direction | null
-  juridicalStatus?: Prisma.NullableEnumJuridicalStatusFieldUpdateOperationsInput | $Enums.JuridicalStatus | null
-  vipLevelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
-  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  attributes?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutListingNestedInput
   reports?: Prisma.ReportUncheckedUpdateManyWithoutListingNestedInput
 }
@@ -1893,7 +1655,6 @@ export type ListingCreateWithoutConversationsInput = {
   areaNet?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   direction?: $Enums.Direction | null
   juridicalStatus?: $Enums.JuridicalStatus | null
-  vipLevelId?: number | null
   status?: $Enums.ListingStatus
   publishedAt?: Date | string | null
   expiredAt?: Date | string | null
@@ -1902,7 +1663,6 @@ export type ListingCreateWithoutConversationsInput = {
   propertyType: Prisma.PropertyTypeCreateNestedOneWithoutListingsInput
   project?: Prisma.ProjectCreateNestedOneWithoutListingsInput
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
-  services?: Prisma.ListingServiceCreateNestedManyWithoutListingInput
   reports?: Prisma.ReportCreateNestedManyWithoutListingInput
 }
 
@@ -1932,13 +1692,11 @@ export type ListingUncheckedCreateWithoutConversationsInput = {
   areaNet?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   direction?: $Enums.Direction | null
   juridicalStatus?: $Enums.JuridicalStatus | null
-  vipLevelId?: number | null
   status?: $Enums.ListingStatus
   publishedAt?: Date | string | null
   expiredAt?: Date | string | null
   attributes: Prisma.JsonNullValueInput | runtime.InputJsonValue
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
-  services?: Prisma.ListingServiceUncheckedCreateNestedManyWithoutListingInput
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutListingInput
 }
 
@@ -1981,7 +1739,6 @@ export type ListingUpdateWithoutConversationsInput = {
   areaNet?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   direction?: Prisma.NullableEnumDirectionFieldUpdateOperationsInput | $Enums.Direction | null
   juridicalStatus?: Prisma.NullableEnumJuridicalStatusFieldUpdateOperationsInput | $Enums.JuridicalStatus | null
-  vipLevelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1990,7 +1747,6 @@ export type ListingUpdateWithoutConversationsInput = {
   propertyType?: Prisma.PropertyTypeUpdateOneRequiredWithoutListingsNestedInput
   project?: Prisma.ProjectUpdateOneWithoutListingsNestedInput
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
-  services?: Prisma.ListingServiceUpdateManyWithoutListingNestedInput
   reports?: Prisma.ReportUpdateManyWithoutListingNestedInput
 }
 
@@ -2020,13 +1776,11 @@ export type ListingUncheckedUpdateWithoutConversationsInput = {
   areaNet?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   direction?: Prisma.NullableEnumDirectionFieldUpdateOperationsInput | $Enums.Direction | null
   juridicalStatus?: Prisma.NullableEnumJuridicalStatusFieldUpdateOperationsInput | $Enums.JuridicalStatus | null
-  vipLevelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   attributes?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
-  services?: Prisma.ListingServiceUncheckedUpdateManyWithoutListingNestedInput
   reports?: Prisma.ReportUncheckedUpdateManyWithoutListingNestedInput
 }
 
@@ -2053,7 +1807,6 @@ export type ListingCreateWithoutReportsInput = {
   areaNet?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   direction?: $Enums.Direction | null
   juridicalStatus?: $Enums.JuridicalStatus | null
-  vipLevelId?: number | null
   status?: $Enums.ListingStatus
   publishedAt?: Date | string | null
   expiredAt?: Date | string | null
@@ -2062,7 +1815,6 @@ export type ListingCreateWithoutReportsInput = {
   propertyType: Prisma.PropertyTypeCreateNestedOneWithoutListingsInput
   project?: Prisma.ProjectCreateNestedOneWithoutListingsInput
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
-  services?: Prisma.ListingServiceCreateNestedManyWithoutListingInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutListingInput
 }
 
@@ -2092,13 +1844,11 @@ export type ListingUncheckedCreateWithoutReportsInput = {
   areaNet?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   direction?: $Enums.Direction | null
   juridicalStatus?: $Enums.JuridicalStatus | null
-  vipLevelId?: number | null
   status?: $Enums.ListingStatus
   publishedAt?: Date | string | null
   expiredAt?: Date | string | null
   attributes: Prisma.JsonNullValueInput | runtime.InputJsonValue
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
-  services?: Prisma.ListingServiceUncheckedCreateNestedManyWithoutListingInput
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutListingInput
 }
 
@@ -2141,7 +1891,6 @@ export type ListingUpdateWithoutReportsInput = {
   areaNet?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   direction?: Prisma.NullableEnumDirectionFieldUpdateOperationsInput | $Enums.Direction | null
   juridicalStatus?: Prisma.NullableEnumJuridicalStatusFieldUpdateOperationsInput | $Enums.JuridicalStatus | null
-  vipLevelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2150,7 +1899,6 @@ export type ListingUpdateWithoutReportsInput = {
   propertyType?: Prisma.PropertyTypeUpdateOneRequiredWithoutListingsNestedInput
   project?: Prisma.ProjectUpdateOneWithoutListingsNestedInput
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
-  services?: Prisma.ListingServiceUpdateManyWithoutListingNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutListingNestedInput
 }
 
@@ -2180,13 +1928,11 @@ export type ListingUncheckedUpdateWithoutReportsInput = {
   areaNet?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   direction?: Prisma.NullableEnumDirectionFieldUpdateOperationsInput | $Enums.Direction | null
   juridicalStatus?: Prisma.NullableEnumJuridicalStatusFieldUpdateOperationsInput | $Enums.JuridicalStatus | null
-  vipLevelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   attributes?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
-  services?: Prisma.ListingServiceUncheckedUpdateManyWithoutListingNestedInput
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutListingNestedInput
 }
 
@@ -2215,7 +1961,6 @@ export type ListingCreateManyUserInput = {
   areaNet?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   direction?: $Enums.Direction | null
   juridicalStatus?: $Enums.JuridicalStatus | null
-  vipLevelId?: number | null
   status?: $Enums.ListingStatus
   publishedAt?: Date | string | null
   expiredAt?: Date | string | null
@@ -2245,7 +1990,6 @@ export type ListingUpdateWithoutUserInput = {
   areaNet?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   direction?: Prisma.NullableEnumDirectionFieldUpdateOperationsInput | $Enums.Direction | null
   juridicalStatus?: Prisma.NullableEnumJuridicalStatusFieldUpdateOperationsInput | $Enums.JuridicalStatus | null
-  vipLevelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2253,7 +1997,6 @@ export type ListingUpdateWithoutUserInput = {
   propertyType?: Prisma.PropertyTypeUpdateOneRequiredWithoutListingsNestedInput
   project?: Prisma.ProjectUpdateOneWithoutListingsNestedInput
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
-  services?: Prisma.ListingServiceUpdateManyWithoutListingNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutListingNestedInput
   reports?: Prisma.ReportUpdateManyWithoutListingNestedInput
 }
@@ -2283,13 +2026,11 @@ export type ListingUncheckedUpdateWithoutUserInput = {
   areaNet?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   direction?: Prisma.NullableEnumDirectionFieldUpdateOperationsInput | $Enums.Direction | null
   juridicalStatus?: Prisma.NullableEnumJuridicalStatusFieldUpdateOperationsInput | $Enums.JuridicalStatus | null
-  vipLevelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   attributes?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
-  services?: Prisma.ListingServiceUncheckedUpdateManyWithoutListingNestedInput
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutListingNestedInput
   reports?: Prisma.ReportUncheckedUpdateManyWithoutListingNestedInput
 }
@@ -2319,7 +2060,6 @@ export type ListingUncheckedUpdateManyWithoutUserInput = {
   areaNet?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   direction?: Prisma.NullableEnumDirectionFieldUpdateOperationsInput | $Enums.Direction | null
   juridicalStatus?: Prisma.NullableEnumJuridicalStatusFieldUpdateOperationsInput | $Enums.JuridicalStatus | null
-  vipLevelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2351,7 +2091,6 @@ export type ListingCreateManyProjectInput = {
   areaNet?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   direction?: $Enums.Direction | null
   juridicalStatus?: $Enums.JuridicalStatus | null
-  vipLevelId?: number | null
   status?: $Enums.ListingStatus
   publishedAt?: Date | string | null
   expiredAt?: Date | string | null
@@ -2381,7 +2120,6 @@ export type ListingUpdateWithoutProjectInput = {
   areaNet?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   direction?: Prisma.NullableEnumDirectionFieldUpdateOperationsInput | $Enums.Direction | null
   juridicalStatus?: Prisma.NullableEnumJuridicalStatusFieldUpdateOperationsInput | $Enums.JuridicalStatus | null
-  vipLevelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2389,7 +2127,6 @@ export type ListingUpdateWithoutProjectInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutListingsNestedInput
   propertyType?: Prisma.PropertyTypeUpdateOneRequiredWithoutListingsNestedInput
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
-  services?: Prisma.ListingServiceUpdateManyWithoutListingNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutListingNestedInput
   reports?: Prisma.ReportUpdateManyWithoutListingNestedInput
 }
@@ -2419,13 +2156,11 @@ export type ListingUncheckedUpdateWithoutProjectInput = {
   areaNet?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   direction?: Prisma.NullableEnumDirectionFieldUpdateOperationsInput | $Enums.Direction | null
   juridicalStatus?: Prisma.NullableEnumJuridicalStatusFieldUpdateOperationsInput | $Enums.JuridicalStatus | null
-  vipLevelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   attributes?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
-  services?: Prisma.ListingServiceUncheckedUpdateManyWithoutListingNestedInput
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutListingNestedInput
   reports?: Prisma.ReportUncheckedUpdateManyWithoutListingNestedInput
 }
@@ -2455,7 +2190,6 @@ export type ListingUncheckedUpdateManyWithoutProjectInput = {
   areaNet?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   direction?: Prisma.NullableEnumDirectionFieldUpdateOperationsInput | $Enums.Direction | null
   juridicalStatus?: Prisma.NullableEnumJuridicalStatusFieldUpdateOperationsInput | $Enums.JuridicalStatus | null
-  vipLevelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2487,7 +2221,6 @@ export type ListingCreateManyPropertyTypeInput = {
   areaNet?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   direction?: $Enums.Direction | null
   juridicalStatus?: $Enums.JuridicalStatus | null
-  vipLevelId?: number | null
   status?: $Enums.ListingStatus
   publishedAt?: Date | string | null
   expiredAt?: Date | string | null
@@ -2517,7 +2250,6 @@ export type ListingUpdateWithoutPropertyTypeInput = {
   areaNet?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   direction?: Prisma.NullableEnumDirectionFieldUpdateOperationsInput | $Enums.Direction | null
   juridicalStatus?: Prisma.NullableEnumJuridicalStatusFieldUpdateOperationsInput | $Enums.JuridicalStatus | null
-  vipLevelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2525,7 +2257,6 @@ export type ListingUpdateWithoutPropertyTypeInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutListingsNestedInput
   project?: Prisma.ProjectUpdateOneWithoutListingsNestedInput
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
-  services?: Prisma.ListingServiceUpdateManyWithoutListingNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutListingNestedInput
   reports?: Prisma.ReportUpdateManyWithoutListingNestedInput
 }
@@ -2555,13 +2286,11 @@ export type ListingUncheckedUpdateWithoutPropertyTypeInput = {
   areaNet?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   direction?: Prisma.NullableEnumDirectionFieldUpdateOperationsInput | $Enums.Direction | null
   juridicalStatus?: Prisma.NullableEnumJuridicalStatusFieldUpdateOperationsInput | $Enums.JuridicalStatus | null
-  vipLevelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   attributes?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
-  services?: Prisma.ListingServiceUncheckedUpdateManyWithoutListingNestedInput
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutListingNestedInput
   reports?: Prisma.ReportUncheckedUpdateManyWithoutListingNestedInput
 }
@@ -2591,7 +2320,6 @@ export type ListingUncheckedUpdateManyWithoutPropertyTypeInput = {
   areaNet?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   direction?: Prisma.NullableEnumDirectionFieldUpdateOperationsInput | $Enums.Direction | null
   juridicalStatus?: Prisma.NullableEnumJuridicalStatusFieldUpdateOperationsInput | $Enums.JuridicalStatus | null
-  vipLevelId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2605,14 +2333,12 @@ export type ListingUncheckedUpdateManyWithoutPropertyTypeInput = {
 
 export type ListingCountOutputType = {
   media: number
-  services: number
   conversations: number
   reports: number
 }
 
 export type ListingCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   media?: boolean | ListingCountOutputTypeCountMediaArgs
-  services?: boolean | ListingCountOutputTypeCountServicesArgs
   conversations?: boolean | ListingCountOutputTypeCountConversationsArgs
   reports?: boolean | ListingCountOutputTypeCountReportsArgs
 }
@@ -2632,13 +2358,6 @@ export type ListingCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Exte
  */
 export type ListingCountOutputTypeCountMediaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.ListingMediaWhereInput
-}
-
-/**
- * ListingCountOutputType without action
- */
-export type ListingCountOutputTypeCountServicesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ListingServiceWhereInput
 }
 
 /**
@@ -2682,7 +2401,6 @@ export type ListingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   areaNet?: boolean
   direction?: boolean
   juridicalStatus?: boolean
-  vipLevelId?: boolean
   status?: boolean
   publishedAt?: boolean
   expiredAt?: boolean
@@ -2691,7 +2409,6 @@ export type ListingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   propertyType?: boolean | Prisma.PropertyTypeDefaultArgs<ExtArgs>
   project?: boolean | Prisma.Listing$projectArgs<ExtArgs>
   media?: boolean | Prisma.Listing$mediaArgs<ExtArgs>
-  services?: boolean | Prisma.Listing$servicesArgs<ExtArgs>
   conversations?: boolean | Prisma.Listing$conversationsArgs<ExtArgs>
   reports?: boolean | Prisma.Listing$reportsArgs<ExtArgs>
   _count?: boolean | Prisma.ListingCountOutputTypeDefaultArgs<ExtArgs>
@@ -2723,7 +2440,6 @@ export type ListingSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   areaNet?: boolean
   direction?: boolean
   juridicalStatus?: boolean
-  vipLevelId?: boolean
   status?: boolean
   publishedAt?: boolean
   expiredAt?: boolean
@@ -2759,7 +2475,6 @@ export type ListingSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   areaNet?: boolean
   direction?: boolean
   juridicalStatus?: boolean
-  vipLevelId?: boolean
   status?: boolean
   publishedAt?: boolean
   expiredAt?: boolean
@@ -2795,20 +2510,18 @@ export type ListingSelectScalar = {
   areaNet?: boolean
   direction?: boolean
   juridicalStatus?: boolean
-  vipLevelId?: boolean
   status?: boolean
   publishedAt?: boolean
   expiredAt?: boolean
   attributes?: boolean
 }
 
-export type ListingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "title" | "slug" | "listingType" | "propertyTypeId" | "provinceCode" | "provinceName" | "provinceSlug" | "districtCode" | "districtName" | "districtSlug" | "wardCode" | "wardName" | "wardSlug" | "region" | "projectId" | "addressDisplay" | "price" | "priceUnit" | "pricePerM2" | "areaGross" | "areaNet" | "direction" | "juridicalStatus" | "vipLevelId" | "status" | "publishedAt" | "expiredAt" | "attributes", ExtArgs["result"]["listing"]>
+export type ListingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "title" | "slug" | "listingType" | "propertyTypeId" | "provinceCode" | "provinceName" | "provinceSlug" | "districtCode" | "districtName" | "districtSlug" | "wardCode" | "wardName" | "wardSlug" | "region" | "projectId" | "addressDisplay" | "price" | "priceUnit" | "pricePerM2" | "areaGross" | "areaNet" | "direction" | "juridicalStatus" | "status" | "publishedAt" | "expiredAt" | "attributes", ExtArgs["result"]["listing"]>
 export type ListingInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   propertyType?: boolean | Prisma.PropertyTypeDefaultArgs<ExtArgs>
   project?: boolean | Prisma.Listing$projectArgs<ExtArgs>
   media?: boolean | Prisma.Listing$mediaArgs<ExtArgs>
-  services?: boolean | Prisma.Listing$servicesArgs<ExtArgs>
   conversations?: boolean | Prisma.Listing$conversationsArgs<ExtArgs>
   reports?: boolean | Prisma.Listing$reportsArgs<ExtArgs>
   _count?: boolean | Prisma.ListingCountOutputTypeDefaultArgs<ExtArgs>
@@ -2831,7 +2544,6 @@ export type $ListingPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     propertyType: Prisma.$PropertyTypePayload<ExtArgs>
     project: Prisma.$ProjectPayload<ExtArgs> | null
     media: Prisma.$ListingMediaPayload<ExtArgs>[]
-    services: Prisma.$ListingServicePayload<ExtArgs>[]
     conversations: Prisma.$ConversationPayload<ExtArgs>[]
     reports: Prisma.$ReportPayload<ExtArgs>[]
   }
@@ -2861,7 +2573,6 @@ export type $ListingPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     areaNet: runtime.Decimal | null
     direction: $Enums.Direction | null
     juridicalStatus: $Enums.JuridicalStatus | null
-    vipLevelId: number | null
     status: $Enums.ListingStatus
     publishedAt: Date | null
     expiredAt: Date | null
@@ -3264,7 +2975,6 @@ export interface Prisma__ListingClient<T, Null = never, ExtArgs extends runtime.
   propertyType<T extends Prisma.PropertyTypeDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PropertyTypeDefaultArgs<ExtArgs>>): Prisma.Prisma__PropertyTypeClient<runtime.Types.Result.GetResult<Prisma.$PropertyTypePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   project<T extends Prisma.Listing$projectArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$projectArgs<ExtArgs>>): Prisma.Prisma__ProjectClient<runtime.Types.Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   media<T extends Prisma.Listing$mediaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$mediaArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingMediaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  services<T extends Prisma.Listing$servicesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$servicesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingServicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   conversations<T extends Prisma.Listing$conversationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$conversationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reports<T extends Prisma.Listing$reportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$reportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
@@ -3321,7 +3031,6 @@ export interface ListingFieldRefs {
   readonly areaNet: Prisma.FieldRef<"Listing", 'Decimal'>
   readonly direction: Prisma.FieldRef<"Listing", 'Direction'>
   readonly juridicalStatus: Prisma.FieldRef<"Listing", 'JuridicalStatus'>
-  readonly vipLevelId: Prisma.FieldRef<"Listing", 'Int'>
   readonly status: Prisma.FieldRef<"Listing", 'ListingStatus'>
   readonly publishedAt: Prisma.FieldRef<"Listing", 'DateTime'>
   readonly expiredAt: Prisma.FieldRef<"Listing", 'DateTime'>
@@ -3762,30 +3471,6 @@ export type Listing$mediaArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   distinct?: Prisma.ListingMediaScalarFieldEnum | Prisma.ListingMediaScalarFieldEnum[]
-}
-
-/**
- * Listing.services
- */
-export type Listing$servicesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the ListingService
-   */
-  select?: Prisma.ListingServiceSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the ListingService
-   */
-  omit?: Prisma.ListingServiceOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ListingServiceInclude<ExtArgs> | null
-  where?: Prisma.ListingServiceWhereInput
-  orderBy?: Prisma.ListingServiceOrderByWithRelationInput | Prisma.ListingServiceOrderByWithRelationInput[]
-  cursor?: Prisma.ListingServiceWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.ListingServiceScalarFieldEnum | Prisma.ListingServiceScalarFieldEnum[]
 }
 
 /**

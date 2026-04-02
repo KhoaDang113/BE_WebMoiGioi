@@ -16,9 +16,7 @@ datasource db {
 enum AccountType {
   MEMBER
   AGENT
-  AGENCY
   ADMIN
-  MODERATOR
 }
 
 enum UserStatus {
@@ -47,7 +45,7 @@ model User {
   socialIdentities  SocialIdentity[]
   sessions          UserSession[]
   listings          Listing[]
-  wallet            Wallet?
+
   savedSearches     SavedSearch[]
   conversationsBuy  Conversation[]   @relation("BuyerConversations")
   conversationsSell Conversation[]   @relation("SellerConversations")
@@ -274,8 +272,6 @@ model Listing {
   
   direction       Direction?
   juridicalStatus JuridicalStatus? @map("juridical_status")
-  
-  vipLevelId      Int?      @map("vip_level_id")
   status          ListingStatus @default(DRAFT)
   
   publishedAt     DateTime? @map("published_at") @db.Timestamptz
@@ -285,7 +281,7 @@ model Listing {
   attributes      Json      @db.JsonB
 
   media           ListingMedia[]
-  services        ListingService[]
+
   conversations   Conversation[]
   reports         Report[]
 
@@ -326,89 +322,6 @@ model ListingFingerprint {
   @@map("listing_fingerprints")
 }
 
-// ==========================================
-// 4. TÀI CHÍNH & VÍ ĐIỆN TỬ (DOUBLE ENTRY)
-// ==========================================
-
-enum WalletStatus {
-  ACTIVE
-  LOCKED
-}
-
-model Wallet {
-  id           BigInt             @id @default(autoincrement())
-  userId       BigInt             @unique @map("user_id")
-  user         User               @relation(fields: [userId], references: [id])
-  balance      Decimal            @default(0) @db.Decimal(19, 4)
-  holdBalance  Decimal            @default(0) @map("hold_balance") @db.Decimal(19, 4)
-  currency     String             @default("VND")
-  status       WalletStatus       @default(ACTIVE)
-  transactions WalletTransaction[]
-
-  @@map("wallets")
-}
-
-enum TransactionType {
-  DEPOSIT
-  BUY_SERVICE
-  REFUND
-  PROMOTION
-}
-
-enum ReferenceType {
-  ORDER
-  MOMO_TXN
-  VNPAY_TXN
-  SYSTEM_ADJUST
-}
-
-model WalletTransaction {
-  id              BigInt          @id @default(autoincrement())
-  walletId        BigInt          @map("wallet_id")
-  wallet          Wallet          @relation(fields: [walletId], references: [id])
-  amount          Decimal         @db.Decimal(19, 4)
-  previousBalance Decimal         @map("previous_balance") @db.Decimal(19, 4)
-  newBalance      Decimal         @map("new_balance") @db.Decimal(19, 4)
-  transactionType TransactionType @map("transaction_type")
-  referenceType   ReferenceType   @map("reference_type")
-  referenceId     String?         @map("reference_id")
-  description     String?         @db.Text
-  createdAt       DateTime        @default(now()) @map("created_at") @db.Timestamptz
-
-  @@map("wallet_transactions")
-}
-
-model VipPackage {
-  id            Int      @id @default(autoincrement())
-  name          String   @db.VarChar(50)
-  priceDaily    Decimal  @map("price_daily") @db.Decimal(19, 2)
-  priorityScore Int      @default(0) @map("priority_score")
-  features      Json     @db.JsonB
-  isActive      Boolean  @default(true) @map("is_active")
-  services      ListingService[]
-
-  @@map("vip_packages")
-}
-
-enum ServiceStatus {
-  SCHEDULED
-  ACTIVE
-  EXPIRED
-}
-
-model ListingService {
-  id          BigInt        @id @default(autoincrement())
-  listingId   BigInt        @map("listing_id")
-  listing     Listing       @relation(fields: [listingId], references: [id])
-  packageId   Int           @map("package_id")
-  vipPackage  VipPackage    @relation(fields: [packageId], references: [id])
-  startAt     DateTime      @map("start_at") @db.Timestamptz
-  endAt       DateTime      @map("end_at") @db.Timestamptz
-  totalAmount Decimal       @map("total_amount") @db.Decimal(19, 4)
-  status      ServiceStatus
-
-  @@map("listing_services")
-}
 
 // ==========================================
 // 5. TƯƠNG TÁC & TIỆN ÍCH

@@ -394,10 +394,6 @@ export const ModelName = {
   Listing: 'Listing',
   ListingMedia: 'ListingMedia',
   ListingFingerprint: 'ListingFingerprint',
-  Wallet: 'Wallet',
-  WalletTransaction: 'WalletTransaction',
-  VipPackage: 'VipPackage',
-  ListingService: 'ListingService',
   SavedSearch: 'SavedSearch',
   Conversation: 'Conversation',
   Message: 'Message',
@@ -418,7 +414,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "oTP" | "userProfile" | "socialIdentity" | "userSession" | "project" | "propertyType" | "listing" | "listingMedia" | "listingFingerprint" | "wallet" | "walletTransaction" | "vipPackage" | "listingService" | "savedSearch" | "conversation" | "message" | "report" | "auditLog"
+    modelProps: "user" | "oTP" | "userProfile" | "socialIdentity" | "userSession" | "project" | "propertyType" | "listing" | "listingMedia" | "listingFingerprint" | "savedSearch" | "conversation" | "message" | "report" | "auditLog"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1162,302 +1158,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    Wallet: {
-      payload: Prisma.$WalletPayload<ExtArgs>
-      fields: Prisma.WalletFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.WalletFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.WalletFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletPayload>
-        }
-        findFirst: {
-          args: Prisma.WalletFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.WalletFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletPayload>
-        }
-        findMany: {
-          args: Prisma.WalletFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletPayload>[]
-        }
-        create: {
-          args: Prisma.WalletCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletPayload>
-        }
-        createMany: {
-          args: Prisma.WalletCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.WalletCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletPayload>[]
-        }
-        delete: {
-          args: Prisma.WalletDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletPayload>
-        }
-        update: {
-          args: Prisma.WalletUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletPayload>
-        }
-        deleteMany: {
-          args: Prisma.WalletDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.WalletUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.WalletUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletPayload>[]
-        }
-        upsert: {
-          args: Prisma.WalletUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletPayload>
-        }
-        aggregate: {
-          args: Prisma.WalletAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateWallet>
-        }
-        groupBy: {
-          args: Prisma.WalletGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.WalletGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.WalletCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.WalletCountAggregateOutputType> | number
-        }
-      }
-    }
-    WalletTransaction: {
-      payload: Prisma.$WalletTransactionPayload<ExtArgs>
-      fields: Prisma.WalletTransactionFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.WalletTransactionFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletTransactionPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.WalletTransactionFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletTransactionPayload>
-        }
-        findFirst: {
-          args: Prisma.WalletTransactionFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletTransactionPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.WalletTransactionFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletTransactionPayload>
-        }
-        findMany: {
-          args: Prisma.WalletTransactionFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletTransactionPayload>[]
-        }
-        create: {
-          args: Prisma.WalletTransactionCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletTransactionPayload>
-        }
-        createMany: {
-          args: Prisma.WalletTransactionCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.WalletTransactionCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletTransactionPayload>[]
-        }
-        delete: {
-          args: Prisma.WalletTransactionDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletTransactionPayload>
-        }
-        update: {
-          args: Prisma.WalletTransactionUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletTransactionPayload>
-        }
-        deleteMany: {
-          args: Prisma.WalletTransactionDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.WalletTransactionUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.WalletTransactionUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletTransactionPayload>[]
-        }
-        upsert: {
-          args: Prisma.WalletTransactionUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletTransactionPayload>
-        }
-        aggregate: {
-          args: Prisma.WalletTransactionAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateWalletTransaction>
-        }
-        groupBy: {
-          args: Prisma.WalletTransactionGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.WalletTransactionGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.WalletTransactionCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.WalletTransactionCountAggregateOutputType> | number
-        }
-      }
-    }
-    VipPackage: {
-      payload: Prisma.$VipPackagePayload<ExtArgs>
-      fields: Prisma.VipPackageFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.VipPackageFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$VipPackagePayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.VipPackageFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$VipPackagePayload>
-        }
-        findFirst: {
-          args: Prisma.VipPackageFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$VipPackagePayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.VipPackageFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$VipPackagePayload>
-        }
-        findMany: {
-          args: Prisma.VipPackageFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$VipPackagePayload>[]
-        }
-        create: {
-          args: Prisma.VipPackageCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$VipPackagePayload>
-        }
-        createMany: {
-          args: Prisma.VipPackageCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.VipPackageCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$VipPackagePayload>[]
-        }
-        delete: {
-          args: Prisma.VipPackageDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$VipPackagePayload>
-        }
-        update: {
-          args: Prisma.VipPackageUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$VipPackagePayload>
-        }
-        deleteMany: {
-          args: Prisma.VipPackageDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.VipPackageUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.VipPackageUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$VipPackagePayload>[]
-        }
-        upsert: {
-          args: Prisma.VipPackageUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$VipPackagePayload>
-        }
-        aggregate: {
-          args: Prisma.VipPackageAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateVipPackage>
-        }
-        groupBy: {
-          args: Prisma.VipPackageGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.VipPackageGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.VipPackageCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.VipPackageCountAggregateOutputType> | number
-        }
-      }
-    }
-    ListingService: {
-      payload: Prisma.$ListingServicePayload<ExtArgs>
-      fields: Prisma.ListingServiceFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.ListingServiceFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingServicePayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.ListingServiceFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingServicePayload>
-        }
-        findFirst: {
-          args: Prisma.ListingServiceFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingServicePayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.ListingServiceFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingServicePayload>
-        }
-        findMany: {
-          args: Prisma.ListingServiceFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingServicePayload>[]
-        }
-        create: {
-          args: Prisma.ListingServiceCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingServicePayload>
-        }
-        createMany: {
-          args: Prisma.ListingServiceCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.ListingServiceCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingServicePayload>[]
-        }
-        delete: {
-          args: Prisma.ListingServiceDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingServicePayload>
-        }
-        update: {
-          args: Prisma.ListingServiceUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingServicePayload>
-        }
-        deleteMany: {
-          args: Prisma.ListingServiceDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.ListingServiceUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.ListingServiceUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingServicePayload>[]
-        }
-        upsert: {
-          args: Prisma.ListingServiceUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ListingServicePayload>
-        }
-        aggregate: {
-          args: Prisma.ListingServiceAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateListingService>
-        }
-        groupBy: {
-          args: Prisma.ListingServiceGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.ListingServiceGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.ListingServiceCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.ListingServiceCountAggregateOutputType> | number
-        }
-      }
-    }
     SavedSearch: {
       payload: Prisma.$SavedSearchPayload<ExtArgs>
       fields: Prisma.SavedSearchFieldRefs
@@ -2002,7 +1702,6 @@ export const ListingScalarFieldEnum = {
   areaNet: 'areaNet',
   direction: 'direction',
   juridicalStatus: 'juridicalStatus',
-  vipLevelId: 'vipLevelId',
   status: 'status',
   publishedAt: 'publishedAt',
   expiredAt: 'expiredAt',
@@ -2034,59 +1733,6 @@ export const ListingFingerprintScalarFieldEnum = {
 } as const
 
 export type ListingFingerprintScalarFieldEnum = (typeof ListingFingerprintScalarFieldEnum)[keyof typeof ListingFingerprintScalarFieldEnum]
-
-
-export const WalletScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  balance: 'balance',
-  holdBalance: 'holdBalance',
-  currency: 'currency',
-  status: 'status'
-} as const
-
-export type WalletScalarFieldEnum = (typeof WalletScalarFieldEnum)[keyof typeof WalletScalarFieldEnum]
-
-
-export const WalletTransactionScalarFieldEnum = {
-  id: 'id',
-  walletId: 'walletId',
-  amount: 'amount',
-  previousBalance: 'previousBalance',
-  newBalance: 'newBalance',
-  transactionType: 'transactionType',
-  referenceType: 'referenceType',
-  referenceId: 'referenceId',
-  description: 'description',
-  createdAt: 'createdAt'
-} as const
-
-export type WalletTransactionScalarFieldEnum = (typeof WalletTransactionScalarFieldEnum)[keyof typeof WalletTransactionScalarFieldEnum]
-
-
-export const VipPackageScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  priceDaily: 'priceDaily',
-  priorityScore: 'priorityScore',
-  features: 'features',
-  isActive: 'isActive'
-} as const
-
-export type VipPackageScalarFieldEnum = (typeof VipPackageScalarFieldEnum)[keyof typeof VipPackageScalarFieldEnum]
-
-
-export const ListingServiceScalarFieldEnum = {
-  id: 'id',
-  listingId: 'listingId',
-  packageId: 'packageId',
-  startAt: 'startAt',
-  endAt: 'endAt',
-  totalAmount: 'totalAmount',
-  status: 'status'
-} as const
-
-export type ListingServiceScalarFieldEnum = (typeof ListingServiceScalarFieldEnum)[keyof typeof ListingServiceScalarFieldEnum]
 
 
 export const SavedSearchScalarFieldEnum = {
@@ -2470,62 +2116,6 @@ export type ListEnumMediaTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$Pr
 
 
 /**
- * Reference to a field of type 'WalletStatus'
- */
-export type EnumWalletStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WalletStatus'>
-    
-
-
-/**
- * Reference to a field of type 'WalletStatus[]'
- */
-export type ListEnumWalletStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WalletStatus[]'>
-    
-
-
-/**
- * Reference to a field of type 'TransactionType'
- */
-export type EnumTransactionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TransactionType'>
-    
-
-
-/**
- * Reference to a field of type 'TransactionType[]'
- */
-export type ListEnumTransactionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TransactionType[]'>
-    
-
-
-/**
- * Reference to a field of type 'ReferenceType'
- */
-export type EnumReferenceTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReferenceType'>
-    
-
-
-/**
- * Reference to a field of type 'ReferenceType[]'
- */
-export type ListEnumReferenceTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReferenceType[]'>
-    
-
-
-/**
- * Reference to a field of type 'ServiceStatus'
- */
-export type EnumServiceStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ServiceStatus'>
-    
-
-
-/**
- * Reference to a field of type 'ServiceStatus[]'
- */
-export type ListEnumServiceStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ServiceStatus[]'>
-    
-
-
-/**
  * Reference to a field of type 'NotifyChannel'
  */
 export type EnumNotifyChannelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NotifyChannel'>
@@ -2699,10 +2289,6 @@ export type GlobalOmitConfig = {
   listing?: Prisma.ListingOmit
   listingMedia?: Prisma.ListingMediaOmit
   listingFingerprint?: Prisma.ListingFingerprintOmit
-  wallet?: Prisma.WalletOmit
-  walletTransaction?: Prisma.WalletTransactionOmit
-  vipPackage?: Prisma.VipPackageOmit
-  listingService?: Prisma.ListingServiceOmit
   savedSearch?: Prisma.SavedSearchOmit
   conversation?: Prisma.ConversationOmit
   message?: Prisma.MessageOmit

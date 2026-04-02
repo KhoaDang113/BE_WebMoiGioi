@@ -68,26 +68,6 @@ export type ListingMedia = Prisma.ListingMediaModel
  */
 export type ListingFingerprint = Prisma.ListingFingerprintModel
 /**
- * Model Wallet
- * 
- */
-export type Wallet = Prisma.WalletModel
-/**
- * Model WalletTransaction
- * 
- */
-export type WalletTransaction = Prisma.WalletTransactionModel
-/**
- * Model VipPackage
- * 
- */
-export type VipPackage = Prisma.VipPackageModel
-/**
- * Model ListingService
- * 
- */
-export type ListingService = Prisma.ListingServiceModel
-/**
  * Model SavedSearch
  * 
  */
