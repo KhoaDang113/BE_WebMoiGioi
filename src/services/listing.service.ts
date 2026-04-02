@@ -65,7 +65,11 @@ export class ListingService {
                     price: priceNum,
                     priceUnit: PriceUnit.VND,
                     areaGross: data.areaGross ? parseFloat(data.areaGross) : 50,
-                    attributes: data.description ? { description: data.description } : {},
+                    attributes: {
+                        ...(data.description ? { description: data.description } : {}),
+                        ...(data.beds ? { beds: parseInt(data.beds) } : {}),
+                        ...(data.rooms ? { rooms: parseInt(data.rooms) } : {})
+                    },
                     status: ListingStatus.PENDING_REVIEW,
                 }
             });
@@ -120,7 +124,14 @@ export class ListingService {
         if (data.addressDisplay) updateData.addressDisplay = data.addressDisplay;
         if (data.price) updateData.price = parseFloat(data.price);
         if (data.areaGross) updateData.areaGross = parseFloat(data.areaGross);
-        if (data.description) updateData.attributes = { ...attrBase, description: data.description };
+
+        const newAttributes: any = { ...attrBase };
+        if (data.description !== undefined) newAttributes.description = data.description;
+        if (data.beds !== undefined) newAttributes.beds = parseInt(data.beds);
+        if (data.rooms !== undefined) newAttributes.rooms = parseInt(data.rooms);
+        
+        // Only update if there are keys in newAttributes, or just always update
+        updateData.attributes = newAttributes;
 
         // Update location fields
         if (data.provinceCode) updateData.provinceCode = data.provinceCode;
@@ -192,6 +203,30 @@ export class ListingService {
                 media: { take: 1 }
             },
             orderBy: { id: 'desc' }
+        });
+    }
+
+    async getPublicListings() {
+        return prisma.listing.findMany({
+            where: { status: ListingStatus.PUBLISHED },
+            include: {
+                media: true,
+                propertyType: true,
+                user: {
+                    select: {
+                        id: true,
+                        email: true,
+                        profile: {
+                            select: {
+                                displayName: true,
+                                avatarUrl: true,
+                            }
+                        }
+                    }
+                }
+            },
+            orderBy: { id: 'desc' },
+            take: 20
         });
     }
 

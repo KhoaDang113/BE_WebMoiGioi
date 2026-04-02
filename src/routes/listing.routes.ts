@@ -8,6 +8,12 @@ import { AccountType } from "../generated/client/client.js";
 const router = Router();
 const listingController = new ListingController();
 
+// Public route - no auth required
+router.get(
+  "/public",
+  listingController.getPublicListings.bind(listingController),
+);
+
 // Both require authentication
 router.use(authMiddleware);
 

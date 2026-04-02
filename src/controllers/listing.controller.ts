@@ -12,12 +12,12 @@ export class ListingController {
 
   createListing = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { title, price, addressDisplay, description, areaGross, propertyTypeId, provinceCode, provinceName, districtCode, districtName, wardCode, wardName } = req.body;
+      const { title, price, addressDisplay, description, areaGross, propertyTypeId, provinceCode, provinceName, districtCode, districtName, wardCode, wardName, beds, rooms } = req.body;
       const files = req.files as Express.Multer.File[];
 
       const newListing = await this.listingService.createListing(
         req.user!.userId,
-        { title, price, addressDisplay, description, areaGross, propertyTypeId, provinceCode, provinceName, districtCode, districtName, wardCode, wardName },
+        { title, price, addressDisplay, description, areaGross, propertyTypeId, provinceCode, provinceName, districtCode, districtName, wardCode, wardName, beds, rooms },
         files
       );
 
@@ -71,13 +71,13 @@ export class ListingController {
       const { id } = req.params;
       if (!id) throw new AppError("Listing ID is required", 400);
       
-      const { title, price, addressDisplay, description, areaGross, propertyTypeId, provinceCode, provinceName, districtCode, districtName, wardCode, wardName } = req.body;
+      const { title, price, addressDisplay, description, areaGross, propertyTypeId, provinceCode, provinceName, districtCode, districtName, wardCode, wardName, beds, rooms } = req.body;
       const files = req.files as Express.Multer.File[];
 
       const updatedListing = await this.listingService.updateListing(
         req.user!.userId,
         id as string,
-        { title, price, addressDisplay, description, areaGross, propertyTypeId, provinceCode, provinceName, districtCode, districtName, wardCode, wardName },
+        { title, price, addressDisplay, description, areaGross, propertyTypeId, provinceCode, provinceName, districtCode, districtName, wardCode, wardName, beds, rooms },
         files
       );
 
@@ -125,6 +125,15 @@ export class ListingController {
 
       const updated = await this.listingService.updateListingStatusByAdmin(id as string, status as ListingStatus);
       res.status(200).json({ success: true, message: 'Status updated by admin', data: updated });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  getPublicListings = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const listings = await this.listingService.getPublicListings();
+      res.status(200).json({ success: true, data: listings });
     } catch (error) {
       next(error);
     }
