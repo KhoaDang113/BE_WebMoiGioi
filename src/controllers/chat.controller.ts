@@ -1,128 +1,113 @@
-import type { Request, Response, NextFunction } from "express";
-import { ChatService } from "../services/chat.service.js";
+import { AppError } from "../utils/customErrors.js";
+import { UploadService } from "../services/upload.service.js";
 import { userSockets, io } from "../sockets/index.js";
+import prisma from "../config/database.js";
 
 export class ChatController {
-  private readonly chatService: ChatService;
+  private readonly uploadService: UploadService;
 
   constructor() {
-    this.chatService = new ChatService();
+    this.uploadService = new UploadService();
   }
 
-  public handleGetOrCreateConversation = async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ): Promise<void> => {
-    try {
-      const userId = req.user?.userId;
-      const { listingId } = req.body;
+  // ─── Get Or Create Conversation ───────────────────────────────────────────────
 
-      if (!userId) {
-        res.status(401).json({ success: false, message: "Unauthorized" });
-        return;
-      }
+  async getOrCreateConversation(userId: string, listingId: string) {
+    const buyerId = BigInt(userId);
+    const listingIdBig = BigInt(listingId);
 
-      if (!listingId) {
-        res.status(400).json({ success: false, message: "Thiếu listingId" });
-        return;
-      }
+    const listing = await prisma.listing.findUnique({
+      where: { id: listingIdBig },
+      select: { userId: true },
+    });
 
-      const conversation = await this.chatService.getOrCreateConversation(
-        userId.toString(),
-        listingId.toString(),
-      );
+    if (!listing) throw new AppError("Tin đăng không tồn tại", 404, "LISTING_NOT_FOUND");
 
-      // Bắt buộc socket của user hiện tại join vào phòng chat vừa tạo
-      const userSocketsArray = userSockets.get(userId.toString());
-      if (userSocketsArray) {
-        userSocketsArray.forEach((socket) => {
-          socket.join(conversation.id);
-          console.log(
-            `API forced user ${userId} to join room: ${conversation.id}`,
-          );
-        });
-      }
+    const sellerId = listing.userId;
+    if (buyerId === sellerId)
+      throw new AppError("Bạn không thể chat với chính mình", 400, "CANNOT_CHAT_WITH_SELF");
 
-      res.status(200).json({
-        success: true,
-        message: "Lấy hoặc tạo hội thoại thành công",
-        data: conversation,
+    let conversation = await prisma.conversation.findFirst({
+      where: { listingId: listingIdBig, buyerId, sellerId },
+      include: {
+        messages: { orderBy: { createdAt: "asc" } },
+        buyer: { select: { id: true, profile: { select: { displayName: true, avatarUrl: true } } } },
+        seller: { select: { id: true, profile: { select: { displayName: true, avatarUrl: true } } } },
+      },
+    });
+
+    if (!conversation) {
+      conversation = await prisma.conversation.create({
+        data: { listingId: listingIdBig, buyerId, sellerId },
+        include: {
+          messages: true,
+          buyer: { select: { id: true, profile: { select: { displayName: true, avatarUrl: true } } } },
+          seller: { select: { id: true, profile: { select: { displayName: true, avatarUrl: true } } } },
+        },
       });
-    } catch (error) {
-      next(error);
     }
-  };
 
-  public handleGetMyConversations = async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ): Promise<void> => {
-    try {
-      const userId = req.user?.userId;
-      if (!userId) {
-        res.status(401).json({ success: false, message: "Unauthorized" });
-        return;
-      }
-      const conversations = await this.chatService.getMyConversations(
-        userId.toString(),
-      );
-      res.status(200).json({ success: true, data: conversations });
-    } catch (error) {
-      next(error);
-    }
-  };
-
-  public handleSendFile = async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ): Promise<void> => {
-    try {
-      const userId = req.user?.userId;
-      const { conversationId } = req.params;
-      const file = req.file;
-
-      if (!userId) {
-        res.status(401).json({ success: false, message: "Unauthorized" });
-        return;
-      }
-      if (!conversationId) {
-        res
-          .status(400)
-          .json({ success: false, message: "Thiếu conversationId" });
-        return;
-      }
-      if (!file) {
-        res
-          .status(400)
-          .json({ success: false, message: "Không có file nào được gửi lên" });
-        return;
-      }
-
-      const { message, fileUrl } = await this.chatService.sendFileMessage(
-        conversationId as string,
-        userId.toString(),
-        file,
-      );
-
-      // Broadcast file message to all participants in the room
-      if (io) {
-        io.to(conversationId).emit("receive_message", {
-          senderId: userId.toString(),
-          message: fileUrl,
-          timestamp: new Date(),
-        });
-      }
-
-      res.status(200).json({
-        success: true,
-        message: "Gửi file thành công",
-        data: { message, fileUrl },
+    // Force join socket room
+    const userSocketsArray = userSockets.get(userId);
+    if (userSocketsArray) {
+      userSocketsArray.forEach((socket) => {
+        socket.join(conversation!.id);
+        console.log(`API forced user ${userId} to join room: ${conversation!.id}`);
       });
-    } catch (error) {
-      next(error);
     }
-  };
+
+    return conversation;
+  }
+
+  // ─── Get My Conversations ─────────────────────────────────────────────────────
+
+  async getMyConversations(userId: string) {
+    const id = BigInt(userId);
+    return prisma.conversation.findMany({
+      where: { OR: [{ buyerId: id }, { sellerId: id }] },
+      include: {
+        messages: { orderBy: { createdAt: "asc" } },
+        buyer: { select: { id: true, email: true, profile: { select: { displayName: true, avatarUrl: true } } } },
+        seller: { select: { id: true, email: true, profile: { select: { displayName: true, avatarUrl: true } } } },
+      },
+      orderBy: { lastMessageAt: "desc" },
+    });
+  }
+
+  // ─── Send File Message ────────────────────────────────────────────────────────
+
+  async sendFileMessage(conversationId: string, userId: string, file: Express.Multer.File) {
+    const senderId = BigInt(userId);
+
+    const conversation = await prisma.conversation.findUnique({ where: { id: conversationId } });
+    if (!conversation) throw new AppError("Cuộc trò chuyện không tồn tại", 404, "CONVERSATION_NOT_FOUND");
+
+    const isMember = conversation.buyerId === senderId || conversation.sellerId === senderId;
+    if (!isMember)
+      throw new AppError("Bạn không có quyền gửi vào cuộc trò chuyện này", 403, "FORBIDDEN");
+
+    const fileUrl = await this.uploadService.uploadFile(file.buffer, file.originalname, {
+      folder: "chat_files",
+    });
+
+    const message = await prisma.message.create({
+      data: { conversationId, senderId, content: fileUrl, type: "IMAGE" },
+    });
+
+    await prisma.conversation.update({
+      where: { id: conversationId },
+      data: { lastMessage: "[File đính kèm]", lastMessageAt: new Date() },
+    });
+
+    // Broadcast to socket room
+    if (io) {
+      io.to(conversationId).emit("receive_message", {
+        senderId: userId,
+        message: fileUrl,
+        timestamp: new Date(),
+      });
+    }
+
+    return { message, fileUrl };
+  }
 }

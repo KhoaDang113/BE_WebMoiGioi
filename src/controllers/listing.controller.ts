@@ -1,155 +1,265 @@
-import type { Request, Response, NextFunction } from 'express';
+import { ListingStatus, ListingType, PriceUnit } from '../generated/client/client.js';
 import { AppError } from '../utils/customErrors.js';
-import { ListingService } from '../services/listing.service.js';
-import { ListingStatus } from '../generated/client/client.js';
+import { UploadService } from '../services/upload.service.js';
+import prisma from '../config/database.js';
 
 export class ListingController {
-  private listingService: ListingService;
+  private readonly uploadService: UploadService;
 
   constructor() {
-    this.listingService = new ListingService();
+    this.uploadService = new UploadService();
   }
 
-  createListing = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const { title, price, addressDisplay, description, areaGross, propertyTypeId, provinceCode, provinceName, districtCode, districtName, wardCode, wardName, beds, rooms } = req.body;
-      const files = req.files as Express.Multer.File[];
+  // ─── Private Helpers ──────────────────────────────────────────────────────────
 
-      const newListing = await this.listingService.createListing(
-        req.user!.userId,
-        { title, price, addressDisplay, description, areaGross, propertyTypeId, provinceCode, provinceName, districtCode, districtName, wardCode, wardName, beds, rooms },
-        files
+  private generateSlug(title: string): string {
+    return (
+      title
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '') +
+      '-' +
+      Date.now()
+    );
+  }
+
+  // ─── Get Property Types ───────────────────────────────────────────────────────
+
+  async getPropertyTypes() {
+    return prisma.propertyType.findMany({ orderBy: { id: 'asc' } });
+  }
+
+  // ─── Get Listing By Id ────────────────────────────────────────────────────────
+
+  async getListingById(userId: string | bigint, listingId: string | bigint) {
+    const listing = await prisma.listing.findUnique({
+      where: { id: BigInt(listingId) },
+      include: { media: true },
+    });
+    if (!listing) throw new AppError('Listing not found', 404);
+    if (listing.userId !== BigInt(userId)) throw new AppError('Permission denied', 403);
+    return listing;
+  }
+
+  // ─── Create Listing ───────────────────────────────────────────────────────────
+
+  async createListing(
+    userId: string | bigint,
+    data: any,
+    files?: Express.Multer.File[],
+  ) {
+    if (
+      !data.title ||
+      !data.price ||
+      !data.addressDisplay ||
+      !data.propertyTypeId ||
+      !data.provinceCode ||
+      !data.wardCode
+    ) {
+      throw new AppError(
+        'Missing essential listing information (title, price, address, type, location)',
+        400,
       );
+    }
 
-      res.status(201).json({
-        success: true,
-        message: 'Property created successfully',
-        data: newListing,
+    const priceNum = parseFloat(data.price);
+
+    return prisma.$transaction(async (tx) => {
+      const newListing = await tx.listing.create({
+        data: {
+          userId: BigInt(userId),
+          title: data.title,
+          slug: this.generateSlug(data.title),
+          listingType: ListingType.SALE,
+          propertyTypeId: parseInt(data.propertyTypeId),
+          provinceCode: data.provinceCode,
+          provinceName: data.provinceName || '',
+          districtCode: data.districtCode || '',
+          districtName: data.districtName || '',
+          wardCode: data.wardCode,
+          wardName: data.wardName || '',
+          provinceSlug: data.provinceSlug || null,
+          districtSlug: data.districtSlug || null,
+          wardSlug: data.wardSlug || null,
+          addressDisplay: data.addressDisplay,
+          price: priceNum,
+          priceUnit: PriceUnit.VND,
+          areaGross: data.areaGross ? parseFloat(data.areaGross) : 50,
+          attributes: {
+            ...(data.description ? { description: data.description } : {}),
+            ...(data.beds ? { beds: parseInt(data.beds) } : {}),
+            ...(data.rooms ? { rooms: parseInt(data.rooms) } : {}),
+          },
+          status: ListingStatus.PENDING_REVIEW,
+        },
       });
-    } catch (error) {
-      next(error);
-    }
-  };
 
-  getPropertyTypes = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const types = await this.listingService.getPropertyTypes();
-      res.status(200).json({ success: true, data: types });
-    } catch (error) {
-      next(error);
-    }
-  };
+      if (files && files.length > 0) {
+        const uploadPromises = files.map((file, i) =>
+          this.uploadService
+            .uploadImage(file.buffer, { folder: 'property_listings' })
+            .then((url) =>
+              tx.listingMedia.create({
+                data: {
+                  listingId: newListing.id,
+                  mediaType: 'IMAGE',
+                  originalUrl: url,
+                  isPrimary: i === 0,
+                  sortOrder: i,
+                },
+              }),
+            ),
+        );
+        await Promise.all(uploadPromises);
+      }
 
-  getMyListings = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const listings = await this.listingService.getMyListings(req.user!.userId);
-      res.status(200).json({
-        success: true,
-        data: listings,
+      return newListing;
+    });
+  }
+
+  // ─── Get My Listings ──────────────────────────────────────────────────────────
+
+  async getMyListings(userId: string | bigint) {
+    return prisma.listing.findMany({
+      where: { userId: BigInt(userId) },
+      include: { media: { where: { isPrimary: true }, take: 1 } },
+      orderBy: { id: 'desc' },
+      take: 50,
+    });
+  }
+
+  // ─── Update Listing ───────────────────────────────────────────────────────────
+
+  async updateListing(
+    userId: string | bigint,
+    listingId: string | bigint,
+    data: any,
+    files?: Express.Multer.File[],
+  ) {
+    const existing = await this.getListingById(userId, listingId);
+
+    const attrBase =
+      typeof existing.attributes === 'object' && existing.attributes
+        ? (existing.attributes as any)
+        : {};
+
+    const updateData: any = {};
+    if (data.title) updateData.title = data.title;
+    if (data.propertyTypeId) updateData.propertyTypeId = parseInt(data.propertyTypeId);
+    if (data.addressDisplay) updateData.addressDisplay = data.addressDisplay;
+    if (data.price) updateData.price = parseFloat(data.price);
+    if (data.areaGross) updateData.areaGross = parseFloat(data.areaGross);
+
+    const newAttributes: any = { ...attrBase };
+    if (data.description !== undefined) newAttributes.description = data.description;
+    if (data.beds !== undefined) newAttributes.beds = parseInt(data.beds);
+    if (data.rooms !== undefined) newAttributes.rooms = parseInt(data.rooms);
+    updateData.attributes = newAttributes;
+
+    if (data.provinceCode) updateData.provinceCode = data.provinceCode;
+    if (data.provinceName) updateData.provinceName = data.provinceName;
+    if (data.districtCode) updateData.districtCode = data.districtCode;
+    if (data.districtName) updateData.districtName = data.districtName;
+    if (data.wardCode) updateData.wardCode = data.wardCode;
+    if (data.wardName) updateData.wardName = data.wardName;
+    if (data.provinceSlug) updateData.provinceSlug = data.provinceSlug;
+    if (data.districtSlug) updateData.districtSlug = data.districtSlug;
+    if (data.wardSlug) updateData.wardSlug = data.wardSlug;
+
+    return prisma.$transaction(async (tx) => {
+      const updated = await tx.listing.update({
+        where: { id: BigInt(listingId) },
+        data: updateData,
       });
-    } catch (error) {
-      next(error);
-    }
-  };
 
-  getListingById = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const { id } = req.params;
-      if (!id) throw new AppError("Listing ID is required", 400);
-      const listing = await this.listingService.getListingById(req.user!.userId, id as string);
-      res.status(200).json({
-        success: true,
-        data: listing,
-      });
-    } catch (error) {
-      next(error);
-    }
-  };
+      if (files && files.length > 0) {
+        await tx.listingMedia.deleteMany({ where: { listingId: BigInt(listingId) } });
+        const uploadPromises = files.map((file, i) =>
+          this.uploadService
+            .uploadImage(file.buffer, { folder: 'property_listings' })
+            .then((url) =>
+              tx.listingMedia.create({
+                data: {
+                  listingId: updated.id,
+                  mediaType: 'IMAGE',
+                  originalUrl: url,
+                  isPrimary: i === 0,
+                  sortOrder: i,
+                },
+              }),
+            ),
+        );
+        await Promise.all(uploadPromises);
+      }
 
-  updateListing = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const { id } = req.params;
-      if (!id) throw new AppError("Listing ID is required", 400);
-      
-      const { title, price, addressDisplay, description, areaGross, propertyTypeId, provinceCode, provinceName, districtCode, districtName, wardCode, wardName, beds, rooms } = req.body;
-      const files = req.files as Express.Multer.File[];
+      return updated;
+    });
+  }
 
-      const updatedListing = await this.listingService.updateListing(
-        req.user!.userId,
-        id as string,
-        { title, price, addressDisplay, description, areaGross, propertyTypeId, provinceCode, provinceName, districtCode, districtName, wardCode, wardName, beds, rooms },
-        files
-      );
+  // ─── Delete Listing ───────────────────────────────────────────────────────────
 
-      res.status(200).json({
-        success: true,
-        message: 'Property updated successfully',
-        data: updatedListing,
-      });
-    } catch (error) {
-      next(error);
-    }
-  };
+  async deleteListing(userId: string | bigint, listingId: string | bigint) {
+    const listing = await prisma.listing.findUnique({ where: { id: BigInt(listingId) } });
+    if (!listing) throw new AppError('Listing not found', 404);
+    if (listing.userId !== BigInt(userId)) throw new AppError('Permission denied', 403);
+    await prisma.listing.delete({ where: { id: BigInt(listingId) } });
+    return true;
+  }
 
-  updateListingStatus = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const { id } = req.params;
-      if (!id) throw new AppError("Listing ID is required", 400);
-      const { status } = req.body;
-      
-      const updated = await this.listingService.updateListingStatus(req.user!.userId, id as string, status as ListingStatus);
-      res.status(200).json({
-        success: true,
-        message: 'Status updated',
-        data: updated,
-      });
-    } catch (error) {
-      next(error);
-    }
-  };
+  // ─── Update Listing Status ────────────────────────────────────────────────────
 
-  getAdminPendingListings = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const listings = await this.listingService.getAdminPendingListings();
-      res.status(200).json({ success: true, data: listings });
-    } catch (error) {
-      next(error);
-    }
-  };
+  async updateListingStatus(
+    userId: string | bigint,
+    listingId: string | bigint,
+    status: ListingStatus,
+  ) {
+    const listing = await prisma.listing.findUnique({ where: { id: BigInt(listingId) } });
+    if (!listing) throw new AppError('Listing not found', 404);
+    if (listing.userId !== BigInt(userId)) throw new AppError('Permission denied', 403);
+    return prisma.listing.update({ where: { id: BigInt(listingId) }, data: { status } });
+  }
 
-  updateListingStatusByAdmin = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const { id } = req.params;
-      const { status } = req.body;
-      if (!id) throw new AppError("Listing ID is required", 400);
+  // ─── Admin: Get Pending Listings ──────────────────────────────────────────────
 
-      const updated = await this.listingService.updateListingStatusByAdmin(id as string, status as ListingStatus);
-      res.status(200).json({ success: true, message: 'Status updated by admin', data: updated });
-    } catch (error) {
-      next(error);
-    }
-  };
+  async getAdminPendingListings() {
+    return prisma.listing.findMany({
+      where: { status: ListingStatus.PENDING_REVIEW },
+      include: {
+        user: { select: { email: true } },
+        media: { take: 1 },
+      },
+      orderBy: { id: 'desc' },
+    });
+  }
 
-  getPublicListings = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const listings = await this.listingService.getPublicListings();
-      res.status(200).json({ success: true, data: listings });
-    } catch (error) {
-      next(error);
-    }
-  };
+  // ─── Admin: Update Listing Status ────────────────────────────────────────────
 
-  deleteListing = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const { id } = req.params;
-      if (!id) throw new AppError("Listing ID is required", 400);
-      await this.listingService.deleteListing(req.user!.userId, id as string);
-      res.status(200).json({
-        success: true,
-        message: 'Listing deleted',
-      });
-    } catch (error) {
-      next(error);
-    }
-  };
+  async updateListingStatusByAdmin(listingId: string | bigint, status: ListingStatus) {
+    const listing = await prisma.listing.findUnique({ where: { id: BigInt(listingId) } });
+    if (!listing) throw new AppError('Listing not found', 404);
+    return prisma.listing.update({ where: { id: BigInt(listingId) }, data: { status } });
+  }
+
+  // ─── Get Public Listings ──────────────────────────────────────────────────────
+
+  async getPublicListings() {
+    return prisma.listing.findMany({
+      where: { status: ListingStatus.PUBLISHED },
+      include: {
+        media: true,
+        propertyType: true,
+        user: {
+          select: {
+            id: true,
+            email: true,
+            profile: { select: { displayName: true, avatarUrl: true } },
+          },
+        },
+      },
+      orderBy: { id: 'desc' },
+      take: 20,
+    });
+  }
 }

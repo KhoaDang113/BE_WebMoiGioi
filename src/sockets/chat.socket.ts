@@ -39,15 +39,21 @@ export class ChatHandler {
     message: string;
     senderId: string;
   }) {
-    console.log(
-      `Tin nhắn từ ${data.senderId} vào phòng ${data.roomId}: ${data.message}`,
-    );
-
     await prisma.message.create({
       data: {
         conversationId: data.roomId,
         senderId: BigInt(data.senderId),
         content: data.message,
+      },
+    });
+
+    await prisma.conversation.update({
+      where: {
+        id: data.roomId,
+      },
+      data: {
+        lastMessage: data.message,
+        lastMessageAt: new Date(),
       },
     });
 
