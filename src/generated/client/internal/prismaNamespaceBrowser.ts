@@ -65,7 +65,9 @@ export const ModelName = {
   Conversation: 'Conversation',
   Message: 'Message',
   Report: 'Report',
-  AuditLog: 'AuditLog'
+  AuditLog: 'AuditLog',
+  FavoriteListing: 'FavoriteListing',
+  spatial_ref_sys: 'spatial_ref_sys'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -317,6 +319,27 @@ export const AuditLogScalarFieldEnum = {
 } as const
 
 export type AuditLogScalarFieldEnum = (typeof AuditLogScalarFieldEnum)[keyof typeof AuditLogScalarFieldEnum]
+
+
+export const FavoriteListingScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  listingId: 'listingId',
+  createdAt: 'createdAt'
+} as const
+
+export type FavoriteListingScalarFieldEnum = (typeof FavoriteListingScalarFieldEnum)[keyof typeof FavoriteListingScalarFieldEnum]
+
+
+export const Spatial_ref_sysScalarFieldEnum = {
+  srid: 'srid',
+  auth_name: 'auth_name',
+  auth_srid: 'auth_srid',
+  srtext: 'srtext',
+  proj4text: 'proj4text'
+} as const
+
+export type Spatial_ref_sysScalarFieldEnum = (typeof Spatial_ref_sysScalarFieldEnum)[keyof typeof Spatial_ref_sysScalarFieldEnum]
 
 
 export const SortOrder = {

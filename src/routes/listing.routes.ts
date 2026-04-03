@@ -5,6 +5,7 @@ import {
   type NextFunction,
 } from "express";
 import { ListingController } from "../controllers/listing.controller.js";
+import { FavoriteController } from "../controllers/favorite.controller.js";
 import { authMiddleware } from "../middlewares/auth.middleware.js";
 import upload from "../middlewares/upload.middleware.js";
 import { authorize } from "../middlewares/role.middleware.js";
@@ -13,6 +14,7 @@ import { AppError } from "../utils/customErrors.js";
 
 const router = Router();
 const listingController = new ListingController();
+const favoriteController = new FavoriteController();
 
 // ─── Public ───────────────────────────────────────────────────────────────────
 
@@ -21,6 +23,20 @@ router.get(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const data = await listingController.getPublicListings();
+      res.status(200).json({ success: true, data });
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+
+router.get(
+  "/public/:id",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const id = req.params.id as string;
+      if (!id) throw new AppError("Listing ID is required", 400);
+      const data = await listingController.getPublicListingById(id);
       res.status(200).json({ success: true, data });
     } catch (error) {
       next(error);
@@ -54,6 +70,16 @@ router.get(
       next(error);
     }
   },
+);
+
+router.get(
+  "/favorites",
+  favoriteController.getMyFavorites.bind(favoriteController),
+);
+
+router.post(
+  "/favorites/toggle/:id",
+  favoriteController.toggleFavorite.bind(favoriteController),
 );
 
 router.get(

@@ -262,4 +262,27 @@ export class ListingController {
       take: 20,
     });
   }
+
+  // ─── Get Public Listing By Id ────────────────────────────────────────────────
+  async getPublicListingById(listingId: string | bigint) {
+    const listing = await prisma.listing.findUnique({
+      where: {
+        id: BigInt(listingId),
+        status: ListingStatus.PUBLISHED,
+      },
+      include: {
+        media: true,
+        propertyType: true,
+        user: {
+          select: {
+            id: true,
+            email: true,
+            profile: { select: { displayName: true, avatarUrl: true } },
+          },
+        },
+      },
+    });
+    if (!listing) throw new AppError('Không tìm thấy bất động sản', 404);
+    return listing;
+  }
 }
