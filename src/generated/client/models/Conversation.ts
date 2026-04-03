@@ -232,8 +232,8 @@ export type ConversationWhereInput = {
   sellerId?: Prisma.BigIntFilter<"Conversation"> | bigint | number
   lastMessage?: Prisma.StringNullableFilter<"Conversation"> | string | null
   lastMessageAt?: Prisma.DateTimeNullableFilter<"Conversation"> | Date | string | null
-  listing?: Prisma.XOR<Prisma.ListingScalarRelationFilter, Prisma.ListingWhereInput>
   buyer?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  listing?: Prisma.XOR<Prisma.ListingScalarRelationFilter, Prisma.ListingWhereInput>
   seller?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   messages?: Prisma.MessageListRelationFilter
 }
@@ -245,8 +245,8 @@ export type ConversationOrderByWithRelationInput = {
   sellerId?: Prisma.SortOrder
   lastMessage?: Prisma.SortOrderInput | Prisma.SortOrder
   lastMessageAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  listing?: Prisma.ListingOrderByWithRelationInput
   buyer?: Prisma.UserOrderByWithRelationInput
+  listing?: Prisma.ListingOrderByWithRelationInput
   seller?: Prisma.UserOrderByWithRelationInput
   messages?: Prisma.MessageOrderByRelationAggregateInput
 }
@@ -261,8 +261,8 @@ export type ConversationWhereUniqueInput = Prisma.AtLeast<{
   sellerId?: Prisma.BigIntFilter<"Conversation"> | bigint | number
   lastMessage?: Prisma.StringNullableFilter<"Conversation"> | string | null
   lastMessageAt?: Prisma.DateTimeNullableFilter<"Conversation"> | Date | string | null
-  listing?: Prisma.XOR<Prisma.ListingScalarRelationFilter, Prisma.ListingWhereInput>
   buyer?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  listing?: Prisma.XOR<Prisma.ListingScalarRelationFilter, Prisma.ListingWhereInput>
   seller?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   messages?: Prisma.MessageListRelationFilter
 }, "id">
@@ -297,8 +297,8 @@ export type ConversationCreateInput = {
   id?: string
   lastMessage?: string | null
   lastMessageAt?: Date | string | null
-  listing: Prisma.ListingCreateNestedOneWithoutConversationsInput
   buyer: Prisma.UserCreateNestedOneWithoutConversationsBuyInput
+  listing: Prisma.ListingCreateNestedOneWithoutConversationsInput
   seller: Prisma.UserCreateNestedOneWithoutConversationsSellInput
   messages?: Prisma.MessageCreateNestedManyWithoutConversationInput
 }
@@ -317,8 +317,8 @@ export type ConversationUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   lastMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastMessageAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  listing?: Prisma.ListingUpdateOneRequiredWithoutConversationsNestedInput
   buyer?: Prisma.UserUpdateOneRequiredWithoutConversationsBuyNestedInput
+  listing?: Prisma.ListingUpdateOneRequiredWithoutConversationsNestedInput
   seller?: Prisma.UserUpdateOneRequiredWithoutConversationsSellNestedInput
   messages?: Prisma.MessageUpdateManyWithoutConversationNestedInput
 }
@@ -583,8 +583,8 @@ export type ConversationCreateWithoutSellerInput = {
   id?: string
   lastMessage?: string | null
   lastMessageAt?: Date | string | null
-  listing: Prisma.ListingCreateNestedOneWithoutConversationsInput
   buyer: Prisma.UserCreateNestedOneWithoutConversationsBuyInput
+  listing: Prisma.ListingCreateNestedOneWithoutConversationsInput
   messages?: Prisma.MessageCreateNestedManyWithoutConversationInput
 }
 
@@ -699,8 +699,8 @@ export type ConversationCreateWithoutMessagesInput = {
   id?: string
   lastMessage?: string | null
   lastMessageAt?: Date | string | null
-  listing: Prisma.ListingCreateNestedOneWithoutConversationsInput
   buyer: Prisma.UserCreateNestedOneWithoutConversationsBuyInput
+  listing: Prisma.ListingCreateNestedOneWithoutConversationsInput
   seller: Prisma.UserCreateNestedOneWithoutConversationsSellInput
 }
 
@@ -733,8 +733,8 @@ export type ConversationUpdateWithoutMessagesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   lastMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastMessageAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  listing?: Prisma.ListingUpdateOneRequiredWithoutConversationsNestedInput
   buyer?: Prisma.UserUpdateOneRequiredWithoutConversationsBuyNestedInput
+  listing?: Prisma.ListingUpdateOneRequiredWithoutConversationsNestedInput
   seller?: Prisma.UserUpdateOneRequiredWithoutConversationsSellNestedInput
 }
 
@@ -793,8 +793,8 @@ export type ConversationUpdateWithoutSellerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   lastMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastMessageAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  listing?: Prisma.ListingUpdateOneRequiredWithoutConversationsNestedInput
   buyer?: Prisma.UserUpdateOneRequiredWithoutConversationsBuyNestedInput
+  listing?: Prisma.ListingUpdateOneRequiredWithoutConversationsNestedInput
   messages?: Prisma.MessageUpdateManyWithoutConversationNestedInput
 }
 
@@ -887,8 +887,8 @@ export type ConversationSelect<ExtArgs extends runtime.Types.Extensions.Internal
   sellerId?: boolean
   lastMessage?: boolean
   lastMessageAt?: boolean
-  listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
   buyer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
   seller?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   messages?: boolean | Prisma.Conversation$messagesArgs<ExtArgs>
   _count?: boolean | Prisma.ConversationCountOutputTypeDefaultArgs<ExtArgs>
@@ -901,8 +901,8 @@ export type ConversationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   sellerId?: boolean
   lastMessage?: boolean
   lastMessageAt?: boolean
-  listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
   buyer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
   seller?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["conversation"]>
 
@@ -913,8 +913,8 @@ export type ConversationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   sellerId?: boolean
   lastMessage?: boolean
   lastMessageAt?: boolean
-  listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
   buyer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
   seller?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["conversation"]>
 
@@ -929,28 +929,28 @@ export type ConversationSelectScalar = {
 
 export type ConversationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "listingId" | "buyerId" | "sellerId" | "lastMessage" | "lastMessageAt", ExtArgs["result"]["conversation"]>
 export type ConversationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
   buyer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
   seller?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   messages?: boolean | Prisma.Conversation$messagesArgs<ExtArgs>
   _count?: boolean | Prisma.ConversationCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ConversationIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
   buyer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
   seller?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type ConversationIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
   buyer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  listing?: boolean | Prisma.ListingDefaultArgs<ExtArgs>
   seller?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
 export type $ConversationPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Conversation"
   objects: {
-    listing: Prisma.$ListingPayload<ExtArgs>
     buyer: Prisma.$UserPayload<ExtArgs>
+    listing: Prisma.$ListingPayload<ExtArgs>
     seller: Prisma.$UserPayload<ExtArgs>
     messages: Prisma.$MessagePayload<ExtArgs>[]
   }
@@ -1355,8 +1355,8 @@ readonly fields: ConversationFieldRefs;
  */
 export interface Prisma__ConversationClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  listing<T extends Prisma.ListingDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ListingDefaultArgs<ExtArgs>>): Prisma.Prisma__ListingClient<runtime.Types.Result.GetResult<Prisma.$ListingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   buyer<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  listing<T extends Prisma.ListingDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ListingDefaultArgs<ExtArgs>>): Prisma.Prisma__ListingClient<runtime.Types.Result.GetResult<Prisma.$ListingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   seller<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   messages<T extends Prisma.Conversation$messagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Conversation$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**

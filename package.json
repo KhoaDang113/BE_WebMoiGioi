@@ -11,7 +11,9 @@
     "start": "node dist/index.js",
     "predev": "npm run buildDev",
     "dev": "concurrently -k \"tsc -w\" \"tsc-alias -w\" \"nodemon dist/index.js\"",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "prisma:generate": "npx prisma generate && npm run patch:prisma",
+    "patch:prisma": "node -e \"const fs=require('fs');const f='src/generated/client/client.js';fs.writeFileSync(f, \\\"\\\\nexport * from './index.js';\\\\n\\\");console.log('Patched client.js for ESM compatibility');\""
   },
   "repository": {
     "type": "git",

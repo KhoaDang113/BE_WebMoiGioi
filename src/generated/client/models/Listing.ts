@@ -432,11 +432,12 @@ export type ListingWhereInput = {
   publishedAt?: Prisma.DateTimeNullableFilter<"Listing"> | Date | string | null
   expiredAt?: Prisma.DateTimeNullableFilter<"Listing"> | Date | string | null
   attributes?: Prisma.JsonFilter<"Listing">
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  propertyType?: Prisma.XOR<Prisma.PropertyTypeScalarRelationFilter, Prisma.PropertyTypeWhereInput>
-  project?: Prisma.XOR<Prisma.ProjectNullableScalarRelationFilter, Prisma.ProjectWhereInput> | null
-  media?: Prisma.ListingMediaListRelationFilter
   conversations?: Prisma.ConversationListRelationFilter
+  favoritedBy?: Prisma.FavoriteListingListRelationFilter
+  media?: Prisma.ListingMediaListRelationFilter
+  project?: Prisma.XOR<Prisma.ProjectNullableScalarRelationFilter, Prisma.ProjectWhereInput> | null
+  propertyType?: Prisma.XOR<Prisma.PropertyTypeScalarRelationFilter, Prisma.PropertyTypeWhereInput>
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   reports?: Prisma.ReportListRelationFilter
 }
 
@@ -470,11 +471,12 @@ export type ListingOrderByWithRelationInput = {
   publishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   expiredAt?: Prisma.SortOrderInput | Prisma.SortOrder
   attributes?: Prisma.SortOrder
-  user?: Prisma.UserOrderByWithRelationInput
-  propertyType?: Prisma.PropertyTypeOrderByWithRelationInput
-  project?: Prisma.ProjectOrderByWithRelationInput
-  media?: Prisma.ListingMediaOrderByRelationAggregateInput
   conversations?: Prisma.ConversationOrderByRelationAggregateInput
+  favoritedBy?: Prisma.FavoriteListingOrderByRelationAggregateInput
+  media?: Prisma.ListingMediaOrderByRelationAggregateInput
+  project?: Prisma.ProjectOrderByWithRelationInput
+  propertyType?: Prisma.PropertyTypeOrderByWithRelationInput
+  user?: Prisma.UserOrderByWithRelationInput
   reports?: Prisma.ReportOrderByRelationAggregateInput
 }
 
@@ -511,11 +513,12 @@ export type ListingWhereUniqueInput = Prisma.AtLeast<{
   publishedAt?: Prisma.DateTimeNullableFilter<"Listing"> | Date | string | null
   expiredAt?: Prisma.DateTimeNullableFilter<"Listing"> | Date | string | null
   attributes?: Prisma.JsonFilter<"Listing">
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  propertyType?: Prisma.XOR<Prisma.PropertyTypeScalarRelationFilter, Prisma.PropertyTypeWhereInput>
-  project?: Prisma.XOR<Prisma.ProjectNullableScalarRelationFilter, Prisma.ProjectWhereInput> | null
-  media?: Prisma.ListingMediaListRelationFilter
   conversations?: Prisma.ConversationListRelationFilter
+  favoritedBy?: Prisma.FavoriteListingListRelationFilter
+  media?: Prisma.ListingMediaListRelationFilter
+  project?: Prisma.XOR<Prisma.ProjectNullableScalarRelationFilter, Prisma.ProjectWhereInput> | null
+  propertyType?: Prisma.XOR<Prisma.PropertyTypeScalarRelationFilter, Prisma.PropertyTypeWhereInput>
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   reports?: Prisma.ReportListRelationFilter
 }, "id" | "slug">
 
@@ -618,11 +621,12 @@ export type ListingCreateInput = {
   publishedAt?: Date | string | null
   expiredAt?: Date | string | null
   attributes: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  user: Prisma.UserCreateNestedOneWithoutListingsInput
-  propertyType: Prisma.PropertyTypeCreateNestedOneWithoutListingsInput
-  project?: Prisma.ProjectCreateNestedOneWithoutListingsInput
-  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutListingInput
+  favoritedBy?: Prisma.FavoriteListingCreateNestedManyWithoutListingInput
+  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
+  project?: Prisma.ProjectCreateNestedOneWithoutListingsInput
+  propertyType: Prisma.PropertyTypeCreateNestedOneWithoutListingsInput
+  user: Prisma.UserCreateNestedOneWithoutListingsInput
   reports?: Prisma.ReportCreateNestedManyWithoutListingInput
 }
 
@@ -656,8 +660,9 @@ export type ListingUncheckedCreateInput = {
   publishedAt?: Date | string | null
   expiredAt?: Date | string | null
   attributes: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutListingInput
+  favoritedBy?: Prisma.FavoriteListingUncheckedCreateNestedManyWithoutListingInput
+  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutListingInput
 }
 
@@ -688,11 +693,12 @@ export type ListingUpdateInput = {
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   attributes?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  user?: Prisma.UserUpdateOneRequiredWithoutListingsNestedInput
-  propertyType?: Prisma.PropertyTypeUpdateOneRequiredWithoutListingsNestedInput
-  project?: Prisma.ProjectUpdateOneWithoutListingsNestedInput
-  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutListingNestedInput
+  favoritedBy?: Prisma.FavoriteListingUpdateManyWithoutListingNestedInput
+  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
+  project?: Prisma.ProjectUpdateOneWithoutListingsNestedInput
+  propertyType?: Prisma.PropertyTypeUpdateOneRequiredWithoutListingsNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutListingsNestedInput
   reports?: Prisma.ReportUpdateManyWithoutListingNestedInput
 }
 
@@ -726,8 +732,9 @@ export type ListingUncheckedUpdateInput = {
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   attributes?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutListingNestedInput
+  favoritedBy?: Prisma.FavoriteListingUncheckedUpdateManyWithoutListingNestedInput
+  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   reports?: Prisma.ReportUncheckedUpdateManyWithoutListingNestedInput
 }
 
@@ -1163,6 +1170,20 @@ export type ListingUpdateOneRequiredWithoutReportsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ListingUpdateToOneWithWhereWithoutReportsInput, Prisma.ListingUpdateWithoutReportsInput>, Prisma.ListingUncheckedUpdateWithoutReportsInput>
 }
 
+export type ListingCreateNestedOneWithoutFavoritedByInput = {
+  create?: Prisma.XOR<Prisma.ListingCreateWithoutFavoritedByInput, Prisma.ListingUncheckedCreateWithoutFavoritedByInput>
+  connectOrCreate?: Prisma.ListingCreateOrConnectWithoutFavoritedByInput
+  connect?: Prisma.ListingWhereUniqueInput
+}
+
+export type ListingUpdateOneRequiredWithoutFavoritedByNestedInput = {
+  create?: Prisma.XOR<Prisma.ListingCreateWithoutFavoritedByInput, Prisma.ListingUncheckedCreateWithoutFavoritedByInput>
+  connectOrCreate?: Prisma.ListingCreateOrConnectWithoutFavoritedByInput
+  upsert?: Prisma.ListingUpsertWithoutFavoritedByInput
+  connect?: Prisma.ListingWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ListingUpdateToOneWithWhereWithoutFavoritedByInput, Prisma.ListingUpdateWithoutFavoritedByInput>, Prisma.ListingUncheckedUpdateWithoutFavoritedByInput>
+}
+
 export type ListingCreateWithoutUserInput = {
   id?: bigint | number
   title: string
@@ -1190,10 +1211,11 @@ export type ListingCreateWithoutUserInput = {
   publishedAt?: Date | string | null
   expiredAt?: Date | string | null
   attributes: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  propertyType: Prisma.PropertyTypeCreateNestedOneWithoutListingsInput
-  project?: Prisma.ProjectCreateNestedOneWithoutListingsInput
-  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutListingInput
+  favoritedBy?: Prisma.FavoriteListingCreateNestedManyWithoutListingInput
+  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
+  project?: Prisma.ProjectCreateNestedOneWithoutListingsInput
+  propertyType: Prisma.PropertyTypeCreateNestedOneWithoutListingsInput
   reports?: Prisma.ReportCreateNestedManyWithoutListingInput
 }
 
@@ -1226,8 +1248,9 @@ export type ListingUncheckedCreateWithoutUserInput = {
   publishedAt?: Date | string | null
   expiredAt?: Date | string | null
   attributes: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutListingInput
+  favoritedBy?: Prisma.FavoriteListingUncheckedCreateNestedManyWithoutListingInput
+  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutListingInput
 }
 
@@ -1319,10 +1342,11 @@ export type ListingCreateWithoutProjectInput = {
   publishedAt?: Date | string | null
   expiredAt?: Date | string | null
   attributes: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  user: Prisma.UserCreateNestedOneWithoutListingsInput
-  propertyType: Prisma.PropertyTypeCreateNestedOneWithoutListingsInput
-  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutListingInput
+  favoritedBy?: Prisma.FavoriteListingCreateNestedManyWithoutListingInput
+  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
+  propertyType: Prisma.PropertyTypeCreateNestedOneWithoutListingsInput
+  user: Prisma.UserCreateNestedOneWithoutListingsInput
   reports?: Prisma.ReportCreateNestedManyWithoutListingInput
 }
 
@@ -1355,8 +1379,9 @@ export type ListingUncheckedCreateWithoutProjectInput = {
   publishedAt?: Date | string | null
   expiredAt?: Date | string | null
   attributes: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutListingInput
+  favoritedBy?: Prisma.FavoriteListingUncheckedCreateNestedManyWithoutListingInput
+  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutListingInput
 }
 
@@ -1413,10 +1438,11 @@ export type ListingCreateWithoutPropertyTypeInput = {
   publishedAt?: Date | string | null
   expiredAt?: Date | string | null
   attributes: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  user: Prisma.UserCreateNestedOneWithoutListingsInput
-  project?: Prisma.ProjectCreateNestedOneWithoutListingsInput
-  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutListingInput
+  favoritedBy?: Prisma.FavoriteListingCreateNestedManyWithoutListingInput
+  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
+  project?: Prisma.ProjectCreateNestedOneWithoutListingsInput
+  user: Prisma.UserCreateNestedOneWithoutListingsInput
   reports?: Prisma.ReportCreateNestedManyWithoutListingInput
 }
 
@@ -1449,8 +1475,9 @@ export type ListingUncheckedCreateWithoutPropertyTypeInput = {
   publishedAt?: Date | string | null
   expiredAt?: Date | string | null
   attributes: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutListingInput
+  favoritedBy?: Prisma.FavoriteListingUncheckedCreateNestedManyWithoutListingInput
+  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutListingInput
 }
 
@@ -1507,10 +1534,11 @@ export type ListingCreateWithoutMediaInput = {
   publishedAt?: Date | string | null
   expiredAt?: Date | string | null
   attributes: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  user: Prisma.UserCreateNestedOneWithoutListingsInput
-  propertyType: Prisma.PropertyTypeCreateNestedOneWithoutListingsInput
-  project?: Prisma.ProjectCreateNestedOneWithoutListingsInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutListingInput
+  favoritedBy?: Prisma.FavoriteListingCreateNestedManyWithoutListingInput
+  project?: Prisma.ProjectCreateNestedOneWithoutListingsInput
+  propertyType: Prisma.PropertyTypeCreateNestedOneWithoutListingsInput
+  user: Prisma.UserCreateNestedOneWithoutListingsInput
   reports?: Prisma.ReportCreateNestedManyWithoutListingInput
 }
 
@@ -1545,6 +1573,7 @@ export type ListingUncheckedCreateWithoutMediaInput = {
   expiredAt?: Date | string | null
   attributes: Prisma.JsonNullValueInput | runtime.InputJsonValue
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutListingInput
+  favoritedBy?: Prisma.FavoriteListingUncheckedCreateNestedManyWithoutListingInput
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutListingInput
 }
 
@@ -1591,10 +1620,11 @@ export type ListingUpdateWithoutMediaInput = {
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   attributes?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  user?: Prisma.UserUpdateOneRequiredWithoutListingsNestedInput
-  propertyType?: Prisma.PropertyTypeUpdateOneRequiredWithoutListingsNestedInput
-  project?: Prisma.ProjectUpdateOneWithoutListingsNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutListingNestedInput
+  favoritedBy?: Prisma.FavoriteListingUpdateManyWithoutListingNestedInput
+  project?: Prisma.ProjectUpdateOneWithoutListingsNestedInput
+  propertyType?: Prisma.PropertyTypeUpdateOneRequiredWithoutListingsNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutListingsNestedInput
   reports?: Prisma.ReportUpdateManyWithoutListingNestedInput
 }
 
@@ -1629,6 +1659,7 @@ export type ListingUncheckedUpdateWithoutMediaInput = {
   expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   attributes?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutListingNestedInput
+  favoritedBy?: Prisma.FavoriteListingUncheckedUpdateManyWithoutListingNestedInput
   reports?: Prisma.ReportUncheckedUpdateManyWithoutListingNestedInput
 }
 
@@ -1659,10 +1690,11 @@ export type ListingCreateWithoutConversationsInput = {
   publishedAt?: Date | string | null
   expiredAt?: Date | string | null
   attributes: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  user: Prisma.UserCreateNestedOneWithoutListingsInput
-  propertyType: Prisma.PropertyTypeCreateNestedOneWithoutListingsInput
-  project?: Prisma.ProjectCreateNestedOneWithoutListingsInput
+  favoritedBy?: Prisma.FavoriteListingCreateNestedManyWithoutListingInput
   media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
+  project?: Prisma.ProjectCreateNestedOneWithoutListingsInput
+  propertyType: Prisma.PropertyTypeCreateNestedOneWithoutListingsInput
+  user: Prisma.UserCreateNestedOneWithoutListingsInput
   reports?: Prisma.ReportCreateNestedManyWithoutListingInput
 }
 
@@ -1696,6 +1728,7 @@ export type ListingUncheckedCreateWithoutConversationsInput = {
   publishedAt?: Date | string | null
   expiredAt?: Date | string | null
   attributes: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  favoritedBy?: Prisma.FavoriteListingUncheckedCreateNestedManyWithoutListingInput
   media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutListingInput
 }
@@ -1743,10 +1776,11 @@ export type ListingUpdateWithoutConversationsInput = {
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   attributes?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  user?: Prisma.UserUpdateOneRequiredWithoutListingsNestedInput
-  propertyType?: Prisma.PropertyTypeUpdateOneRequiredWithoutListingsNestedInput
-  project?: Prisma.ProjectUpdateOneWithoutListingsNestedInput
+  favoritedBy?: Prisma.FavoriteListingUpdateManyWithoutListingNestedInput
   media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
+  project?: Prisma.ProjectUpdateOneWithoutListingsNestedInput
+  propertyType?: Prisma.PropertyTypeUpdateOneRequiredWithoutListingsNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutListingsNestedInput
   reports?: Prisma.ReportUpdateManyWithoutListingNestedInput
 }
 
@@ -1780,6 +1814,7 @@ export type ListingUncheckedUpdateWithoutConversationsInput = {
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   attributes?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  favoritedBy?: Prisma.FavoriteListingUncheckedUpdateManyWithoutListingNestedInput
   media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   reports?: Prisma.ReportUncheckedUpdateManyWithoutListingNestedInput
 }
@@ -1811,11 +1846,12 @@ export type ListingCreateWithoutReportsInput = {
   publishedAt?: Date | string | null
   expiredAt?: Date | string | null
   attributes: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  user: Prisma.UserCreateNestedOneWithoutListingsInput
-  propertyType: Prisma.PropertyTypeCreateNestedOneWithoutListingsInput
-  project?: Prisma.ProjectCreateNestedOneWithoutListingsInput
-  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutListingInput
+  favoritedBy?: Prisma.FavoriteListingCreateNestedManyWithoutListingInput
+  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
+  project?: Prisma.ProjectCreateNestedOneWithoutListingsInput
+  propertyType: Prisma.PropertyTypeCreateNestedOneWithoutListingsInput
+  user: Prisma.UserCreateNestedOneWithoutListingsInput
 }
 
 export type ListingUncheckedCreateWithoutReportsInput = {
@@ -1848,8 +1884,9 @@ export type ListingUncheckedCreateWithoutReportsInput = {
   publishedAt?: Date | string | null
   expiredAt?: Date | string | null
   attributes: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutListingInput
+  favoritedBy?: Prisma.FavoriteListingUncheckedCreateNestedManyWithoutListingInput
+  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
 }
 
 export type ListingCreateOrConnectWithoutReportsInput = {
@@ -1895,11 +1932,12 @@ export type ListingUpdateWithoutReportsInput = {
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   attributes?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  user?: Prisma.UserUpdateOneRequiredWithoutListingsNestedInput
-  propertyType?: Prisma.PropertyTypeUpdateOneRequiredWithoutListingsNestedInput
-  project?: Prisma.ProjectUpdateOneWithoutListingsNestedInput
-  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutListingNestedInput
+  favoritedBy?: Prisma.FavoriteListingUpdateManyWithoutListingNestedInput
+  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
+  project?: Prisma.ProjectUpdateOneWithoutListingsNestedInput
+  propertyType?: Prisma.PropertyTypeUpdateOneRequiredWithoutListingsNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutListingsNestedInput
 }
 
 export type ListingUncheckedUpdateWithoutReportsInput = {
@@ -1932,8 +1970,165 @@ export type ListingUncheckedUpdateWithoutReportsInput = {
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   attributes?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutListingNestedInput
+  favoritedBy?: Prisma.FavoriteListingUncheckedUpdateManyWithoutListingNestedInput
+  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
+}
+
+export type ListingCreateWithoutFavoritedByInput = {
+  id?: bigint | number
+  title: string
+  slug: string
+  listingType: $Enums.ListingType
+  provinceCode: string
+  provinceName: string
+  provinceSlug?: string | null
+  districtCode: string
+  districtName: string
+  districtSlug?: string | null
+  wardCode: string
+  wardName: string
+  wardSlug?: string | null
+  region?: $Enums.Region | null
+  addressDisplay?: string | null
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  priceUnit: $Enums.PriceUnit
+  pricePerM2?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  areaGross: runtime.Decimal | runtime.DecimalJsLike | number | string
+  areaNet?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  direction?: $Enums.Direction | null
+  juridicalStatus?: $Enums.JuridicalStatus | null
+  status?: $Enums.ListingStatus
+  publishedAt?: Date | string | null
+  expiredAt?: Date | string | null
+  attributes: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  conversations?: Prisma.ConversationCreateNestedManyWithoutListingInput
+  media?: Prisma.ListingMediaCreateNestedManyWithoutListingInput
+  project?: Prisma.ProjectCreateNestedOneWithoutListingsInput
+  propertyType: Prisma.PropertyTypeCreateNestedOneWithoutListingsInput
+  user: Prisma.UserCreateNestedOneWithoutListingsInput
+  reports?: Prisma.ReportCreateNestedManyWithoutListingInput
+}
+
+export type ListingUncheckedCreateWithoutFavoritedByInput = {
+  id?: bigint | number
+  userId: bigint | number
+  title: string
+  slug: string
+  listingType: $Enums.ListingType
+  propertyTypeId: number
+  provinceCode: string
+  provinceName: string
+  provinceSlug?: string | null
+  districtCode: string
+  districtName: string
+  districtSlug?: string | null
+  wardCode: string
+  wardName: string
+  wardSlug?: string | null
+  region?: $Enums.Region | null
+  projectId?: bigint | number | null
+  addressDisplay?: string | null
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  priceUnit: $Enums.PriceUnit
+  pricePerM2?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  areaGross: runtime.Decimal | runtime.DecimalJsLike | number | string
+  areaNet?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  direction?: $Enums.Direction | null
+  juridicalStatus?: $Enums.JuridicalStatus | null
+  status?: $Enums.ListingStatus
+  publishedAt?: Date | string | null
+  expiredAt?: Date | string | null
+  attributes: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutListingInput
+  media?: Prisma.ListingMediaUncheckedCreateNestedManyWithoutListingInput
+  reports?: Prisma.ReportUncheckedCreateNestedManyWithoutListingInput
+}
+
+export type ListingCreateOrConnectWithoutFavoritedByInput = {
+  where: Prisma.ListingWhereUniqueInput
+  create: Prisma.XOR<Prisma.ListingCreateWithoutFavoritedByInput, Prisma.ListingUncheckedCreateWithoutFavoritedByInput>
+}
+
+export type ListingUpsertWithoutFavoritedByInput = {
+  update: Prisma.XOR<Prisma.ListingUpdateWithoutFavoritedByInput, Prisma.ListingUncheckedUpdateWithoutFavoritedByInput>
+  create: Prisma.XOR<Prisma.ListingCreateWithoutFavoritedByInput, Prisma.ListingUncheckedCreateWithoutFavoritedByInput>
+  where?: Prisma.ListingWhereInput
+}
+
+export type ListingUpdateToOneWithWhereWithoutFavoritedByInput = {
+  where?: Prisma.ListingWhereInput
+  data: Prisma.XOR<Prisma.ListingUpdateWithoutFavoritedByInput, Prisma.ListingUncheckedUpdateWithoutFavoritedByInput>
+}
+
+export type ListingUpdateWithoutFavoritedByInput = {
+  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  listingType?: Prisma.EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+  provinceCode?: Prisma.StringFieldUpdateOperationsInput | string
+  provinceName?: Prisma.StringFieldUpdateOperationsInput | string
+  provinceSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  districtCode?: Prisma.StringFieldUpdateOperationsInput | string
+  districtName?: Prisma.StringFieldUpdateOperationsInput | string
+  districtSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  wardCode?: Prisma.StringFieldUpdateOperationsInput | string
+  wardName?: Prisma.StringFieldUpdateOperationsInput | string
+  wardSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableEnumRegionFieldUpdateOperationsInput | $Enums.Region | null
+  addressDisplay?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  priceUnit?: Prisma.EnumPriceUnitFieldUpdateOperationsInput | $Enums.PriceUnit
+  pricePerM2?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  areaGross?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  areaNet?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  direction?: Prisma.NullableEnumDirectionFieldUpdateOperationsInput | $Enums.Direction | null
+  juridicalStatus?: Prisma.NullableEnumJuridicalStatusFieldUpdateOperationsInput | $Enums.JuridicalStatus | null
+  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  attributes?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  conversations?: Prisma.ConversationUpdateManyWithoutListingNestedInput
+  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
+  project?: Prisma.ProjectUpdateOneWithoutListingsNestedInput
+  propertyType?: Prisma.PropertyTypeUpdateOneRequiredWithoutListingsNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutListingsNestedInput
+  reports?: Prisma.ReportUpdateManyWithoutListingNestedInput
+}
+
+export type ListingUncheckedUpdateWithoutFavoritedByInput = {
+  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  userId?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  listingType?: Prisma.EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+  propertyTypeId?: Prisma.IntFieldUpdateOperationsInput | number
+  provinceCode?: Prisma.StringFieldUpdateOperationsInput | string
+  provinceName?: Prisma.StringFieldUpdateOperationsInput | string
+  provinceSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  districtCode?: Prisma.StringFieldUpdateOperationsInput | string
+  districtName?: Prisma.StringFieldUpdateOperationsInput | string
+  districtSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  wardCode?: Prisma.StringFieldUpdateOperationsInput | string
+  wardName?: Prisma.StringFieldUpdateOperationsInput | string
+  wardSlug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableEnumRegionFieldUpdateOperationsInput | $Enums.Region | null
+  projectId?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  addressDisplay?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  priceUnit?: Prisma.EnumPriceUnitFieldUpdateOperationsInput | $Enums.PriceUnit
+  pricePerM2?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  areaGross?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  areaNet?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  direction?: Prisma.NullableEnumDirectionFieldUpdateOperationsInput | $Enums.Direction | null
+  juridicalStatus?: Prisma.NullableEnumJuridicalStatusFieldUpdateOperationsInput | $Enums.JuridicalStatus | null
+  status?: Prisma.EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  attributes?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutListingNestedInput
+  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
+  reports?: Prisma.ReportUncheckedUpdateManyWithoutListingNestedInput
 }
 
 export type ListingCreateManyUserInput = {
@@ -1994,10 +2189,11 @@ export type ListingUpdateWithoutUserInput = {
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   attributes?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  propertyType?: Prisma.PropertyTypeUpdateOneRequiredWithoutListingsNestedInput
-  project?: Prisma.ProjectUpdateOneWithoutListingsNestedInput
-  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutListingNestedInput
+  favoritedBy?: Prisma.FavoriteListingUpdateManyWithoutListingNestedInput
+  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
+  project?: Prisma.ProjectUpdateOneWithoutListingsNestedInput
+  propertyType?: Prisma.PropertyTypeUpdateOneRequiredWithoutListingsNestedInput
   reports?: Prisma.ReportUpdateManyWithoutListingNestedInput
 }
 
@@ -2030,8 +2226,9 @@ export type ListingUncheckedUpdateWithoutUserInput = {
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   attributes?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutListingNestedInput
+  favoritedBy?: Prisma.FavoriteListingUncheckedUpdateManyWithoutListingNestedInput
+  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   reports?: Prisma.ReportUncheckedUpdateManyWithoutListingNestedInput
 }
 
@@ -2124,10 +2321,11 @@ export type ListingUpdateWithoutProjectInput = {
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   attributes?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  user?: Prisma.UserUpdateOneRequiredWithoutListingsNestedInput
-  propertyType?: Prisma.PropertyTypeUpdateOneRequiredWithoutListingsNestedInput
-  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutListingNestedInput
+  favoritedBy?: Prisma.FavoriteListingUpdateManyWithoutListingNestedInput
+  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
+  propertyType?: Prisma.PropertyTypeUpdateOneRequiredWithoutListingsNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutListingsNestedInput
   reports?: Prisma.ReportUpdateManyWithoutListingNestedInput
 }
 
@@ -2160,8 +2358,9 @@ export type ListingUncheckedUpdateWithoutProjectInput = {
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   attributes?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutListingNestedInput
+  favoritedBy?: Prisma.FavoriteListingUncheckedUpdateManyWithoutListingNestedInput
+  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   reports?: Prisma.ReportUncheckedUpdateManyWithoutListingNestedInput
 }
 
@@ -2254,10 +2453,11 @@ export type ListingUpdateWithoutPropertyTypeInput = {
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   attributes?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  user?: Prisma.UserUpdateOneRequiredWithoutListingsNestedInput
-  project?: Prisma.ProjectUpdateOneWithoutListingsNestedInput
-  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutListingNestedInput
+  favoritedBy?: Prisma.FavoriteListingUpdateManyWithoutListingNestedInput
+  media?: Prisma.ListingMediaUpdateManyWithoutListingNestedInput
+  project?: Prisma.ProjectUpdateOneWithoutListingsNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutListingsNestedInput
   reports?: Prisma.ReportUpdateManyWithoutListingNestedInput
 }
 
@@ -2290,8 +2490,9 @@ export type ListingUncheckedUpdateWithoutPropertyTypeInput = {
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   attributes?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutListingNestedInput
+  favoritedBy?: Prisma.FavoriteListingUncheckedUpdateManyWithoutListingNestedInput
+  media?: Prisma.ListingMediaUncheckedUpdateManyWithoutListingNestedInput
   reports?: Prisma.ReportUncheckedUpdateManyWithoutListingNestedInput
 }
 
@@ -2332,14 +2533,16 @@ export type ListingUncheckedUpdateManyWithoutPropertyTypeInput = {
  */
 
 export type ListingCountOutputType = {
-  media: number
   conversations: number
+  favoritedBy: number
+  media: number
   reports: number
 }
 
 export type ListingCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  media?: boolean | ListingCountOutputTypeCountMediaArgs
   conversations?: boolean | ListingCountOutputTypeCountConversationsArgs
+  favoritedBy?: boolean | ListingCountOutputTypeCountFavoritedByArgs
+  media?: boolean | ListingCountOutputTypeCountMediaArgs
   reports?: boolean | ListingCountOutputTypeCountReportsArgs
 }
 
@@ -2356,15 +2559,22 @@ export type ListingCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Exte
 /**
  * ListingCountOutputType without action
  */
-export type ListingCountOutputTypeCountMediaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ListingMediaWhereInput
+export type ListingCountOutputTypeCountConversationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ConversationWhereInput
 }
 
 /**
  * ListingCountOutputType without action
  */
-export type ListingCountOutputTypeCountConversationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ConversationWhereInput
+export type ListingCountOutputTypeCountFavoritedByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.FavoriteListingWhereInput
+}
+
+/**
+ * ListingCountOutputType without action
+ */
+export type ListingCountOutputTypeCountMediaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ListingMediaWhereInput
 }
 
 /**
@@ -2405,11 +2615,12 @@ export type ListingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   publishedAt?: boolean
   expiredAt?: boolean
   attributes?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  propertyType?: boolean | Prisma.PropertyTypeDefaultArgs<ExtArgs>
-  project?: boolean | Prisma.Listing$projectArgs<ExtArgs>
-  media?: boolean | Prisma.Listing$mediaArgs<ExtArgs>
   conversations?: boolean | Prisma.Listing$conversationsArgs<ExtArgs>
+  favoritedBy?: boolean | Prisma.Listing$favoritedByArgs<ExtArgs>
+  media?: boolean | Prisma.Listing$mediaArgs<ExtArgs>
+  project?: boolean | Prisma.Listing$projectArgs<ExtArgs>
+  propertyType?: boolean | Prisma.PropertyTypeDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   reports?: boolean | Prisma.Listing$reportsArgs<ExtArgs>
   _count?: boolean | Prisma.ListingCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["listing"]>
@@ -2444,9 +2655,9 @@ export type ListingSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   publishedAt?: boolean
   expiredAt?: boolean
   attributes?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  propertyType?: boolean | Prisma.PropertyTypeDefaultArgs<ExtArgs>
   project?: boolean | Prisma.Listing$projectArgs<ExtArgs>
+  propertyType?: boolean | Prisma.PropertyTypeDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["listing"]>
 
 export type ListingSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -2479,9 +2690,9 @@ export type ListingSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   publishedAt?: boolean
   expiredAt?: boolean
   attributes?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  propertyType?: boolean | Prisma.PropertyTypeDefaultArgs<ExtArgs>
   project?: boolean | Prisma.Listing$projectArgs<ExtArgs>
+  propertyType?: boolean | Prisma.PropertyTypeDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["listing"]>
 
 export type ListingSelectScalar = {
@@ -2518,33 +2729,35 @@ export type ListingSelectScalar = {
 
 export type ListingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "title" | "slug" | "listingType" | "propertyTypeId" | "provinceCode" | "provinceName" | "provinceSlug" | "districtCode" | "districtName" | "districtSlug" | "wardCode" | "wardName" | "wardSlug" | "region" | "projectId" | "addressDisplay" | "price" | "priceUnit" | "pricePerM2" | "areaGross" | "areaNet" | "direction" | "juridicalStatus" | "status" | "publishedAt" | "expiredAt" | "attributes", ExtArgs["result"]["listing"]>
 export type ListingInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  propertyType?: boolean | Prisma.PropertyTypeDefaultArgs<ExtArgs>
-  project?: boolean | Prisma.Listing$projectArgs<ExtArgs>
-  media?: boolean | Prisma.Listing$mediaArgs<ExtArgs>
   conversations?: boolean | Prisma.Listing$conversationsArgs<ExtArgs>
+  favoritedBy?: boolean | Prisma.Listing$favoritedByArgs<ExtArgs>
+  media?: boolean | Prisma.Listing$mediaArgs<ExtArgs>
+  project?: boolean | Prisma.Listing$projectArgs<ExtArgs>
+  propertyType?: boolean | Prisma.PropertyTypeDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   reports?: boolean | Prisma.Listing$reportsArgs<ExtArgs>
   _count?: boolean | Prisma.ListingCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ListingIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  propertyType?: boolean | Prisma.PropertyTypeDefaultArgs<ExtArgs>
   project?: boolean | Prisma.Listing$projectArgs<ExtArgs>
+  propertyType?: boolean | Prisma.PropertyTypeDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type ListingIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  propertyType?: boolean | Prisma.PropertyTypeDefaultArgs<ExtArgs>
   project?: boolean | Prisma.Listing$projectArgs<ExtArgs>
+  propertyType?: boolean | Prisma.PropertyTypeDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
 export type $ListingPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Listing"
   objects: {
-    user: Prisma.$UserPayload<ExtArgs>
-    propertyType: Prisma.$PropertyTypePayload<ExtArgs>
-    project: Prisma.$ProjectPayload<ExtArgs> | null
-    media: Prisma.$ListingMediaPayload<ExtArgs>[]
     conversations: Prisma.$ConversationPayload<ExtArgs>[]
+    favoritedBy: Prisma.$FavoriteListingPayload<ExtArgs>[]
+    media: Prisma.$ListingMediaPayload<ExtArgs>[]
+    project: Prisma.$ProjectPayload<ExtArgs> | null
+    propertyType: Prisma.$PropertyTypePayload<ExtArgs>
+    user: Prisma.$UserPayload<ExtArgs>
     reports: Prisma.$ReportPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -2971,11 +3184,12 @@ readonly fields: ListingFieldRefs;
  */
 export interface Prisma__ListingClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  propertyType<T extends Prisma.PropertyTypeDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PropertyTypeDefaultArgs<ExtArgs>>): Prisma.Prisma__PropertyTypeClient<runtime.Types.Result.GetResult<Prisma.$PropertyTypePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  project<T extends Prisma.Listing$projectArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$projectArgs<ExtArgs>>): Prisma.Prisma__ProjectClient<runtime.Types.Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  media<T extends Prisma.Listing$mediaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$mediaArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingMediaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   conversations<T extends Prisma.Listing$conversationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$conversationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  favoritedBy<T extends Prisma.Listing$favoritedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$favoritedByArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FavoriteListingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  media<T extends Prisma.Listing$mediaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$mediaArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingMediaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  project<T extends Prisma.Listing$projectArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$projectArgs<ExtArgs>>): Prisma.Prisma__ProjectClient<runtime.Types.Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  propertyType<T extends Prisma.PropertyTypeDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PropertyTypeDefaultArgs<ExtArgs>>): Prisma.Prisma__PropertyTypeClient<runtime.Types.Result.GetResult<Prisma.$PropertyTypePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   reports<T extends Prisma.Listing$reportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Listing$reportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -3431,22 +3645,51 @@ export type ListingDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 /**
- * Listing.project
+ * Listing.conversations
  */
-export type Listing$projectArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Listing$conversationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Project
+   * Select specific fields to fetch from the Conversation
    */
-  select?: Prisma.ProjectSelect<ExtArgs> | null
+  select?: Prisma.ConversationSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Project
+   * Omit specific fields from the Conversation
    */
-  omit?: Prisma.ProjectOmit<ExtArgs> | null
+  omit?: Prisma.ConversationOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.ProjectInclude<ExtArgs> | null
-  where?: Prisma.ProjectWhereInput
+  include?: Prisma.ConversationInclude<ExtArgs> | null
+  where?: Prisma.ConversationWhereInput
+  orderBy?: Prisma.ConversationOrderByWithRelationInput | Prisma.ConversationOrderByWithRelationInput[]
+  cursor?: Prisma.ConversationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ConversationScalarFieldEnum | Prisma.ConversationScalarFieldEnum[]
+}
+
+/**
+ * Listing.favoritedBy
+ */
+export type Listing$favoritedByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the FavoriteListing
+   */
+  select?: Prisma.FavoriteListingSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the FavoriteListing
+   */
+  omit?: Prisma.FavoriteListingOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FavoriteListingInclude<ExtArgs> | null
+  where?: Prisma.FavoriteListingWhereInput
+  orderBy?: Prisma.FavoriteListingOrderByWithRelationInput | Prisma.FavoriteListingOrderByWithRelationInput[]
+  cursor?: Prisma.FavoriteListingWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.FavoriteListingScalarFieldEnum | Prisma.FavoriteListingScalarFieldEnum[]
 }
 
 /**
@@ -3474,27 +3717,22 @@ export type Listing$mediaArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 }
 
 /**
- * Listing.conversations
+ * Listing.project
  */
-export type Listing$conversationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Listing$projectArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Conversation
+   * Select specific fields to fetch from the Project
    */
-  select?: Prisma.ConversationSelect<ExtArgs> | null
+  select?: Prisma.ProjectSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Conversation
+   * Omit specific fields from the Project
    */
-  omit?: Prisma.ConversationOmit<ExtArgs> | null
+  omit?: Prisma.ProjectOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.ConversationInclude<ExtArgs> | null
-  where?: Prisma.ConversationWhereInput
-  orderBy?: Prisma.ConversationOrderByWithRelationInput | Prisma.ConversationOrderByWithRelationInput[]
-  cursor?: Prisma.ConversationWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.ConversationScalarFieldEnum | Prisma.ConversationScalarFieldEnum[]
+  include?: Prisma.ProjectInclude<ExtArgs> | null
+  where?: Prisma.ProjectWhereInput
 }
 
 /**

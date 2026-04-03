@@ -276,16 +276,17 @@ export type UserWhereInput = {
   isEmailVerified?: Prisma.BoolFilter<"User"> | boolean
   kycLevel?: Prisma.IntFilter<"User"> | number
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
-  profile?: Prisma.XOR<Prisma.UserProfileNullableScalarRelationFilter, Prisma.UserProfileWhereInput> | null
-  socialIdentities?: Prisma.SocialIdentityListRelationFilter
-  sessions?: Prisma.UserSessionListRelationFilter
-  listings?: Prisma.ListingListRelationFilter
-  savedSearches?: Prisma.SavedSearchListRelationFilter
+  auditLogs?: Prisma.AuditLogListRelationFilter
   conversationsBuy?: Prisma.ConversationListRelationFilter
   conversationsSell?: Prisma.ConversationListRelationFilter
+  favoriteListings?: Prisma.FavoriteListingListRelationFilter
+  listings?: Prisma.ListingListRelationFilter
   sentMessages?: Prisma.MessageListRelationFilter
-  auditLogs?: Prisma.AuditLogListRelationFilter
   reports?: Prisma.ReportListRelationFilter
+  savedSearches?: Prisma.SavedSearchListRelationFilter
+  socialIdentities?: Prisma.SocialIdentityListRelationFilter
+  profile?: Prisma.XOR<Prisma.UserProfileNullableScalarRelationFilter, Prisma.UserProfileWhereInput> | null
+  sessions?: Prisma.UserSessionListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -301,16 +302,17 @@ export type UserOrderByWithRelationInput = {
   isEmailVerified?: Prisma.SortOrder
   kycLevel?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  profile?: Prisma.UserProfileOrderByWithRelationInput
-  socialIdentities?: Prisma.SocialIdentityOrderByRelationAggregateInput
-  sessions?: Prisma.UserSessionOrderByRelationAggregateInput
-  listings?: Prisma.ListingOrderByRelationAggregateInput
-  savedSearches?: Prisma.SavedSearchOrderByRelationAggregateInput
+  auditLogs?: Prisma.AuditLogOrderByRelationAggregateInput
   conversationsBuy?: Prisma.ConversationOrderByRelationAggregateInput
   conversationsSell?: Prisma.ConversationOrderByRelationAggregateInput
+  favoriteListings?: Prisma.FavoriteListingOrderByRelationAggregateInput
+  listings?: Prisma.ListingOrderByRelationAggregateInput
   sentMessages?: Prisma.MessageOrderByRelationAggregateInput
-  auditLogs?: Prisma.AuditLogOrderByRelationAggregateInput
   reports?: Prisma.ReportOrderByRelationAggregateInput
+  savedSearches?: Prisma.SavedSearchOrderByRelationAggregateInput
+  socialIdentities?: Prisma.SocialIdentityOrderByRelationAggregateInput
+  profile?: Prisma.UserProfileOrderByWithRelationInput
+  sessions?: Prisma.UserSessionOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -329,16 +331,17 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   isEmailVerified?: Prisma.BoolFilter<"User"> | boolean
   kycLevel?: Prisma.IntFilter<"User"> | number
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
-  profile?: Prisma.XOR<Prisma.UserProfileNullableScalarRelationFilter, Prisma.UserProfileWhereInput> | null
-  socialIdentities?: Prisma.SocialIdentityListRelationFilter
-  sessions?: Prisma.UserSessionListRelationFilter
-  listings?: Prisma.ListingListRelationFilter
-  savedSearches?: Prisma.SavedSearchListRelationFilter
+  auditLogs?: Prisma.AuditLogListRelationFilter
   conversationsBuy?: Prisma.ConversationListRelationFilter
   conversationsSell?: Prisma.ConversationListRelationFilter
+  favoriteListings?: Prisma.FavoriteListingListRelationFilter
+  listings?: Prisma.ListingListRelationFilter
   sentMessages?: Prisma.MessageListRelationFilter
-  auditLogs?: Prisma.AuditLogListRelationFilter
   reports?: Prisma.ReportListRelationFilter
+  savedSearches?: Prisma.SavedSearchListRelationFilter
+  socialIdentities?: Prisma.SocialIdentityListRelationFilter
+  profile?: Prisma.XOR<Prisma.UserProfileNullableScalarRelationFilter, Prisma.UserProfileWhereInput> | null
+  sessions?: Prisma.UserSessionListRelationFilter
 }, "id" | "publicId" | "phoneNumber" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -392,16 +395,17 @@ export type UserCreateInput = {
   isEmailVerified?: boolean
   kycLevel?: number
   createdAt?: Date | string
-  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
-  socialIdentities?: Prisma.SocialIdentityCreateNestedManyWithoutUserInput
-  sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
-  listings?: Prisma.ListingCreateNestedManyWithoutUserInput
-  savedSearches?: Prisma.SavedSearchCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
   conversationsBuy?: Prisma.ConversationCreateNestedManyWithoutBuyerInput
   conversationsSell?: Prisma.ConversationCreateNestedManyWithoutSellerInput
+  favoriteListings?: Prisma.FavoriteListingCreateNestedManyWithoutUserInput
+  listings?: Prisma.ListingCreateNestedManyWithoutUserInput
   sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
-  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
   reports?: Prisma.ReportCreateNestedManyWithoutReporterInput
+  savedSearches?: Prisma.SavedSearchCreateNestedManyWithoutUserInput
+  socialIdentities?: Prisma.SocialIdentityCreateNestedManyWithoutUserInput
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -417,16 +421,17 @@ export type UserUncheckedCreateInput = {
   isEmailVerified?: boolean
   kycLevel?: number
   createdAt?: Date | string
-  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
-  socialIdentities?: Prisma.SocialIdentityUncheckedCreateNestedManyWithoutUserInput
-  sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
-  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutUserInput
-  savedSearches?: Prisma.SavedSearchUncheckedCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
   conversationsBuy?: Prisma.ConversationUncheckedCreateNestedManyWithoutBuyerInput
   conversationsSell?: Prisma.ConversationUncheckedCreateNestedManyWithoutSellerInput
+  favoriteListings?: Prisma.FavoriteListingUncheckedCreateNestedManyWithoutUserInput
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutUserInput
   sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
-  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
+  savedSearches?: Prisma.SavedSearchUncheckedCreateNestedManyWithoutUserInput
+  socialIdentities?: Prisma.SocialIdentityUncheckedCreateNestedManyWithoutUserInput
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -442,16 +447,17 @@ export type UserUpdateInput = {
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   kycLevel?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
-  socialIdentities?: Prisma.SocialIdentityUpdateManyWithoutUserNestedInput
-  sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
-  listings?: Prisma.ListingUpdateManyWithoutUserNestedInput
-  savedSearches?: Prisma.SavedSearchUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
   conversationsBuy?: Prisma.ConversationUpdateManyWithoutBuyerNestedInput
   conversationsSell?: Prisma.ConversationUpdateManyWithoutSellerNestedInput
+  favoriteListings?: Prisma.FavoriteListingUpdateManyWithoutUserNestedInput
+  listings?: Prisma.ListingUpdateManyWithoutUserNestedInput
   sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
-  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
   reports?: Prisma.ReportUpdateManyWithoutReporterNestedInput
+  savedSearches?: Prisma.SavedSearchUpdateManyWithoutUserNestedInput
+  socialIdentities?: Prisma.SocialIdentityUpdateManyWithoutUserNestedInput
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -467,16 +473,17 @@ export type UserUncheckedUpdateInput = {
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   kycLevel?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
-  socialIdentities?: Prisma.SocialIdentityUncheckedUpdateManyWithoutUserNestedInput
-  sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
-  listings?: Prisma.ListingUncheckedUpdateManyWithoutUserNestedInput
-  savedSearches?: Prisma.SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
   conversationsBuy?: Prisma.ConversationUncheckedUpdateManyWithoutBuyerNestedInput
   conversationsSell?: Prisma.ConversationUncheckedUpdateManyWithoutSellerNestedInput
+  favoriteListings?: Prisma.FavoriteListingUncheckedUpdateManyWithoutUserNestedInput
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutUserNestedInput
   sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
-  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
   reports?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
+  savedSearches?: Prisma.SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+  socialIdentities?: Prisma.SocialIdentityUncheckedUpdateManyWithoutUserNestedInput
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -771,6 +778,20 @@ export type UserUpdateOneWithoutAuditLogsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAuditLogsInput, Prisma.UserUpdateWithoutAuditLogsInput>, Prisma.UserUncheckedUpdateWithoutAuditLogsInput>
 }
 
+export type UserCreateNestedOneWithoutFavoriteListingsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutFavoriteListingsInput, Prisma.UserUncheckedCreateWithoutFavoriteListingsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutFavoriteListingsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutFavoriteListingsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutFavoriteListingsInput, Prisma.UserUncheckedCreateWithoutFavoriteListingsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutFavoriteListingsInput
+  upsert?: Prisma.UserUpsertWithoutFavoriteListingsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutFavoriteListingsInput, Prisma.UserUpdateWithoutFavoriteListingsInput>, Prisma.UserUncheckedUpdateWithoutFavoriteListingsInput>
+}
+
 export type UserCreateWithoutProfileInput = {
   id?: bigint | number
   publicId?: string
@@ -784,15 +805,16 @@ export type UserCreateWithoutProfileInput = {
   isEmailVerified?: boolean
   kycLevel?: number
   createdAt?: Date | string
-  socialIdentities?: Prisma.SocialIdentityCreateNestedManyWithoutUserInput
-  sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
-  listings?: Prisma.ListingCreateNestedManyWithoutUserInput
-  savedSearches?: Prisma.SavedSearchCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
   conversationsBuy?: Prisma.ConversationCreateNestedManyWithoutBuyerInput
   conversationsSell?: Prisma.ConversationCreateNestedManyWithoutSellerInput
+  favoriteListings?: Prisma.FavoriteListingCreateNestedManyWithoutUserInput
+  listings?: Prisma.ListingCreateNestedManyWithoutUserInput
   sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
-  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
   reports?: Prisma.ReportCreateNestedManyWithoutReporterInput
+  savedSearches?: Prisma.SavedSearchCreateNestedManyWithoutUserInput
+  socialIdentities?: Prisma.SocialIdentityCreateNestedManyWithoutUserInput
+  sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutProfileInput = {
@@ -808,15 +830,16 @@ export type UserUncheckedCreateWithoutProfileInput = {
   isEmailVerified?: boolean
   kycLevel?: number
   createdAt?: Date | string
-  socialIdentities?: Prisma.SocialIdentityUncheckedCreateNestedManyWithoutUserInput
-  sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
-  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutUserInput
-  savedSearches?: Prisma.SavedSearchUncheckedCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
   conversationsBuy?: Prisma.ConversationUncheckedCreateNestedManyWithoutBuyerInput
   conversationsSell?: Prisma.ConversationUncheckedCreateNestedManyWithoutSellerInput
+  favoriteListings?: Prisma.FavoriteListingUncheckedCreateNestedManyWithoutUserInput
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutUserInput
   sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
-  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
+  savedSearches?: Prisma.SavedSearchUncheckedCreateNestedManyWithoutUserInput
+  socialIdentities?: Prisma.SocialIdentityUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutProfileInput = {
@@ -848,15 +871,16 @@ export type UserUpdateWithoutProfileInput = {
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   kycLevel?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  socialIdentities?: Prisma.SocialIdentityUpdateManyWithoutUserNestedInput
-  sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
-  listings?: Prisma.ListingUpdateManyWithoutUserNestedInput
-  savedSearches?: Prisma.SavedSearchUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
   conversationsBuy?: Prisma.ConversationUpdateManyWithoutBuyerNestedInput
   conversationsSell?: Prisma.ConversationUpdateManyWithoutSellerNestedInput
+  favoriteListings?: Prisma.FavoriteListingUpdateManyWithoutUserNestedInput
+  listings?: Prisma.ListingUpdateManyWithoutUserNestedInput
   sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
-  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
   reports?: Prisma.ReportUpdateManyWithoutReporterNestedInput
+  savedSearches?: Prisma.SavedSearchUpdateManyWithoutUserNestedInput
+  socialIdentities?: Prisma.SocialIdentityUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutProfileInput = {
@@ -872,15 +896,16 @@ export type UserUncheckedUpdateWithoutProfileInput = {
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   kycLevel?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  socialIdentities?: Prisma.SocialIdentityUncheckedUpdateManyWithoutUserNestedInput
-  sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
-  listings?: Prisma.ListingUncheckedUpdateManyWithoutUserNestedInput
-  savedSearches?: Prisma.SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
   conversationsBuy?: Prisma.ConversationUncheckedUpdateManyWithoutBuyerNestedInput
   conversationsSell?: Prisma.ConversationUncheckedUpdateManyWithoutSellerNestedInput
+  favoriteListings?: Prisma.FavoriteListingUncheckedUpdateManyWithoutUserNestedInput
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutUserNestedInput
   sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
-  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
   reports?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
+  savedSearches?: Prisma.SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+  socialIdentities?: Prisma.SocialIdentityUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSocialIdentitiesInput = {
@@ -896,15 +921,16 @@ export type UserCreateWithoutSocialIdentitiesInput = {
   isEmailVerified?: boolean
   kycLevel?: number
   createdAt?: Date | string
-  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
-  sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
-  listings?: Prisma.ListingCreateNestedManyWithoutUserInput
-  savedSearches?: Prisma.SavedSearchCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
   conversationsBuy?: Prisma.ConversationCreateNestedManyWithoutBuyerInput
   conversationsSell?: Prisma.ConversationCreateNestedManyWithoutSellerInput
+  favoriteListings?: Prisma.FavoriteListingCreateNestedManyWithoutUserInput
+  listings?: Prisma.ListingCreateNestedManyWithoutUserInput
   sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
-  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
   reports?: Prisma.ReportCreateNestedManyWithoutReporterInput
+  savedSearches?: Prisma.SavedSearchCreateNestedManyWithoutUserInput
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSocialIdentitiesInput = {
@@ -920,15 +946,16 @@ export type UserUncheckedCreateWithoutSocialIdentitiesInput = {
   isEmailVerified?: boolean
   kycLevel?: number
   createdAt?: Date | string
-  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
-  sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
-  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutUserInput
-  savedSearches?: Prisma.SavedSearchUncheckedCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
   conversationsBuy?: Prisma.ConversationUncheckedCreateNestedManyWithoutBuyerInput
   conversationsSell?: Prisma.ConversationUncheckedCreateNestedManyWithoutSellerInput
+  favoriteListings?: Prisma.FavoriteListingUncheckedCreateNestedManyWithoutUserInput
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutUserInput
   sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
-  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
+  savedSearches?: Prisma.SavedSearchUncheckedCreateNestedManyWithoutUserInput
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSocialIdentitiesInput = {
@@ -960,15 +987,16 @@ export type UserUpdateWithoutSocialIdentitiesInput = {
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   kycLevel?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
-  sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
-  listings?: Prisma.ListingUpdateManyWithoutUserNestedInput
-  savedSearches?: Prisma.SavedSearchUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
   conversationsBuy?: Prisma.ConversationUpdateManyWithoutBuyerNestedInput
   conversationsSell?: Prisma.ConversationUpdateManyWithoutSellerNestedInput
+  favoriteListings?: Prisma.FavoriteListingUpdateManyWithoutUserNestedInput
+  listings?: Prisma.ListingUpdateManyWithoutUserNestedInput
   sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
-  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
   reports?: Prisma.ReportUpdateManyWithoutReporterNestedInput
+  savedSearches?: Prisma.SavedSearchUpdateManyWithoutUserNestedInput
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSocialIdentitiesInput = {
@@ -984,15 +1012,16 @@ export type UserUncheckedUpdateWithoutSocialIdentitiesInput = {
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   kycLevel?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
-  sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
-  listings?: Prisma.ListingUncheckedUpdateManyWithoutUserNestedInput
-  savedSearches?: Prisma.SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
   conversationsBuy?: Prisma.ConversationUncheckedUpdateManyWithoutBuyerNestedInput
   conversationsSell?: Prisma.ConversationUncheckedUpdateManyWithoutSellerNestedInput
+  favoriteListings?: Prisma.FavoriteListingUncheckedUpdateManyWithoutUserNestedInput
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutUserNestedInput
   sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
-  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
   reports?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
+  savedSearches?: Prisma.SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSessionsInput = {
@@ -1008,15 +1037,16 @@ export type UserCreateWithoutSessionsInput = {
   isEmailVerified?: boolean
   kycLevel?: number
   createdAt?: Date | string
-  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
-  socialIdentities?: Prisma.SocialIdentityCreateNestedManyWithoutUserInput
-  listings?: Prisma.ListingCreateNestedManyWithoutUserInput
-  savedSearches?: Prisma.SavedSearchCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
   conversationsBuy?: Prisma.ConversationCreateNestedManyWithoutBuyerInput
   conversationsSell?: Prisma.ConversationCreateNestedManyWithoutSellerInput
+  favoriteListings?: Prisma.FavoriteListingCreateNestedManyWithoutUserInput
+  listings?: Prisma.ListingCreateNestedManyWithoutUserInput
   sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
-  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
   reports?: Prisma.ReportCreateNestedManyWithoutReporterInput
+  savedSearches?: Prisma.SavedSearchCreateNestedManyWithoutUserInput
+  socialIdentities?: Prisma.SocialIdentityCreateNestedManyWithoutUserInput
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -1032,15 +1062,16 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   isEmailVerified?: boolean
   kycLevel?: number
   createdAt?: Date | string
-  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
-  socialIdentities?: Prisma.SocialIdentityUncheckedCreateNestedManyWithoutUserInput
-  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutUserInput
-  savedSearches?: Prisma.SavedSearchUncheckedCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
   conversationsBuy?: Prisma.ConversationUncheckedCreateNestedManyWithoutBuyerInput
   conversationsSell?: Prisma.ConversationUncheckedCreateNestedManyWithoutSellerInput
+  favoriteListings?: Prisma.FavoriteListingUncheckedCreateNestedManyWithoutUserInput
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutUserInput
   sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
-  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
+  savedSearches?: Prisma.SavedSearchUncheckedCreateNestedManyWithoutUserInput
+  socialIdentities?: Prisma.SocialIdentityUncheckedCreateNestedManyWithoutUserInput
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -1072,15 +1103,16 @@ export type UserUpdateWithoutSessionsInput = {
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   kycLevel?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
-  socialIdentities?: Prisma.SocialIdentityUpdateManyWithoutUserNestedInput
-  listings?: Prisma.ListingUpdateManyWithoutUserNestedInput
-  savedSearches?: Prisma.SavedSearchUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
   conversationsBuy?: Prisma.ConversationUpdateManyWithoutBuyerNestedInput
   conversationsSell?: Prisma.ConversationUpdateManyWithoutSellerNestedInput
+  favoriteListings?: Prisma.FavoriteListingUpdateManyWithoutUserNestedInput
+  listings?: Prisma.ListingUpdateManyWithoutUserNestedInput
   sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
-  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
   reports?: Prisma.ReportUpdateManyWithoutReporterNestedInput
+  savedSearches?: Prisma.SavedSearchUpdateManyWithoutUserNestedInput
+  socialIdentities?: Prisma.SocialIdentityUpdateManyWithoutUserNestedInput
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -1096,15 +1128,16 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   kycLevel?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
-  socialIdentities?: Prisma.SocialIdentityUncheckedUpdateManyWithoutUserNestedInput
-  listings?: Prisma.ListingUncheckedUpdateManyWithoutUserNestedInput
-  savedSearches?: Prisma.SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
   conversationsBuy?: Prisma.ConversationUncheckedUpdateManyWithoutBuyerNestedInput
   conversationsSell?: Prisma.ConversationUncheckedUpdateManyWithoutSellerNestedInput
+  favoriteListings?: Prisma.FavoriteListingUncheckedUpdateManyWithoutUserNestedInput
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutUserNestedInput
   sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
-  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
   reports?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
+  savedSearches?: Prisma.SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+  socialIdentities?: Prisma.SocialIdentityUncheckedUpdateManyWithoutUserNestedInput
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutListingsInput = {
@@ -1120,15 +1153,16 @@ export type UserCreateWithoutListingsInput = {
   isEmailVerified?: boolean
   kycLevel?: number
   createdAt?: Date | string
-  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
-  socialIdentities?: Prisma.SocialIdentityCreateNestedManyWithoutUserInput
-  sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
-  savedSearches?: Prisma.SavedSearchCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
   conversationsBuy?: Prisma.ConversationCreateNestedManyWithoutBuyerInput
   conversationsSell?: Prisma.ConversationCreateNestedManyWithoutSellerInput
+  favoriteListings?: Prisma.FavoriteListingCreateNestedManyWithoutUserInput
   sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
-  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
   reports?: Prisma.ReportCreateNestedManyWithoutReporterInput
+  savedSearches?: Prisma.SavedSearchCreateNestedManyWithoutUserInput
+  socialIdentities?: Prisma.SocialIdentityCreateNestedManyWithoutUserInput
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutListingsInput = {
@@ -1144,15 +1178,16 @@ export type UserUncheckedCreateWithoutListingsInput = {
   isEmailVerified?: boolean
   kycLevel?: number
   createdAt?: Date | string
-  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
-  socialIdentities?: Prisma.SocialIdentityUncheckedCreateNestedManyWithoutUserInput
-  sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
-  savedSearches?: Prisma.SavedSearchUncheckedCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
   conversationsBuy?: Prisma.ConversationUncheckedCreateNestedManyWithoutBuyerInput
   conversationsSell?: Prisma.ConversationUncheckedCreateNestedManyWithoutSellerInput
+  favoriteListings?: Prisma.FavoriteListingUncheckedCreateNestedManyWithoutUserInput
   sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
-  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
+  savedSearches?: Prisma.SavedSearchUncheckedCreateNestedManyWithoutUserInput
+  socialIdentities?: Prisma.SocialIdentityUncheckedCreateNestedManyWithoutUserInput
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutListingsInput = {
@@ -1184,15 +1219,16 @@ export type UserUpdateWithoutListingsInput = {
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   kycLevel?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
-  socialIdentities?: Prisma.SocialIdentityUpdateManyWithoutUserNestedInput
-  sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
-  savedSearches?: Prisma.SavedSearchUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
   conversationsBuy?: Prisma.ConversationUpdateManyWithoutBuyerNestedInput
   conversationsSell?: Prisma.ConversationUpdateManyWithoutSellerNestedInput
+  favoriteListings?: Prisma.FavoriteListingUpdateManyWithoutUserNestedInput
   sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
-  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
   reports?: Prisma.ReportUpdateManyWithoutReporterNestedInput
+  savedSearches?: Prisma.SavedSearchUpdateManyWithoutUserNestedInput
+  socialIdentities?: Prisma.SocialIdentityUpdateManyWithoutUserNestedInput
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutListingsInput = {
@@ -1208,15 +1244,16 @@ export type UserUncheckedUpdateWithoutListingsInput = {
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   kycLevel?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
-  socialIdentities?: Prisma.SocialIdentityUncheckedUpdateManyWithoutUserNestedInput
-  sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
-  savedSearches?: Prisma.SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
   conversationsBuy?: Prisma.ConversationUncheckedUpdateManyWithoutBuyerNestedInput
   conversationsSell?: Prisma.ConversationUncheckedUpdateManyWithoutSellerNestedInput
+  favoriteListings?: Prisma.FavoriteListingUncheckedUpdateManyWithoutUserNestedInput
   sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
-  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
   reports?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
+  savedSearches?: Prisma.SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+  socialIdentities?: Prisma.SocialIdentityUncheckedUpdateManyWithoutUserNestedInput
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSavedSearchesInput = {
@@ -1232,15 +1269,16 @@ export type UserCreateWithoutSavedSearchesInput = {
   isEmailVerified?: boolean
   kycLevel?: number
   createdAt?: Date | string
-  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
-  socialIdentities?: Prisma.SocialIdentityCreateNestedManyWithoutUserInput
-  sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
-  listings?: Prisma.ListingCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
   conversationsBuy?: Prisma.ConversationCreateNestedManyWithoutBuyerInput
   conversationsSell?: Prisma.ConversationCreateNestedManyWithoutSellerInput
+  favoriteListings?: Prisma.FavoriteListingCreateNestedManyWithoutUserInput
+  listings?: Prisma.ListingCreateNestedManyWithoutUserInput
   sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
-  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
   reports?: Prisma.ReportCreateNestedManyWithoutReporterInput
+  socialIdentities?: Prisma.SocialIdentityCreateNestedManyWithoutUserInput
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSavedSearchesInput = {
@@ -1256,15 +1294,16 @@ export type UserUncheckedCreateWithoutSavedSearchesInput = {
   isEmailVerified?: boolean
   kycLevel?: number
   createdAt?: Date | string
-  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
-  socialIdentities?: Prisma.SocialIdentityUncheckedCreateNestedManyWithoutUserInput
-  sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
-  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
   conversationsBuy?: Prisma.ConversationUncheckedCreateNestedManyWithoutBuyerInput
   conversationsSell?: Prisma.ConversationUncheckedCreateNestedManyWithoutSellerInput
+  favoriteListings?: Prisma.FavoriteListingUncheckedCreateNestedManyWithoutUserInput
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutUserInput
   sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
-  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
+  socialIdentities?: Prisma.SocialIdentityUncheckedCreateNestedManyWithoutUserInput
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSavedSearchesInput = {
@@ -1296,15 +1335,16 @@ export type UserUpdateWithoutSavedSearchesInput = {
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   kycLevel?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
-  socialIdentities?: Prisma.SocialIdentityUpdateManyWithoutUserNestedInput
-  sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
-  listings?: Prisma.ListingUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
   conversationsBuy?: Prisma.ConversationUpdateManyWithoutBuyerNestedInput
   conversationsSell?: Prisma.ConversationUpdateManyWithoutSellerNestedInput
+  favoriteListings?: Prisma.FavoriteListingUpdateManyWithoutUserNestedInput
+  listings?: Prisma.ListingUpdateManyWithoutUserNestedInput
   sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
-  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
   reports?: Prisma.ReportUpdateManyWithoutReporterNestedInput
+  socialIdentities?: Prisma.SocialIdentityUpdateManyWithoutUserNestedInput
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSavedSearchesInput = {
@@ -1320,15 +1360,16 @@ export type UserUncheckedUpdateWithoutSavedSearchesInput = {
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   kycLevel?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
-  socialIdentities?: Prisma.SocialIdentityUncheckedUpdateManyWithoutUserNestedInput
-  sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
-  listings?: Prisma.ListingUncheckedUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
   conversationsBuy?: Prisma.ConversationUncheckedUpdateManyWithoutBuyerNestedInput
   conversationsSell?: Prisma.ConversationUncheckedUpdateManyWithoutSellerNestedInput
+  favoriteListings?: Prisma.FavoriteListingUncheckedUpdateManyWithoutUserNestedInput
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutUserNestedInput
   sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
-  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
   reports?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
+  socialIdentities?: Prisma.SocialIdentityUncheckedUpdateManyWithoutUserNestedInput
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutConversationsBuyInput = {
@@ -1344,15 +1385,16 @@ export type UserCreateWithoutConversationsBuyInput = {
   isEmailVerified?: boolean
   kycLevel?: number
   createdAt?: Date | string
-  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
-  socialIdentities?: Prisma.SocialIdentityCreateNestedManyWithoutUserInput
-  sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
-  listings?: Prisma.ListingCreateNestedManyWithoutUserInput
-  savedSearches?: Prisma.SavedSearchCreateNestedManyWithoutUserInput
-  conversationsSell?: Prisma.ConversationCreateNestedManyWithoutSellerInput
-  sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  conversationsSell?: Prisma.ConversationCreateNestedManyWithoutSellerInput
+  favoriteListings?: Prisma.FavoriteListingCreateNestedManyWithoutUserInput
+  listings?: Prisma.ListingCreateNestedManyWithoutUserInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
   reports?: Prisma.ReportCreateNestedManyWithoutReporterInput
+  savedSearches?: Prisma.SavedSearchCreateNestedManyWithoutUserInput
+  socialIdentities?: Prisma.SocialIdentityCreateNestedManyWithoutUserInput
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutConversationsBuyInput = {
@@ -1368,15 +1410,16 @@ export type UserUncheckedCreateWithoutConversationsBuyInput = {
   isEmailVerified?: boolean
   kycLevel?: number
   createdAt?: Date | string
-  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
-  socialIdentities?: Prisma.SocialIdentityUncheckedCreateNestedManyWithoutUserInput
-  sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
-  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutUserInput
-  savedSearches?: Prisma.SavedSearchUncheckedCreateNestedManyWithoutUserInput
-  conversationsSell?: Prisma.ConversationUncheckedCreateNestedManyWithoutSellerInput
-  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  conversationsSell?: Prisma.ConversationUncheckedCreateNestedManyWithoutSellerInput
+  favoriteListings?: Prisma.FavoriteListingUncheckedCreateNestedManyWithoutUserInput
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutUserInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
+  savedSearches?: Prisma.SavedSearchUncheckedCreateNestedManyWithoutUserInput
+  socialIdentities?: Prisma.SocialIdentityUncheckedCreateNestedManyWithoutUserInput
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutConversationsBuyInput = {
@@ -1397,15 +1440,16 @@ export type UserCreateWithoutConversationsSellInput = {
   isEmailVerified?: boolean
   kycLevel?: number
   createdAt?: Date | string
-  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
-  socialIdentities?: Prisma.SocialIdentityCreateNestedManyWithoutUserInput
-  sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
-  listings?: Prisma.ListingCreateNestedManyWithoutUserInput
-  savedSearches?: Prisma.SavedSearchCreateNestedManyWithoutUserInput
-  conversationsBuy?: Prisma.ConversationCreateNestedManyWithoutBuyerInput
-  sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  conversationsBuy?: Prisma.ConversationCreateNestedManyWithoutBuyerInput
+  favoriteListings?: Prisma.FavoriteListingCreateNestedManyWithoutUserInput
+  listings?: Prisma.ListingCreateNestedManyWithoutUserInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
   reports?: Prisma.ReportCreateNestedManyWithoutReporterInput
+  savedSearches?: Prisma.SavedSearchCreateNestedManyWithoutUserInput
+  socialIdentities?: Prisma.SocialIdentityCreateNestedManyWithoutUserInput
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutConversationsSellInput = {
@@ -1421,15 +1465,16 @@ export type UserUncheckedCreateWithoutConversationsSellInput = {
   isEmailVerified?: boolean
   kycLevel?: number
   createdAt?: Date | string
-  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
-  socialIdentities?: Prisma.SocialIdentityUncheckedCreateNestedManyWithoutUserInput
-  sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
-  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutUserInput
-  savedSearches?: Prisma.SavedSearchUncheckedCreateNestedManyWithoutUserInput
-  conversationsBuy?: Prisma.ConversationUncheckedCreateNestedManyWithoutBuyerInput
-  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  conversationsBuy?: Prisma.ConversationUncheckedCreateNestedManyWithoutBuyerInput
+  favoriteListings?: Prisma.FavoriteListingUncheckedCreateNestedManyWithoutUserInput
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutUserInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
+  savedSearches?: Prisma.SavedSearchUncheckedCreateNestedManyWithoutUserInput
+  socialIdentities?: Prisma.SocialIdentityUncheckedCreateNestedManyWithoutUserInput
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutConversationsSellInput = {
@@ -1461,15 +1506,16 @@ export type UserUpdateWithoutConversationsBuyInput = {
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   kycLevel?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
-  socialIdentities?: Prisma.SocialIdentityUpdateManyWithoutUserNestedInput
-  sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
-  listings?: Prisma.ListingUpdateManyWithoutUserNestedInput
-  savedSearches?: Prisma.SavedSearchUpdateManyWithoutUserNestedInput
-  conversationsSell?: Prisma.ConversationUpdateManyWithoutSellerNestedInput
-  sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  conversationsSell?: Prisma.ConversationUpdateManyWithoutSellerNestedInput
+  favoriteListings?: Prisma.FavoriteListingUpdateManyWithoutUserNestedInput
+  listings?: Prisma.ListingUpdateManyWithoutUserNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   reports?: Prisma.ReportUpdateManyWithoutReporterNestedInput
+  savedSearches?: Prisma.SavedSearchUpdateManyWithoutUserNestedInput
+  socialIdentities?: Prisma.SocialIdentityUpdateManyWithoutUserNestedInput
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutConversationsBuyInput = {
@@ -1485,15 +1531,16 @@ export type UserUncheckedUpdateWithoutConversationsBuyInput = {
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   kycLevel?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
-  socialIdentities?: Prisma.SocialIdentityUncheckedUpdateManyWithoutUserNestedInput
-  sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
-  listings?: Prisma.ListingUncheckedUpdateManyWithoutUserNestedInput
-  savedSearches?: Prisma.SavedSearchUncheckedUpdateManyWithoutUserNestedInput
-  conversationsSell?: Prisma.ConversationUncheckedUpdateManyWithoutSellerNestedInput
-  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  conversationsSell?: Prisma.ConversationUncheckedUpdateManyWithoutSellerNestedInput
+  favoriteListings?: Prisma.FavoriteListingUncheckedUpdateManyWithoutUserNestedInput
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutUserNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   reports?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
+  savedSearches?: Prisma.SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+  socialIdentities?: Prisma.SocialIdentityUncheckedUpdateManyWithoutUserNestedInput
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutConversationsSellInput = {
@@ -1520,15 +1567,16 @@ export type UserUpdateWithoutConversationsSellInput = {
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   kycLevel?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
-  socialIdentities?: Prisma.SocialIdentityUpdateManyWithoutUserNestedInput
-  sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
-  listings?: Prisma.ListingUpdateManyWithoutUserNestedInput
-  savedSearches?: Prisma.SavedSearchUpdateManyWithoutUserNestedInput
-  conversationsBuy?: Prisma.ConversationUpdateManyWithoutBuyerNestedInput
-  sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  conversationsBuy?: Prisma.ConversationUpdateManyWithoutBuyerNestedInput
+  favoriteListings?: Prisma.FavoriteListingUpdateManyWithoutUserNestedInput
+  listings?: Prisma.ListingUpdateManyWithoutUserNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   reports?: Prisma.ReportUpdateManyWithoutReporterNestedInput
+  savedSearches?: Prisma.SavedSearchUpdateManyWithoutUserNestedInput
+  socialIdentities?: Prisma.SocialIdentityUpdateManyWithoutUserNestedInput
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutConversationsSellInput = {
@@ -1544,15 +1592,16 @@ export type UserUncheckedUpdateWithoutConversationsSellInput = {
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   kycLevel?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
-  socialIdentities?: Prisma.SocialIdentityUncheckedUpdateManyWithoutUserNestedInput
-  sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
-  listings?: Prisma.ListingUncheckedUpdateManyWithoutUserNestedInput
-  savedSearches?: Prisma.SavedSearchUncheckedUpdateManyWithoutUserNestedInput
-  conversationsBuy?: Prisma.ConversationUncheckedUpdateManyWithoutBuyerNestedInput
-  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  conversationsBuy?: Prisma.ConversationUncheckedUpdateManyWithoutBuyerNestedInput
+  favoriteListings?: Prisma.FavoriteListingUncheckedUpdateManyWithoutUserNestedInput
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutUserNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   reports?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
+  savedSearches?: Prisma.SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+  socialIdentities?: Prisma.SocialIdentityUncheckedUpdateManyWithoutUserNestedInput
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSentMessagesInput = {
@@ -1568,15 +1617,16 @@ export type UserCreateWithoutSentMessagesInput = {
   isEmailVerified?: boolean
   kycLevel?: number
   createdAt?: Date | string
-  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
-  socialIdentities?: Prisma.SocialIdentityCreateNestedManyWithoutUserInput
-  sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
-  listings?: Prisma.ListingCreateNestedManyWithoutUserInput
-  savedSearches?: Prisma.SavedSearchCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
   conversationsBuy?: Prisma.ConversationCreateNestedManyWithoutBuyerInput
   conversationsSell?: Prisma.ConversationCreateNestedManyWithoutSellerInput
-  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  favoriteListings?: Prisma.FavoriteListingCreateNestedManyWithoutUserInput
+  listings?: Prisma.ListingCreateNestedManyWithoutUserInput
   reports?: Prisma.ReportCreateNestedManyWithoutReporterInput
+  savedSearches?: Prisma.SavedSearchCreateNestedManyWithoutUserInput
+  socialIdentities?: Prisma.SocialIdentityCreateNestedManyWithoutUserInput
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSentMessagesInput = {
@@ -1592,15 +1642,16 @@ export type UserUncheckedCreateWithoutSentMessagesInput = {
   isEmailVerified?: boolean
   kycLevel?: number
   createdAt?: Date | string
-  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
-  socialIdentities?: Prisma.SocialIdentityUncheckedCreateNestedManyWithoutUserInput
-  sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
-  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutUserInput
-  savedSearches?: Prisma.SavedSearchUncheckedCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
   conversationsBuy?: Prisma.ConversationUncheckedCreateNestedManyWithoutBuyerInput
   conversationsSell?: Prisma.ConversationUncheckedCreateNestedManyWithoutSellerInput
-  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  favoriteListings?: Prisma.FavoriteListingUncheckedCreateNestedManyWithoutUserInput
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutUserInput
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
+  savedSearches?: Prisma.SavedSearchUncheckedCreateNestedManyWithoutUserInput
+  socialIdentities?: Prisma.SocialIdentityUncheckedCreateNestedManyWithoutUserInput
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSentMessagesInput = {
@@ -1632,15 +1683,16 @@ export type UserUpdateWithoutSentMessagesInput = {
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   kycLevel?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
-  socialIdentities?: Prisma.SocialIdentityUpdateManyWithoutUserNestedInput
-  sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
-  listings?: Prisma.ListingUpdateManyWithoutUserNestedInput
-  savedSearches?: Prisma.SavedSearchUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
   conversationsBuy?: Prisma.ConversationUpdateManyWithoutBuyerNestedInput
   conversationsSell?: Prisma.ConversationUpdateManyWithoutSellerNestedInput
-  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  favoriteListings?: Prisma.FavoriteListingUpdateManyWithoutUserNestedInput
+  listings?: Prisma.ListingUpdateManyWithoutUserNestedInput
   reports?: Prisma.ReportUpdateManyWithoutReporterNestedInput
+  savedSearches?: Prisma.SavedSearchUpdateManyWithoutUserNestedInput
+  socialIdentities?: Prisma.SocialIdentityUpdateManyWithoutUserNestedInput
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSentMessagesInput = {
@@ -1656,15 +1708,16 @@ export type UserUncheckedUpdateWithoutSentMessagesInput = {
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   kycLevel?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
-  socialIdentities?: Prisma.SocialIdentityUncheckedUpdateManyWithoutUserNestedInput
-  sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
-  listings?: Prisma.ListingUncheckedUpdateManyWithoutUserNestedInput
-  savedSearches?: Prisma.SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
   conversationsBuy?: Prisma.ConversationUncheckedUpdateManyWithoutBuyerNestedInput
   conversationsSell?: Prisma.ConversationUncheckedUpdateManyWithoutSellerNestedInput
-  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  favoriteListings?: Prisma.FavoriteListingUncheckedUpdateManyWithoutUserNestedInput
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutUserNestedInput
   reports?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
+  savedSearches?: Prisma.SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+  socialIdentities?: Prisma.SocialIdentityUncheckedUpdateManyWithoutUserNestedInput
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutReportsInput = {
@@ -1680,15 +1733,16 @@ export type UserCreateWithoutReportsInput = {
   isEmailVerified?: boolean
   kycLevel?: number
   createdAt?: Date | string
-  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
-  socialIdentities?: Prisma.SocialIdentityCreateNestedManyWithoutUserInput
-  sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
-  listings?: Prisma.ListingCreateNestedManyWithoutUserInput
-  savedSearches?: Prisma.SavedSearchCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
   conversationsBuy?: Prisma.ConversationCreateNestedManyWithoutBuyerInput
   conversationsSell?: Prisma.ConversationCreateNestedManyWithoutSellerInput
+  favoriteListings?: Prisma.FavoriteListingCreateNestedManyWithoutUserInput
+  listings?: Prisma.ListingCreateNestedManyWithoutUserInput
   sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
-  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  savedSearches?: Prisma.SavedSearchCreateNestedManyWithoutUserInput
+  socialIdentities?: Prisma.SocialIdentityCreateNestedManyWithoutUserInput
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReportsInput = {
@@ -1704,15 +1758,16 @@ export type UserUncheckedCreateWithoutReportsInput = {
   isEmailVerified?: boolean
   kycLevel?: number
   createdAt?: Date | string
-  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
-  socialIdentities?: Prisma.SocialIdentityUncheckedCreateNestedManyWithoutUserInput
-  sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
-  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutUserInput
-  savedSearches?: Prisma.SavedSearchUncheckedCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
   conversationsBuy?: Prisma.ConversationUncheckedCreateNestedManyWithoutBuyerInput
   conversationsSell?: Prisma.ConversationUncheckedCreateNestedManyWithoutSellerInput
+  favoriteListings?: Prisma.FavoriteListingUncheckedCreateNestedManyWithoutUserInput
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutUserInput
   sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
-  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  savedSearches?: Prisma.SavedSearchUncheckedCreateNestedManyWithoutUserInput
+  socialIdentities?: Prisma.SocialIdentityUncheckedCreateNestedManyWithoutUserInput
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReportsInput = {
@@ -1744,15 +1799,16 @@ export type UserUpdateWithoutReportsInput = {
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   kycLevel?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
-  socialIdentities?: Prisma.SocialIdentityUpdateManyWithoutUserNestedInput
-  sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
-  listings?: Prisma.ListingUpdateManyWithoutUserNestedInput
-  savedSearches?: Prisma.SavedSearchUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
   conversationsBuy?: Prisma.ConversationUpdateManyWithoutBuyerNestedInput
   conversationsSell?: Prisma.ConversationUpdateManyWithoutSellerNestedInput
+  favoriteListings?: Prisma.FavoriteListingUpdateManyWithoutUserNestedInput
+  listings?: Prisma.ListingUpdateManyWithoutUserNestedInput
   sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
-  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  savedSearches?: Prisma.SavedSearchUpdateManyWithoutUserNestedInput
+  socialIdentities?: Prisma.SocialIdentityUpdateManyWithoutUserNestedInput
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReportsInput = {
@@ -1768,15 +1824,16 @@ export type UserUncheckedUpdateWithoutReportsInput = {
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   kycLevel?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
-  socialIdentities?: Prisma.SocialIdentityUncheckedUpdateManyWithoutUserNestedInput
-  sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
-  listings?: Prisma.ListingUncheckedUpdateManyWithoutUserNestedInput
-  savedSearches?: Prisma.SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
   conversationsBuy?: Prisma.ConversationUncheckedUpdateManyWithoutBuyerNestedInput
   conversationsSell?: Prisma.ConversationUncheckedUpdateManyWithoutSellerNestedInput
+  favoriteListings?: Prisma.FavoriteListingUncheckedUpdateManyWithoutUserNestedInput
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutUserNestedInput
   sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
-  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  savedSearches?: Prisma.SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+  socialIdentities?: Prisma.SocialIdentityUncheckedUpdateManyWithoutUserNestedInput
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAuditLogsInput = {
@@ -1792,15 +1849,16 @@ export type UserCreateWithoutAuditLogsInput = {
   isEmailVerified?: boolean
   kycLevel?: number
   createdAt?: Date | string
-  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
-  socialIdentities?: Prisma.SocialIdentityCreateNestedManyWithoutUserInput
-  sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
-  listings?: Prisma.ListingCreateNestedManyWithoutUserInput
-  savedSearches?: Prisma.SavedSearchCreateNestedManyWithoutUserInput
   conversationsBuy?: Prisma.ConversationCreateNestedManyWithoutBuyerInput
   conversationsSell?: Prisma.ConversationCreateNestedManyWithoutSellerInput
+  favoriteListings?: Prisma.FavoriteListingCreateNestedManyWithoutUserInput
+  listings?: Prisma.ListingCreateNestedManyWithoutUserInput
   sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
   reports?: Prisma.ReportCreateNestedManyWithoutReporterInput
+  savedSearches?: Prisma.SavedSearchCreateNestedManyWithoutUserInput
+  socialIdentities?: Prisma.SocialIdentityCreateNestedManyWithoutUserInput
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAuditLogsInput = {
@@ -1816,15 +1874,16 @@ export type UserUncheckedCreateWithoutAuditLogsInput = {
   isEmailVerified?: boolean
   kycLevel?: number
   createdAt?: Date | string
-  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
-  socialIdentities?: Prisma.SocialIdentityUncheckedCreateNestedManyWithoutUserInput
-  sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
-  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutUserInput
-  savedSearches?: Prisma.SavedSearchUncheckedCreateNestedManyWithoutUserInput
   conversationsBuy?: Prisma.ConversationUncheckedCreateNestedManyWithoutBuyerInput
   conversationsSell?: Prisma.ConversationUncheckedCreateNestedManyWithoutSellerInput
+  favoriteListings?: Prisma.FavoriteListingUncheckedCreateNestedManyWithoutUserInput
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutUserInput
   sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
+  savedSearches?: Prisma.SavedSearchUncheckedCreateNestedManyWithoutUserInput
+  socialIdentities?: Prisma.SocialIdentityUncheckedCreateNestedManyWithoutUserInput
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAuditLogsInput = {
@@ -1856,15 +1915,16 @@ export type UserUpdateWithoutAuditLogsInput = {
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   kycLevel?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
-  socialIdentities?: Prisma.SocialIdentityUpdateManyWithoutUserNestedInput
-  sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
-  listings?: Prisma.ListingUpdateManyWithoutUserNestedInput
-  savedSearches?: Prisma.SavedSearchUpdateManyWithoutUserNestedInput
   conversationsBuy?: Prisma.ConversationUpdateManyWithoutBuyerNestedInput
   conversationsSell?: Prisma.ConversationUpdateManyWithoutSellerNestedInput
+  favoriteListings?: Prisma.FavoriteListingUpdateManyWithoutUserNestedInput
+  listings?: Prisma.ListingUpdateManyWithoutUserNestedInput
   sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   reports?: Prisma.ReportUpdateManyWithoutReporterNestedInput
+  savedSearches?: Prisma.SavedSearchUpdateManyWithoutUserNestedInput
+  socialIdentities?: Prisma.SocialIdentityUpdateManyWithoutUserNestedInput
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAuditLogsInput = {
@@ -1880,15 +1940,132 @@ export type UserUncheckedUpdateWithoutAuditLogsInput = {
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   kycLevel?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
-  socialIdentities?: Prisma.SocialIdentityUncheckedUpdateManyWithoutUserNestedInput
-  sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
-  listings?: Prisma.ListingUncheckedUpdateManyWithoutUserNestedInput
-  savedSearches?: Prisma.SavedSearchUncheckedUpdateManyWithoutUserNestedInput
   conversationsBuy?: Prisma.ConversationUncheckedUpdateManyWithoutBuyerNestedInput
   conversationsSell?: Prisma.ConversationUncheckedUpdateManyWithoutSellerNestedInput
+  favoriteListings?: Prisma.FavoriteListingUncheckedUpdateManyWithoutUserNestedInput
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutUserNestedInput
   sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   reports?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
+  savedSearches?: Prisma.SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+  socialIdentities?: Prisma.SocialIdentityUncheckedUpdateManyWithoutUserNestedInput
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutFavoriteListingsInput = {
+  id?: bigint | number
+  publicId?: string
+  phoneNumber?: string | null
+  email?: string | null
+  passwordHash?: string | null
+  securityStamp?: string
+  accountType: $Enums.AccountType
+  status?: $Enums.UserStatus
+  isPhoneVerified?: boolean
+  isEmailVerified?: boolean
+  kycLevel?: number
+  createdAt?: Date | string
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  conversationsBuy?: Prisma.ConversationCreateNestedManyWithoutBuyerInput
+  conversationsSell?: Prisma.ConversationCreateNestedManyWithoutSellerInput
+  listings?: Prisma.ListingCreateNestedManyWithoutUserInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
+  reports?: Prisma.ReportCreateNestedManyWithoutReporterInput
+  savedSearches?: Prisma.SavedSearchCreateNestedManyWithoutUserInput
+  socialIdentities?: Prisma.SocialIdentityCreateNestedManyWithoutUserInput
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  sessions?: Prisma.UserSessionCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutFavoriteListingsInput = {
+  id?: bigint | number
+  publicId?: string
+  phoneNumber?: string | null
+  email?: string | null
+  passwordHash?: string | null
+  securityStamp?: string
+  accountType: $Enums.AccountType
+  status?: $Enums.UserStatus
+  isPhoneVerified?: boolean
+  isEmailVerified?: boolean
+  kycLevel?: number
+  createdAt?: Date | string
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  conversationsBuy?: Prisma.ConversationUncheckedCreateNestedManyWithoutBuyerInput
+  conversationsSell?: Prisma.ConversationUncheckedCreateNestedManyWithoutSellerInput
+  listings?: Prisma.ListingUncheckedCreateNestedManyWithoutUserInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+  reports?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
+  savedSearches?: Prisma.SavedSearchUncheckedCreateNestedManyWithoutUserInput
+  socialIdentities?: Prisma.SocialIdentityUncheckedCreateNestedManyWithoutUserInput
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  sessions?: Prisma.UserSessionUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutFavoriteListingsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutFavoriteListingsInput, Prisma.UserUncheckedCreateWithoutFavoriteListingsInput>
+}
+
+export type UserUpsertWithoutFavoriteListingsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutFavoriteListingsInput, Prisma.UserUncheckedUpdateWithoutFavoriteListingsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutFavoriteListingsInput, Prisma.UserUncheckedCreateWithoutFavoriteListingsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutFavoriteListingsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutFavoriteListingsInput, Prisma.UserUncheckedUpdateWithoutFavoriteListingsInput>
+}
+
+export type UserUpdateWithoutFavoriteListingsInput = {
+  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  publicId?: Prisma.StringFieldUpdateOperationsInput | string
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  securityStamp?: Prisma.StringFieldUpdateOperationsInput | string
+  accountType?: Prisma.EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isPhoneVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  kycLevel?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  conversationsBuy?: Prisma.ConversationUpdateManyWithoutBuyerNestedInput
+  conversationsSell?: Prisma.ConversationUpdateManyWithoutSellerNestedInput
+  listings?: Prisma.ListingUpdateManyWithoutUserNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+  reports?: Prisma.ReportUpdateManyWithoutReporterNestedInput
+  savedSearches?: Prisma.SavedSearchUpdateManyWithoutUserNestedInput
+  socialIdentities?: Prisma.SocialIdentityUpdateManyWithoutUserNestedInput
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutFavoriteListingsInput = {
+  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  publicId?: Prisma.StringFieldUpdateOperationsInput | string
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  securityStamp?: Prisma.StringFieldUpdateOperationsInput | string
+  accountType?: Prisma.EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isPhoneVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  kycLevel?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  conversationsBuy?: Prisma.ConversationUncheckedUpdateManyWithoutBuyerNestedInput
+  conversationsSell?: Prisma.ConversationUncheckedUpdateManyWithoutSellerNestedInput
+  listings?: Prisma.ListingUncheckedUpdateManyWithoutUserNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+  reports?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
+  savedSearches?: Prisma.SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+  socialIdentities?: Prisma.SocialIdentityUncheckedUpdateManyWithoutUserNestedInput
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  sessions?: Prisma.UserSessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -1897,27 +2074,29 @@ export type UserUncheckedUpdateWithoutAuditLogsInput = {
  */
 
 export type UserCountOutputType = {
-  socialIdentities: number
-  sessions: number
-  listings: number
-  savedSearches: number
+  auditLogs: number
   conversationsBuy: number
   conversationsSell: number
+  favoriteListings: number
+  listings: number
   sentMessages: number
-  auditLogs: number
   reports: number
+  savedSearches: number
+  socialIdentities: number
+  sessions: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  socialIdentities?: boolean | UserCountOutputTypeCountSocialIdentitiesArgs
-  sessions?: boolean | UserCountOutputTypeCountSessionsArgs
-  listings?: boolean | UserCountOutputTypeCountListingsArgs
-  savedSearches?: boolean | UserCountOutputTypeCountSavedSearchesArgs
+  auditLogs?: boolean | UserCountOutputTypeCountAuditLogsArgs
   conversationsBuy?: boolean | UserCountOutputTypeCountConversationsBuyArgs
   conversationsSell?: boolean | UserCountOutputTypeCountConversationsSellArgs
+  favoriteListings?: boolean | UserCountOutputTypeCountFavoriteListingsArgs
+  listings?: boolean | UserCountOutputTypeCountListingsArgs
   sentMessages?: boolean | UserCountOutputTypeCountSentMessagesArgs
-  auditLogs?: boolean | UserCountOutputTypeCountAuditLogsArgs
   reports?: boolean | UserCountOutputTypeCountReportsArgs
+  savedSearches?: boolean | UserCountOutputTypeCountSavedSearchesArgs
+  socialIdentities?: boolean | UserCountOutputTypeCountSocialIdentitiesArgs
+  sessions?: boolean | UserCountOutputTypeCountSessionsArgs
 }
 
 /**
@@ -1933,29 +2112,8 @@ export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountSocialIdentitiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.SocialIdentityWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.UserSessionWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountListingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ListingWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountSavedSearchesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.SavedSearchWhereInput
+export type UserCountOutputTypeCountAuditLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AuditLogWhereInput
 }
 
 /**
@@ -1975,6 +2133,20 @@ export type UserCountOutputTypeCountConversationsSellArgs<ExtArgs extends runtim
 /**
  * UserCountOutputType without action
  */
+export type UserCountOutputTypeCountFavoriteListingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.FavoriteListingWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountListingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ListingWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
 export type UserCountOutputTypeCountSentMessagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.MessageWhereInput
 }
@@ -1982,15 +2154,29 @@ export type UserCountOutputTypeCountSentMessagesArgs<ExtArgs extends runtime.Typ
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountAuditLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.AuditLogWhereInput
+export type UserCountOutputTypeCountReportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ReportWhereInput
 }
 
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountReportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ReportWhereInput
+export type UserCountOutputTypeCountSavedSearchesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SavedSearchWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountSocialIdentitiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SocialIdentityWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UserSessionWhereInput
 }
 
 
@@ -2007,16 +2193,17 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   isEmailVerified?: boolean
   kycLevel?: boolean
   createdAt?: boolean
-  profile?: boolean | Prisma.User$profileArgs<ExtArgs>
-  socialIdentities?: boolean | Prisma.User$socialIdentitiesArgs<ExtArgs>
-  sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
-  listings?: boolean | Prisma.User$listingsArgs<ExtArgs>
-  savedSearches?: boolean | Prisma.User$savedSearchesArgs<ExtArgs>
+  auditLogs?: boolean | Prisma.User$auditLogsArgs<ExtArgs>
   conversationsBuy?: boolean | Prisma.User$conversationsBuyArgs<ExtArgs>
   conversationsSell?: boolean | Prisma.User$conversationsSellArgs<ExtArgs>
+  favoriteListings?: boolean | Prisma.User$favoriteListingsArgs<ExtArgs>
+  listings?: boolean | Prisma.User$listingsArgs<ExtArgs>
   sentMessages?: boolean | Prisma.User$sentMessagesArgs<ExtArgs>
-  auditLogs?: boolean | Prisma.User$auditLogsArgs<ExtArgs>
   reports?: boolean | Prisma.User$reportsArgs<ExtArgs>
+  savedSearches?: boolean | Prisma.User$savedSearchesArgs<ExtArgs>
+  socialIdentities?: boolean | Prisma.User$socialIdentitiesArgs<ExtArgs>
+  profile?: boolean | Prisma.User$profileArgs<ExtArgs>
+  sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -2067,16 +2254,17 @@ export type UserSelectScalar = {
 
 export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "publicId" | "phoneNumber" | "email" | "passwordHash" | "securityStamp" | "accountType" | "status" | "isPhoneVerified" | "isEmailVerified" | "kycLevel" | "createdAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  profile?: boolean | Prisma.User$profileArgs<ExtArgs>
-  socialIdentities?: boolean | Prisma.User$socialIdentitiesArgs<ExtArgs>
-  sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
-  listings?: boolean | Prisma.User$listingsArgs<ExtArgs>
-  savedSearches?: boolean | Prisma.User$savedSearchesArgs<ExtArgs>
+  auditLogs?: boolean | Prisma.User$auditLogsArgs<ExtArgs>
   conversationsBuy?: boolean | Prisma.User$conversationsBuyArgs<ExtArgs>
   conversationsSell?: boolean | Prisma.User$conversationsSellArgs<ExtArgs>
+  favoriteListings?: boolean | Prisma.User$favoriteListingsArgs<ExtArgs>
+  listings?: boolean | Prisma.User$listingsArgs<ExtArgs>
   sentMessages?: boolean | Prisma.User$sentMessagesArgs<ExtArgs>
-  auditLogs?: boolean | Prisma.User$auditLogsArgs<ExtArgs>
   reports?: boolean | Prisma.User$reportsArgs<ExtArgs>
+  savedSearches?: boolean | Prisma.User$savedSearchesArgs<ExtArgs>
+  socialIdentities?: boolean | Prisma.User$socialIdentitiesArgs<ExtArgs>
+  profile?: boolean | Prisma.User$profileArgs<ExtArgs>
+  sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -2085,16 +2273,17 @@ export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "User"
   objects: {
-    profile: Prisma.$UserProfilePayload<ExtArgs> | null
-    socialIdentities: Prisma.$SocialIdentityPayload<ExtArgs>[]
-    sessions: Prisma.$UserSessionPayload<ExtArgs>[]
-    listings: Prisma.$ListingPayload<ExtArgs>[]
-    savedSearches: Prisma.$SavedSearchPayload<ExtArgs>[]
+    auditLogs: Prisma.$AuditLogPayload<ExtArgs>[]
     conversationsBuy: Prisma.$ConversationPayload<ExtArgs>[]
     conversationsSell: Prisma.$ConversationPayload<ExtArgs>[]
+    favoriteListings: Prisma.$FavoriteListingPayload<ExtArgs>[]
+    listings: Prisma.$ListingPayload<ExtArgs>[]
     sentMessages: Prisma.$MessagePayload<ExtArgs>[]
-    auditLogs: Prisma.$AuditLogPayload<ExtArgs>[]
     reports: Prisma.$ReportPayload<ExtArgs>[]
+    savedSearches: Prisma.$SavedSearchPayload<ExtArgs>[]
+    socialIdentities: Prisma.$SocialIdentityPayload<ExtArgs>[]
+    profile: Prisma.$UserProfilePayload<ExtArgs> | null
+    sessions: Prisma.$UserSessionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: bigint
@@ -2503,16 +2692,17 @@ readonly fields: UserFieldRefs;
  */
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  profile<T extends Prisma.User$profileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$profileArgs<ExtArgs>>): Prisma.Prisma__UserProfileClient<runtime.Types.Result.GetResult<Prisma.$UserProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  socialIdentities<T extends Prisma.User$socialIdentitiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$socialIdentitiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SocialIdentityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  sessions<T extends Prisma.User$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  listings<T extends Prisma.User$listingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$listingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  savedSearches<T extends Prisma.User$savedSearchesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$savedSearchesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SavedSearchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  auditLogs<T extends Prisma.User$auditLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$auditLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   conversationsBuy<T extends Prisma.User$conversationsBuyArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$conversationsBuyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   conversationsSell<T extends Prisma.User$conversationsSellArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$conversationsSellArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  favoriteListings<T extends Prisma.User$favoriteListingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$favoriteListingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FavoriteListingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  listings<T extends Prisma.User$listingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$listingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sentMessages<T extends Prisma.User$sentMessagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sentMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  auditLogs<T extends Prisma.User$auditLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$auditLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reports<T extends Prisma.User$reportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  savedSearches<T extends Prisma.User$savedSearchesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$savedSearchesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SavedSearchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  socialIdentities<T extends Prisma.User$socialIdentitiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$socialIdentitiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SocialIdentityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  profile<T extends Prisma.User$profileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$profileArgs<ExtArgs>>): Prisma.Prisma__UserProfileClient<runtime.Types.Result.GetResult<Prisma.$UserProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  sessions<T extends Prisma.User$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2942,118 +3132,27 @@ export type UserDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
- * User.profile
+ * User.auditLogs
  */
-export type User$profileArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$auditLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the UserProfile
+   * Select specific fields to fetch from the AuditLog
    */
-  select?: Prisma.UserProfileSelect<ExtArgs> | null
+  select?: Prisma.AuditLogSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the UserProfile
+   * Omit specific fields from the AuditLog
    */
-  omit?: Prisma.UserProfileOmit<ExtArgs> | null
+  omit?: Prisma.AuditLogOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.UserProfileInclude<ExtArgs> | null
-  where?: Prisma.UserProfileWhereInput
-}
-
-/**
- * User.socialIdentities
- */
-export type User$socialIdentitiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the SocialIdentity
-   */
-  select?: Prisma.SocialIdentitySelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the SocialIdentity
-   */
-  omit?: Prisma.SocialIdentityOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.SocialIdentityInclude<ExtArgs> | null
-  where?: Prisma.SocialIdentityWhereInput
-  orderBy?: Prisma.SocialIdentityOrderByWithRelationInput | Prisma.SocialIdentityOrderByWithRelationInput[]
-  cursor?: Prisma.SocialIdentityWhereUniqueInput
+  include?: Prisma.AuditLogInclude<ExtArgs> | null
+  where?: Prisma.AuditLogWhereInput
+  orderBy?: Prisma.AuditLogOrderByWithRelationInput | Prisma.AuditLogOrderByWithRelationInput[]
+  cursor?: Prisma.AuditLogWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.SocialIdentityScalarFieldEnum | Prisma.SocialIdentityScalarFieldEnum[]
-}
-
-/**
- * User.sessions
- */
-export type User$sessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the UserSession
-   */
-  select?: Prisma.UserSessionSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the UserSession
-   */
-  omit?: Prisma.UserSessionOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.UserSessionInclude<ExtArgs> | null
-  where?: Prisma.UserSessionWhereInput
-  orderBy?: Prisma.UserSessionOrderByWithRelationInput | Prisma.UserSessionOrderByWithRelationInput[]
-  cursor?: Prisma.UserSessionWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.UserSessionScalarFieldEnum | Prisma.UserSessionScalarFieldEnum[]
-}
-
-/**
- * User.listings
- */
-export type User$listingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Listing
-   */
-  select?: Prisma.ListingSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Listing
-   */
-  omit?: Prisma.ListingOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ListingInclude<ExtArgs> | null
-  where?: Prisma.ListingWhereInput
-  orderBy?: Prisma.ListingOrderByWithRelationInput | Prisma.ListingOrderByWithRelationInput[]
-  cursor?: Prisma.ListingWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.ListingScalarFieldEnum | Prisma.ListingScalarFieldEnum[]
-}
-
-/**
- * User.savedSearches
- */
-export type User$savedSearchesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the SavedSearch
-   */
-  select?: Prisma.SavedSearchSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the SavedSearch
-   */
-  omit?: Prisma.SavedSearchOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.SavedSearchInclude<ExtArgs> | null
-  where?: Prisma.SavedSearchWhereInput
-  orderBy?: Prisma.SavedSearchOrderByWithRelationInput | Prisma.SavedSearchOrderByWithRelationInput[]
-  cursor?: Prisma.SavedSearchWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.SavedSearchScalarFieldEnum | Prisma.SavedSearchScalarFieldEnum[]
+  distinct?: Prisma.AuditLogScalarFieldEnum | Prisma.AuditLogScalarFieldEnum[]
 }
 
 /**
@@ -3105,6 +3204,54 @@ export type User$conversationsSellArgs<ExtArgs extends runtime.Types.Extensions.
 }
 
 /**
+ * User.favoriteListings
+ */
+export type User$favoriteListingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the FavoriteListing
+   */
+  select?: Prisma.FavoriteListingSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the FavoriteListing
+   */
+  omit?: Prisma.FavoriteListingOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FavoriteListingInclude<ExtArgs> | null
+  where?: Prisma.FavoriteListingWhereInput
+  orderBy?: Prisma.FavoriteListingOrderByWithRelationInput | Prisma.FavoriteListingOrderByWithRelationInput[]
+  cursor?: Prisma.FavoriteListingWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.FavoriteListingScalarFieldEnum | Prisma.FavoriteListingScalarFieldEnum[]
+}
+
+/**
+ * User.listings
+ */
+export type User$listingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Listing
+   */
+  select?: Prisma.ListingSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Listing
+   */
+  omit?: Prisma.ListingOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ListingInclude<ExtArgs> | null
+  where?: Prisma.ListingWhereInput
+  orderBy?: Prisma.ListingOrderByWithRelationInput | Prisma.ListingOrderByWithRelationInput[]
+  cursor?: Prisma.ListingWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ListingScalarFieldEnum | Prisma.ListingScalarFieldEnum[]
+}
+
+/**
  * User.sentMessages
  */
 export type User$sentMessagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3129,30 +3276,6 @@ export type User$sentMessagesArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 /**
- * User.auditLogs
- */
-export type User$auditLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the AuditLog
-   */
-  select?: Prisma.AuditLogSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the AuditLog
-   */
-  omit?: Prisma.AuditLogOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.AuditLogInclude<ExtArgs> | null
-  where?: Prisma.AuditLogWhereInput
-  orderBy?: Prisma.AuditLogOrderByWithRelationInput | Prisma.AuditLogOrderByWithRelationInput[]
-  cursor?: Prisma.AuditLogWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.AuditLogScalarFieldEnum | Prisma.AuditLogScalarFieldEnum[]
-}
-
-/**
  * User.reports
  */
 export type User$reportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3174,6 +3297,97 @@ export type User$reportsArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   take?: number
   skip?: number
   distinct?: Prisma.ReportScalarFieldEnum | Prisma.ReportScalarFieldEnum[]
+}
+
+/**
+ * User.savedSearches
+ */
+export type User$savedSearchesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SavedSearch
+   */
+  select?: Prisma.SavedSearchSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SavedSearch
+   */
+  omit?: Prisma.SavedSearchOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SavedSearchInclude<ExtArgs> | null
+  where?: Prisma.SavedSearchWhereInput
+  orderBy?: Prisma.SavedSearchOrderByWithRelationInput | Prisma.SavedSearchOrderByWithRelationInput[]
+  cursor?: Prisma.SavedSearchWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SavedSearchScalarFieldEnum | Prisma.SavedSearchScalarFieldEnum[]
+}
+
+/**
+ * User.socialIdentities
+ */
+export type User$socialIdentitiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SocialIdentity
+   */
+  select?: Prisma.SocialIdentitySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SocialIdentity
+   */
+  omit?: Prisma.SocialIdentityOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SocialIdentityInclude<ExtArgs> | null
+  where?: Prisma.SocialIdentityWhereInput
+  orderBy?: Prisma.SocialIdentityOrderByWithRelationInput | Prisma.SocialIdentityOrderByWithRelationInput[]
+  cursor?: Prisma.SocialIdentityWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SocialIdentityScalarFieldEnum | Prisma.SocialIdentityScalarFieldEnum[]
+}
+
+/**
+ * User.profile
+ */
+export type User$profileArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserProfile
+   */
+  select?: Prisma.UserProfileSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UserProfile
+   */
+  omit?: Prisma.UserProfileOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserProfileInclude<ExtArgs> | null
+  where?: Prisma.UserProfileWhereInput
+}
+
+/**
+ * User.sessions
+ */
+export type User$sessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserSession
+   */
+  select?: Prisma.UserSessionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UserSession
+   */
+  omit?: Prisma.UserSessionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserSessionInclude<ExtArgs> | null
+  where?: Prisma.UserSessionWhereInput
+  orderBy?: Prisma.UserSessionOrderByWithRelationInput | Prisma.UserSessionOrderByWithRelationInput[]
+  cursor?: Prisma.UserSessionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UserSessionScalarFieldEnum | Prisma.UserSessionScalarFieldEnum[]
 }
 
 /**
