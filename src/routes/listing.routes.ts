@@ -1,55 +1,256 @@
-import { Router } from "express";
+import {
+  Router,
+  type Request,
+  type Response,
+  type NextFunction,
+} from "express";
 import { ListingController } from "../controllers/listing.controller.js";
 import { authMiddleware } from "../middlewares/auth.middleware.js";
 import upload from "../middlewares/upload.middleware.js";
 import { authorize } from "../middlewares/role.middleware.js";
-import { AccountType } from "../generated/client/client.js";
+import { AccountType, ListingStatus } from "../generated/client/client.js";
+import { AppError } from "../utils/customErrors.js";
 
 const router = Router();
 const listingController = new ListingController();
 
-// Public route - no auth required
+// ─── Public ───────────────────────────────────────────────────────────────────
+
 router.get(
   "/public",
-  listingController.getPublicListings.bind(listingController),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const data = await listingController.getPublicListings();
+      res.status(200).json({ success: true, data });
+    } catch (error) {
+      next(error);
+    }
+  },
 );
 
-// Both require authentication
+// ─── Authenticated ────────────────────────────────────────────────────────────
+
 router.use(authMiddleware);
 
 router.get(
   "/property-types",
-  listingController.getPropertyTypes.bind(listingController),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const data = await listingController.getPropertyTypes();
+      res.status(200).json({ success: true, data });
+    } catch (error) {
+      next(error);
+    }
+  },
 );
-router.post(
-  "/",
-  upload.array("images", 10),
-  listingController.createListing.bind(listingController),
-);
+
 router.get(
   "/my-listings",
-  listingController.getMyListings.bind(listingController),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const data = await listingController.getMyListings(req.user!.userId);
+      res.status(200).json({ success: true, data });
+    } catch (error) {
+      next(error);
+    }
+  },
 );
+
 router.get(
   "/admin/pending",
   authorize(AccountType.ADMIN),
-  listingController.getAdminPendingListings.bind(listingController),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const data = await listingController.getAdminPendingListings();
+      res.status(200).json({ success: true, data });
+    } catch (error) {
+      next(error);
+    }
+  },
 );
-router.patch(
-  "/:id/admin-status",
-  authorize(AccountType.ADMIN),
-  listingController.updateListingStatusByAdmin.bind(listingController),
+
+router.post(
+  "/",
+  upload.array("images", 10),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const {
+        title,
+        price,
+        addressDisplay,
+        description,
+        areaGross,
+        propertyTypeId,
+        provinceCode,
+        provinceName,
+        districtCode,
+        districtName,
+        wardCode,
+        wardName,
+        beds,
+        rooms,
+      } = req.body;
+      const files = req.files as Express.Multer.File[];
+      const newListing = await listingController.createListing(
+        req.user!.userId,
+        {
+          title,
+          price,
+          addressDisplay,
+          description,
+          areaGross,
+          propertyTypeId,
+          provinceCode,
+          provinceName,
+          districtCode,
+          districtName,
+          wardCode,
+          wardName,
+          beds,
+          rooms,
+        },
+        files,
+      );
+      res
+        .status(201)
+        .json({
+          success: true,
+          message: "Property created successfully",
+          data: newListing,
+        });
+    } catch (error) {
+      next(error);
+    }
+  },
 );
-router.get("/:id", listingController.getListingById.bind(listingController));
+
+router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const id = req.params.id as string;
+    if (!id) throw new AppError("Listing ID is required", 400);
+    const data = await listingController.getListingById(req.user!.userId, id);
+    res.status(200).json({ success: true, data });
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.put(
   "/:id",
   upload.array("images", 10),
-  listingController.updateListing.bind(listingController),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const id = req.params.id as string;
+      if (!id) throw new AppError("Listing ID is required", 400);
+      const {
+        title,
+        price,
+        addressDisplay,
+        description,
+        areaGross,
+        propertyTypeId,
+        provinceCode,
+        provinceName,
+        districtCode,
+        districtName,
+        wardCode,
+        wardName,
+        beds,
+        rooms,
+      } = req.body;
+      const files = req.files as Express.Multer.File[];
+      const updated = await listingController.updateListing(
+        req.user!.userId,
+        id,
+        {
+          title,
+          price,
+          addressDisplay,
+          description,
+          areaGross,
+          propertyTypeId,
+          provinceCode,
+          provinceName,
+          districtCode,
+          districtName,
+          wardCode,
+          wardName,
+          beds,
+          rooms,
+        },
+        files,
+      );
+      res
+        .status(200)
+        .json({
+          success: true,
+          message: "Property updated successfully",
+          data: updated,
+        });
+    } catch (error) {
+      next(error);
+    }
+  },
 );
+
 router.patch(
   "/:id/status",
-  listingController.updateListingStatus.bind(listingController),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const id = req.params.id as string;
+      if (!id) throw new AppError("Listing ID is required", 400);
+      const { status } = req.body;
+      const updated = await listingController.updateListingStatus(
+        req.user!.userId,
+        id,
+        status as ListingStatus,
+      );
+      res
+        .status(200)
+        .json({ success: true, message: "Status updated", data: updated });
+    } catch (error) {
+      next(error);
+    }
+  },
 );
-router.delete("/:id", listingController.deleteListing.bind(listingController));
+
+router.patch(
+  "/:id/admin-status",
+  authorize(AccountType.ADMIN),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const id = req.params.id as string;
+      const { status } = req.body;
+      if (!id) throw new AppError("Listing ID is required", 400);
+      const updated = await listingController.updateListingStatusByAdmin(
+        id,
+        status as ListingStatus,
+      );
+      res
+        .status(200)
+        .json({
+          success: true,
+          message: "Status updated by admin",
+          data: updated,
+        });
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+
+router.delete(
+  "/:id",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const id = req.params.id as string;
+      if (!id) throw new AppError("Listing ID is required", 400);
+      await listingController.deleteListing(req.user!.userId, id);
+      res.status(200).json({ success: true, message: "Listing deleted" });
+    } catch (error) {
+      next(error);
+    }
+  },
+);
 
 export default router;

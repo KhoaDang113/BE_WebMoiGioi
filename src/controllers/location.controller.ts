@@ -1,61 +1,56 @@
-import type { Request, Response, NextFunction } from "express";
-import { LocationService } from "../services/location.service.js";
 import { AppError } from "../utils/customErrors.js";
 
-const locationService = new LocationService();
+const PROVINCES_API_BASE = "https://provinces.open-api.vn/api/v2";
 
 export class LocationController {
-    async getAll(req: Request, res: Response, next: NextFunction) {
-        try {
-            const depth = req.query.depth ? parseInt(String(req.query.depth)) : 1;
-            const data = await locationService.getAll(depth);
-            res.json(data);
-        } catch (error) {
-            next(error);
-        }
-    }
+  // ─── Get All ──────────────────────────────────────────────────────────────────
 
-    async getProvinces(req: Request, res: Response, next: NextFunction) {
-        try {
-            const search = req.query.search as string | undefined;
-            const data = await locationService.getProvinces(search);
-            res.json(data);
-        } catch (error) {
-            next(error);
-        }
-    }
+  async getAll(depth: number = 1) {
+    const response = await fetch(`${PROVINCES_API_BASE}/?depth=${Math.min(depth, 2)}`);
+    if (!response.ok) throw new Error(`Failed to fetch all divisions: ${response.statusText}`);
+    return response.json();
+  }
 
-    async getProvince(req: Request, res: Response, next: NextFunction) {
-        try {
-            const code = parseInt(String(req.params.code));
-            const depth = req.query.depth ? parseInt(String(req.query.depth)) : 1;
-            const data = await locationService.getProvince(code, depth);
-            if (!data) throw new AppError("Province not found", 404);
-            res.json(data);
-        } catch (error) {
-            next(error);
-        }
-    }
+  // ─── Get Provinces ────────────────────────────────────────────────────────────
 
-    async getWards(req: Request, res: Response, next: NextFunction) {
-        try {
-            const search = req.query.search as string | undefined;
-            const provinceCode = req.query.province ? parseInt(String(req.query.province)) : undefined;
-            const data = await locationService.getWards(search, provinceCode);
-            res.json(data);
-        } catch (error) {
-            next(error);
-        }
-    }
+  async getProvinces(search?: string) {
+    const params = search ? `?search=${encodeURIComponent(search)}` : "";
+    const response = await fetch(`${PROVINCES_API_BASE}/p/${params}`);
+    if (!response.ok) throw new Error(`Failed to fetch provinces: ${response.statusText}`);
+    return response.json();
+  }
 
-    async getWard(req: Request, res: Response, next: NextFunction) {
-        try {
-            const code = parseInt(String(req.params.code));
-            const data = await locationService.getWard(code);
-            if (!data) throw new AppError("Ward not found", 404);
-            res.json(data);
-        } catch (error) {
-            next(error);
-        }
+  // ─── Get Province ─────────────────────────────────────────────────────────────
+
+  async getProvince(code: number, depth: number = 1) {
+    const response = await fetch(`${PROVINCES_API_BASE}/p/${code}?depth=${Math.min(depth, 2)}`);
+    if (!response.ok) {
+      if (response.status === 404) return null;
+      throw new Error(`Failed to fetch province ${code}: ${response.statusText}`);
     }
+    return response.json();
+  }
+
+  // ─── Get Wards ────────────────────────────────────────────────────────────────
+
+  async getWards(search?: string, provinceCode?: number) {
+    const params = new URLSearchParams();
+    if (search) params.append("search", search);
+    if (provinceCode) params.append("province", provinceCode.toString());
+    const query = params.toString() ? `?${params.toString()}` : "";
+    const response = await fetch(`${PROVINCES_API_BASE}/w/${query}`);
+    if (!response.ok) throw new Error(`Failed to fetch wards: ${response.statusText}`);
+    return response.json();
+  }
+
+  // ─── Get Ward ─────────────────────────────────────────────────────────────────
+
+  async getWard(code: number) {
+    const response = await fetch(`${PROVINCES_API_BASE}/w/${code}`);
+    if (!response.ok) {
+      if (response.status === 404) return null;
+      throw new Error(`Failed to fetch ward ${code}: ${response.statusText}`);
+    }
+    return response.json();
+  }
 }
