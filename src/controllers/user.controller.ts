@@ -282,4 +282,19 @@ export class UserController {
     }
     return this.userRepo.updateUser(id, { status: "ACTIVE" });
   }
+
+  // ─── Admin Users CRUD ─────────────────────────────────────────────────────────
+
+  async getAllUsers(query: any) {
+    // Simple implementation for now. You might want to parse pagination out of query.
+    return this.userRepo.findManyWithProfile({
+      include: { profile: true },
+      orderBy: { createdAt: "desc" }
+    });
+  }
+
+  async updateUser(userId: string, data: { status?: any, accountType?: any }) {
+    const id = BigInt(userId);
+    return this.userRepo.updateUser(id, data);
+  }
 }
