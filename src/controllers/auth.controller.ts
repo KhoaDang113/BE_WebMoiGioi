@@ -19,6 +19,10 @@ import {
   GoogleLoginRequestSchema,
   FacebookLoginRequestSchema,
 } from "../dtos/auth/social-login.dto.js";
+import type {
+  ForgotPasswordRequestDTO,
+  ResetPasswordRequestDTO,
+} from "../dtos/auth/forgot-password.dto.js";
 import { Validator } from "../utils/validator.js";
 import { AppError } from "../utils/customErrors.js";
 import {
@@ -300,6 +304,56 @@ export class AuthController {
   ): Promise<LoginResponseDTO> {
     const userInfo = await this.verifyFacebookToken(accessToken);
     return this.processSocialLogin(SocialProvider.FACEBOOK, userInfo, reqData);
+  }
+
+  // ─── Forgot Password ──────────────────────────────────────────────────────────
+
+  async forgotPassword(data: ForgotPasswordRequestDTO): Promise<void> {
+    const user = await this.userRepository.findByEmail(data.email);
+    if (!user) {
+      throw new AppError("Email không tồn tại trong hệ thống", 404, "USER_NOT_FOUND");
+    }
+
+    const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
+    const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 phút
+
+    await this.otpRepository.createOTP(
+      OTPType.FORGOT_PASSWORD,
+      otpCode,
+      expiresAt,
+      undefined,
+      data.email,
+    );
+    await this.emailService.sendOTP(data.email, otpCode);
+  }
+
+  // ─── Reset Password ───────────────────────────────────────────────────────────
+
+  async resetPassword(data: ResetPasswordRequestDTO): Promise<void> {
+    const user = await this.userRepository.findByEmail(data.email);
+    if (!user) {
+      throw new AppError("Email không tồn tại trong hệ thống", 404, "USER_NOT_FOUND");
+    }
+
+    const otp = await this.otpRepository.findValidOTP(
+      OTPType.FORGOT_PASSWORD,
+      undefined,
+      data.email,
+    );
+
+    if (!otp) {
+      throw new AppError("Mã OTP đã hết hạn hoặc không có yêu cầu nào", 400, "OTP_EXPIRED");
+    }
+    if (otp.code !== data.otp) {
+      throw new AppError("Mã định danh OTP không chính xác", 400, "INVALID_OTP");
+    }
+
+    await this.otpRepository.markAsUsed(otp.id);
+
+    const saltRounds = 14;
+    const passwordHash = await bcrypt.hash(data.newPassword, saltRounds);
+
+    await this.userRepository.updatePassword(user.id, passwordHash);
   }
 
   // ─── Private Helpers ──────────────────────────────────────────────────────────
