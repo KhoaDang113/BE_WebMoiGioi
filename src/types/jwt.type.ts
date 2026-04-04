@@ -1,4 +1,4 @@
-import { AccountType } from "../generated/client/client.js";
+import { AccountType } from "@prisma/client";
 
 export interface JWTPayload {
     userId: string;

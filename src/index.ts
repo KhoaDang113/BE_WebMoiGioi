@@ -55,6 +55,7 @@ import listingRoutes from "./routes/listing.routes.js";
 import locationRoutes from "./routes/location.routes.js";
 import chatRoutes from "./routes/chat.routes.js";
 import reportRoutes from "./routes/report.routes.js";
+import projectRoutes from "./routes/project.routes.js";
 
 import { errorHandler } from "./middlewares/error.middleware.js";
 
@@ -65,6 +66,7 @@ app.use("/api/v1/listings", listingRoutes);
 app.use("/api/v2", locationRoutes);
 app.use("/api/v1/chat", chatRoutes);
 app.use("/api/v1/reports", reportRoutes);
+app.use("/api/v1/projects", projectRoutes);
 
 // Error Handler (Must be last)
 app.use(errorHandler);

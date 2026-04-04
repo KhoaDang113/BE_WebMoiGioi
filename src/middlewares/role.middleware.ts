@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from "express";
 import { AppError } from "../utils/customErrors.js";
-import { AccountType } from "../generated/client/client.js";
+import { AccountType } from "@prisma/client";
 
 export const authorize = (...allowedRoles: AccountType[]) => {
     return (req: Request, res: Response, next: NextFunction) => {

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { ReportReason } from "../../generated/client/client.js";
+import { ReportReason } from "@prisma/client";
 
 export const CreateReportRequestSchema = z.object({
   listingId: z.string().min(1, "Listing ID is required"),

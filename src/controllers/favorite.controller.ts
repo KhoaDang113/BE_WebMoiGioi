@@ -1,7 +1,7 @@
 import type { Request, Response, NextFunction } from 'express';
 import prisma from '../config/database.js';
 import { AppError } from '../utils/customErrors.js';
-import { ListingStatus } from '../generated/client/client.js';
+import { ListingStatus } from '@prisma/client';
 
 export class FavoriteController {
   /**

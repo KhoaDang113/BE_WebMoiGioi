@@ -1,6 +1,5 @@
 generator client {
   provider        = "prisma-client-js"
-  output          = "../src/generated/client"
   previewFeatures = ["postgresqlExtensions"]
 }
 
@@ -27,6 +26,7 @@ model User {
   conversationsSell Conversation[]    @relation("SellerConversations")
   favoriteListings  FavoriteListing[]
   listings          Listing[]
+  projects          Project[]
   sentMessages      Message[]
   reports           Report[]
   savedSearches     SavedSearch[]
@@ -103,26 +103,43 @@ model UserSession {
 }
 
 model Project {
-  id           BigInt                    @id @default(autoincrement())
-  name         String
-  slug         String                    @unique
-  investorName String?                   @map("investor_name")
-  provinceCode String?                   @map("province_code") @db.VarChar(10)
-  provinceName String?                   @map("province_name")
-  districtCode String?                   @map("district_code") @db.VarChar(10)
-  districtName String?                   @map("district_name")
-  wardCode     String?                   @map("ward_code") @db.VarChar(10)
-  wardName     String?                   @map("ward_name")
-  addressText  String?                   @map("address_text")
-  coordinates  Unsupported("geography")?
-  totalArea    Decimal?                  @map("total_area") @db.Decimal(10, 2)
-  status       ProjectStatus?
-  description  String?
-  listings     Listing[]
+  id             BigInt                    @id @default(autoincrement())
+  userId         BigInt                    @map("user_id")
+  name           String
+  slug           String                    @unique
+  investorName   String?                   @map("investor_name")
+  provinceCode   String?                   @map("province_code") @db.VarChar(10)
+  provinceName   String?                   @map("province_name")
+  districtCode   String?                   @map("district_code") @db.VarChar(10)
+  districtName   String?                   @map("district_name")
+  wardCode       String?                   @map("ward_code") @db.VarChar(10)
+  wardName       String?                   @map("ward_name")
+  addressText    String?                   @map("address_text")
+  coordinates    Unsupported("geography")?
+  totalArea      Decimal?                  @map("total_area") @db.Decimal(10, 2)
+  status         ProjectStatus?
+  approvalStatus ProjectApprovalStatus     @default(PENDING_REVIEW) @map("approval_status")
+  description    String?
+  createdAt      DateTime                  @default(now()) @map("created_at") @db.Timestamptz(6)
+  user           User                      @relation(fields: [userId], references: [id])
+  listings       Listing[]
+  media          ProjectMedia[]
 
+  @@index([userId])
   @@index([provinceCode])
   @@index([districtCode])
   @@map("projects")
+}
+
+model ProjectMedia {
+  id          BigInt  @id @default(autoincrement())
+  projectId   BigInt  @map("project_id")
+  originalUrl String  @map("original_url")
+  isPrimary   Boolean @default(false) @map("is_primary")
+  sortOrder   Int     @default(0) @map("sort_order")
+  project     Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@map("project_media")
 }
 
 model PropertyType {
@@ -324,6 +341,12 @@ enum ProjectStatus {
   PLANNING
   CONSTRUCTION
   HANDOVER
+}
+
+enum ProjectApprovalStatus {
+  PENDING_REVIEW
+  APPROVED
+  REJECTED
 }
 
 enum ListingType {

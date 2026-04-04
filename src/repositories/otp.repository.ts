@@ -1,6 +1,6 @@
 import prisma from "../config/database.js";
-import { OTPType, Prisma } from "../generated/client/client.js";
-import type { OTP } from "../generated/client/client.js";
+import { OTPType, Prisma } from "@prisma/client";
+import type { OTP } from "@prisma/client";
 
 export class OTPRepository {
   async createOTP(

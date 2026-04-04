@@ -30,7 +30,7 @@ import {
   OTPType,
   SocialProvider,
   UserStatus,
-} from "../generated/client/client.js";
+} from "@prisma/client";
 import { JWT_REFRESH_EXPIRE } from "../contants/jwtContants.js";
 import {
   GOOGLE_CLIENT_ID,

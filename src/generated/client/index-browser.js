@@ -24,12 +24,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 7.3.0
- * Query Engine version: 9d6ad21cbbceab97458517b147a6a09ff43aa735
+ * Prisma Client JS version: 7.6.0
+ * Query Engine version: 75cbdc1eb7150937890ad5465d861175c6624711
  */
 Prisma.prismaVersion = {
-  client: "7.3.0",
-  engine: "9d6ad21cbbceab97458517b147a6a09ff43aa735"
+  client: "7.6.0",
+  engine: "75cbdc1eb7150937890ad5465d861175c6624711"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -188,6 +188,7 @@ exports.Prisma.UserSessionScalarFieldEnum = {
 
 exports.Prisma.ProjectScalarFieldEnum = {
   id: 'id',
+  userId: 'userId',
   name: 'name',
   slug: 'slug',
   investorName: 'investorName',
@@ -200,7 +201,17 @@ exports.Prisma.ProjectScalarFieldEnum = {
   addressText: 'addressText',
   totalArea: 'totalArea',
   status: 'status',
-  description: 'description'
+  approvalStatus: 'approvalStatus',
+  description: 'description',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ProjectMediaScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  originalUrl: 'originalUrl',
+  isPrimary: 'isPrimary',
+  sortOrder: 'sortOrder'
 };
 
 exports.Prisma.PropertyTypeScalarFieldEnum = {
@@ -386,6 +397,12 @@ exports.ProjectStatus = exports.$Enums.ProjectStatus = {
   HANDOVER: 'HANDOVER'
 };
 
+exports.ProjectApprovalStatus = exports.$Enums.ProjectApprovalStatus = {
+  PENDING_REVIEW: 'PENDING_REVIEW',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+};
+
 exports.ListingType = exports.$Enums.ListingType = {
   SALE: 'SALE',
   RENT: 'RENT'
@@ -472,6 +489,7 @@ exports.Prisma.ModelName = {
   SocialIdentity: 'SocialIdentity',
   UserSession: 'UserSession',
   Project: 'Project',
+  ProjectMedia: 'ProjectMedia',
   PropertyType: 'PropertyType',
   Listing: 'Listing',
   ListingMedia: 'ListingMedia',

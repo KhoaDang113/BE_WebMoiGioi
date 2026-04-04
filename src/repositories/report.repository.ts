@@ -1,5 +1,5 @@
 import prisma from "../config/database.js";
-import { ReportReason, ReportStatus, type Report, ListingStatus } from "../generated/client/client.js";
+import { ReportReason, ReportStatus, type Report, ListingStatus } from "@prisma/client";
 
 export class ReportRepository {
   async createReport(

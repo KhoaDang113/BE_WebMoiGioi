@@ -5,7 +5,7 @@ import { ReportRepository } from "../repositories/report.repository.js";
 import type { CreateReportRequest } from "../dtos/report/create-report.dto.js";
 import type { UpdateReportStatusRequest } from "../dtos/report/update-report.dto.js";
 import { AppError } from "../utils/customErrors.js";
-import { ReportStatus, ListingStatus } from "../generated/client/client.js";
+import { ReportStatus, ListingStatus } from "@prisma/client";
 
 
 type ReportType = 'properties' | 'users' | 'listings' | 'summary';

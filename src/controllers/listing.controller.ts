@@ -1,4 +1,4 @@
-import { ListingStatus, ListingType, PriceUnit } from '../generated/client/client.js';
+import { ListingStatus, ListingType, PriceUnit } from '@prisma/client';
 import { AppError } from '../utils/customErrors.js';
 import { UploadService } from '../services/upload.service.js';
 import prisma from '../config/database.js';
@@ -66,6 +66,13 @@ export class ListingController {
 
     const priceNum = parseFloat(data.price);
 
+    // Validate project ownership if projectId is provided
+    if (data.projectId) {
+      const project = await prisma.project.findUnique({ where: { id: BigInt(data.projectId) } });
+      if (!project) throw new AppError('Dự án không tồn tại', 404);
+      if (project.userId !== BigInt(userId)) throw new AppError('Bạn không có quyền liên kết tin đăng với dự án này', 403);
+    }
+
     return prisma.$transaction(async (tx) => {
       const newListing = await tx.listing.create({
         data: {
@@ -87,6 +94,7 @@ export class ListingController {
           price: priceNum,
           priceUnit: PriceUnit.VND,
           areaGross: data.areaGross ? parseFloat(data.areaGross) : 50,
+          ...(data.projectId ? { projectId: BigInt(data.projectId) } : {}),
           attributes: {
             ...(data.description ? { description: data.description } : {}),
             ...(data.beds ? { beds: parseInt(data.beds) } : {}),
@@ -154,8 +162,14 @@ export class ListingController {
 
     const newAttributes: any = { ...attrBase };
     if (data.description !== undefined) newAttributes.description = data.description;
-    if (data.beds !== undefined) newAttributes.beds = parseInt(data.beds);
-    if (data.rooms !== undefined) newAttributes.rooms = parseInt(data.rooms);
+    if (data.beds !== undefined) {
+      if (data.beds) newAttributes.beds = parseInt(data.beds);
+      else delete newAttributes.beds;
+    }
+    if (data.rooms !== undefined) {
+      if (data.rooms) newAttributes.rooms = parseInt(data.rooms);
+      else delete newAttributes.rooms;
+    }
     updateData.attributes = newAttributes;
 
     if (data.provinceCode) updateData.provinceCode = data.provinceCode;
@@ -167,6 +181,17 @@ export class ListingController {
     if (data.provinceSlug) updateData.provinceSlug = data.provinceSlug;
     if (data.districtSlug) updateData.districtSlug = data.districtSlug;
     if (data.wardSlug) updateData.wardSlug = data.wardSlug;
+
+    if (data.projectId !== undefined) {
+      if (data.projectId) {
+        const project = await prisma.project.findUnique({ where: { id: BigInt(data.projectId) } });
+        if (!project) throw new AppError('Dự án không tồn tại', 404);
+        if (project.userId !== BigInt(userId)) throw new AppError('Bạn không có quyền liên kết tin đăng với dự án này', 403);
+        updateData.projectId = BigInt(data.projectId);
+      } else {
+        updateData.projectId = null;
+      }
+    }
 
     return prisma.$transaction(async (tx) => {
       const updated = await tx.listing.update({
@@ -234,6 +259,18 @@ export class ListingController {
     });
   }
 
+  async getAdminAllListings() {
+    return prisma.listing.findMany({
+      include: {
+        user: { select: { email: true } },
+        media: { take: 1 },
+        propertyType: true,
+      },
+      orderBy: { id: 'desc' },
+      take: 100, // Limit for now, can add pagination later
+    });
+  }
+
   // ─── Admin: Update Listing Status ────────────────────────────────────────────
 
   async updateListingStatusByAdmin(listingId: string | bigint, status: ListingStatus) {
@@ -250,6 +287,13 @@ export class ListingController {
       include: {
         media: true,
         propertyType: true,
+        project: {
+          select: {
+            id: true,
+            name: true,
+            slug: true,
+          }
+        },
         user: {
           select: {
             id: true,
@@ -265,14 +309,26 @@ export class ListingController {
 
   // ─── Get Public Listing By Id ────────────────────────────────────────────────
   async getPublicListingById(listingId: string | bigint) {
-    const listing = await prisma.listing.findUnique({
+    let idBigInt: bigint | undefined = undefined;
+    try {
+      idBigInt = BigInt(listingId as any);
+    } catch {}
+
+    const listing = await prisma.listing.findFirst({
       where: {
-        id: BigInt(listingId),
+        ...(idBigInt !== undefined ? { id: idBigInt } : { slug: listingId as string }),
         status: ListingStatus.PUBLISHED,
       },
       include: {
         media: true,
         propertyType: true,
+        project: {
+          select: {
+            id: true,
+            name: true,
+            slug: true,
+          }
+        },
         user: {
           select: {
             id: true,

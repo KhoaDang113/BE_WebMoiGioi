@@ -10,7 +10,7 @@ import { authorize } from "../middlewares/role.middleware.js";
 import { CreateReportRequestSchema } from "../dtos/report/create-report.dto.js";
 import { UpdateReportStatusRequestSchema } from "../dtos/report/update-report.dto.js";
 import { Validator } from "../utils/validator.js";
-import { AccountType } from "../generated/client/client.js";
+import { AccountType } from "@prisma/client";
 import { AppError } from "../utils/customErrors.js";
 
 const router = Router();

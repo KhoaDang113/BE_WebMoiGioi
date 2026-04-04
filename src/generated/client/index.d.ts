@@ -44,6 +44,11 @@ export type UserSession = $Result.DefaultSelection<Prisma.$UserSessionPayload>
  */
 export type Project = $Result.DefaultSelection<Prisma.$ProjectPayload>
 /**
+ * Model ProjectMedia
+ * 
+ */
+export type ProjectMedia = $Result.DefaultSelection<Prisma.$ProjectMediaPayload>
+/**
  * Model PropertyType
  * 
  */
@@ -148,6 +153,15 @@ export const ProjectStatus: {
 };
 
 export type ProjectStatus = (typeof ProjectStatus)[keyof typeof ProjectStatus]
+
+
+export const ProjectApprovalStatus: {
+  PENDING_REVIEW: 'PENDING_REVIEW',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+};
+
+export type ProjectApprovalStatus = (typeof ProjectApprovalStatus)[keyof typeof ProjectApprovalStatus]
 
 
 export const ListingType: {
@@ -283,6 +297,10 @@ export type ProjectStatus = $Enums.ProjectStatus
 
 export const ProjectStatus: typeof $Enums.ProjectStatus
 
+export type ProjectApprovalStatus = $Enums.ProjectApprovalStatus
+
+export const ProjectApprovalStatus: typeof $Enums.ProjectApprovalStatus
+
 export type ListingType = $Enums.ListingType
 
 export const ListingType: typeof $Enums.ListingType
@@ -333,7 +351,9 @@ export const ReportReason: typeof $Enums.ReportReason
  * Type-safe database client for TypeScript & Node.js
  * @example
  * ```
- * const prisma = new PrismaClient()
+ * const prisma = new PrismaClient({
+ *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
+ * })
  * // Fetch zero or more Users
  * const users = await prisma.user.findMany()
  * ```
@@ -354,7 +374,9 @@ export class PrismaClient<
    * Type-safe database client for TypeScript & Node.js
    * @example
    * ```
-   * const prisma = new PrismaClient()
+   * const prisma = new PrismaClient({
+   *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
+   * })
    * // Fetch zero or more Users
    * const users = await prisma.user.findMany()
    * ```
@@ -434,7 +456,7 @@ export class PrismaClient<
    * ])
    * ```
    * 
-   * Read more in our [docs](https://www.prisma.io/docs/concepts/components/prisma-client/transactions).
+   * Read more in our [docs](https://www.prisma.io/docs/orm/prisma-client/queries/transactions).
    */
   $transaction<P extends Prisma.PrismaPromise<any>[]>(arg: [...P], options?: { isolationLevel?: Prisma.TransactionIsolationLevel }): $Utils.JsPromise<runtime.Types.Utils.UnwrapTuple<P>>
 
@@ -503,6 +525,16 @@ export class PrismaClient<
     * ```
     */
   get project(): Prisma.ProjectDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.projectMedia`: Exposes CRUD operations for the **ProjectMedia** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ProjectMedias
+    * const projectMedias = await prisma.projectMedia.findMany()
+    * ```
+    */
+  get projectMedia(): Prisma.ProjectMediaDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.propertyType`: Exposes CRUD operations for the **PropertyType** model.
@@ -663,8 +695,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 7.3.0
-   * Query Engine version: 9d6ad21cbbceab97458517b147a6a09ff43aa735
+   * Prisma Client JS version: 7.6.0
+   * Query Engine version: 75cbdc1eb7150937890ad5465d861175c6624711
    */
   export type PrismaVersion = {
     client: string
@@ -1053,6 +1085,7 @@ export namespace Prisma {
     SocialIdentity: 'SocialIdentity',
     UserSession: 'UserSession',
     Project: 'Project',
+    ProjectMedia: 'ProjectMedia',
     PropertyType: 'PropertyType',
     Listing: 'Listing',
     ListingMedia: 'ListingMedia',
@@ -1079,7 +1112,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "oTP" | "userProfile" | "socialIdentity" | "userSession" | "project" | "propertyType" | "listing" | "listingMedia" | "listingFingerprint" | "savedSearch" | "conversation" | "message" | "report" | "auditLog" | "favoriteListing" | "spatial_ref_sys"
+      modelProps: "user" | "oTP" | "userProfile" | "socialIdentity" | "userSession" | "project" | "projectMedia" | "propertyType" | "listing" | "listingMedia" | "listingFingerprint" | "savedSearch" | "conversation" | "message" | "report" | "auditLog" | "favoriteListing" | "spatial_ref_sys"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1524,6 +1557,80 @@ export namespace Prisma {
           count: {
             args: Prisma.ProjectCountArgs<ExtArgs>
             result: $Utils.Optional<ProjectCountAggregateOutputType> | number
+          }
+        }
+      }
+      ProjectMedia: {
+        payload: Prisma.$ProjectMediaPayload<ExtArgs>
+        fields: Prisma.ProjectMediaFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ProjectMediaFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectMediaPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ProjectMediaFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectMediaPayload>
+          }
+          findFirst: {
+            args: Prisma.ProjectMediaFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectMediaPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ProjectMediaFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectMediaPayload>
+          }
+          findMany: {
+            args: Prisma.ProjectMediaFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectMediaPayload>[]
+          }
+          create: {
+            args: Prisma.ProjectMediaCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectMediaPayload>
+          }
+          createMany: {
+            args: Prisma.ProjectMediaCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ProjectMediaCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectMediaPayload>[]
+          }
+          delete: {
+            args: Prisma.ProjectMediaDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectMediaPayload>
+          }
+          update: {
+            args: Prisma.ProjectMediaUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectMediaPayload>
+          }
+          deleteMany: {
+            args: Prisma.ProjectMediaDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ProjectMediaUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ProjectMediaUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectMediaPayload>[]
+          }
+          upsert: {
+            args: Prisma.ProjectMediaUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectMediaPayload>
+          }
+          aggregate: {
+            args: Prisma.ProjectMediaAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateProjectMedia>
+          }
+          groupBy: {
+            args: Prisma.ProjectMediaGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ProjectMediaGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ProjectMediaCountArgs<ExtArgs>
+            result: $Utils.Optional<ProjectMediaCountAggregateOutputType> | number
           }
         }
       }
@@ -2455,6 +2562,7 @@ export namespace Prisma {
     socialIdentity?: SocialIdentityOmit
     userSession?: UserSessionOmit
     project?: ProjectOmit
+    projectMedia?: ProjectMediaOmit
     propertyType?: PropertyTypeOmit
     listing?: ListingOmit
     listingMedia?: ListingMediaOmit
@@ -2551,6 +2659,7 @@ export namespace Prisma {
     conversationsSell: number
     favoriteListings: number
     listings: number
+    projects: number
     sentMessages: number
     reports: number
     savedSearches: number
@@ -2564,6 +2673,7 @@ export namespace Prisma {
     conversationsSell?: boolean | UserCountOutputTypeCountConversationsSellArgs
     favoriteListings?: boolean | UserCountOutputTypeCountFavoriteListingsArgs
     listings?: boolean | UserCountOutputTypeCountListingsArgs
+    projects?: boolean | UserCountOutputTypeCountProjectsArgs
     sentMessages?: boolean | UserCountOutputTypeCountSentMessagesArgs
     reports?: boolean | UserCountOutputTypeCountReportsArgs
     savedSearches?: boolean | UserCountOutputTypeCountSavedSearchesArgs
@@ -2620,6 +2730,13 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
+  export type UserCountOutputTypeCountProjectsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProjectWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
   export type UserCountOutputTypeCountSentMessagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: MessageWhereInput
   }
@@ -2659,10 +2776,12 @@ export namespace Prisma {
 
   export type ProjectCountOutputType = {
     listings: number
+    media: number
   }
 
   export type ProjectCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     listings?: boolean | ProjectCountOutputTypeCountListingsArgs
+    media?: boolean | ProjectCountOutputTypeCountMediaArgs
   }
 
   // Custom InputTypes
@@ -2681,6 +2800,13 @@ export namespace Prisma {
    */
   export type ProjectCountOutputTypeCountListingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ListingWhereInput
+  }
+
+  /**
+   * ProjectCountOutputType without action
+   */
+  export type ProjectCountOutputTypeCountMediaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProjectMediaWhereInput
   }
 
 
@@ -3071,6 +3197,7 @@ export namespace Prisma {
     conversationsSell?: boolean | User$conversationsSellArgs<ExtArgs>
     favoriteListings?: boolean | User$favoriteListingsArgs<ExtArgs>
     listings?: boolean | User$listingsArgs<ExtArgs>
+    projects?: boolean | User$projectsArgs<ExtArgs>
     sentMessages?: boolean | User$sentMessagesArgs<ExtArgs>
     reports?: boolean | User$reportsArgs<ExtArgs>
     savedSearches?: boolean | User$savedSearchesArgs<ExtArgs>
@@ -3132,6 +3259,7 @@ export namespace Prisma {
     conversationsSell?: boolean | User$conversationsSellArgs<ExtArgs>
     favoriteListings?: boolean | User$favoriteListingsArgs<ExtArgs>
     listings?: boolean | User$listingsArgs<ExtArgs>
+    projects?: boolean | User$projectsArgs<ExtArgs>
     sentMessages?: boolean | User$sentMessagesArgs<ExtArgs>
     reports?: boolean | User$reportsArgs<ExtArgs>
     savedSearches?: boolean | User$savedSearchesArgs<ExtArgs>
@@ -3151,6 +3279,7 @@ export namespace Prisma {
       conversationsSell: Prisma.$ConversationPayload<ExtArgs>[]
       favoriteListings: Prisma.$FavoriteListingPayload<ExtArgs>[]
       listings: Prisma.$ListingPayload<ExtArgs>[]
+      projects: Prisma.$ProjectPayload<ExtArgs>[]
       sentMessages: Prisma.$MessagePayload<ExtArgs>[]
       reports: Prisma.$ReportPayload<ExtArgs>[]
       savedSearches: Prisma.$SavedSearchPayload<ExtArgs>[]
@@ -3570,6 +3699,7 @@ export namespace Prisma {
     conversationsSell<T extends User$conversationsSellArgs<ExtArgs> = {}>(args?: Subset<T, User$conversationsSellArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     favoriteListings<T extends User$favoriteListingsArgs<ExtArgs> = {}>(args?: Subset<T, User$favoriteListingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FavoriteListingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     listings<T extends User$listingsArgs<ExtArgs> = {}>(args?: Subset<T, User$listingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ListingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    projects<T extends User$projectsArgs<ExtArgs> = {}>(args?: Subset<T, User$projectsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     sentMessages<T extends User$sentMessagesArgs<ExtArgs> = {}>(args?: Subset<T, User$sentMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     reports<T extends User$reportsArgs<ExtArgs> = {}>(args?: Subset<T, User$reportsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     savedSearches<T extends User$savedSearchesArgs<ExtArgs> = {}>(args?: Subset<T, User$savedSearchesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SavedSearchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -3813,6 +3943,11 @@ export namespace Prisma {
      * Skip the first `n` Users.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Users.
+     */
     distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
   }
 
@@ -4122,6 +4257,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ListingScalarFieldEnum | ListingScalarFieldEnum[]
+  }
+
+  /**
+   * User.projects
+   */
+  export type User$projectsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Project
+     */
+    select?: ProjectSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Project
+     */
+    omit?: ProjectOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectInclude<ExtArgs> | null
+    where?: ProjectWhereInput
+    orderBy?: ProjectOrderByWithRelationInput | ProjectOrderByWithRelationInput[]
+    cursor?: ProjectWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ProjectScalarFieldEnum | ProjectScalarFieldEnum[]
   }
 
   /**
@@ -5160,6 +5319,11 @@ export namespace Prisma {
      * Skip the first `n` OTPS.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of OTPS.
+     */
     distinct?: OTPScalarFieldEnum | OTPScalarFieldEnum[]
   }
 
@@ -6311,6 +6475,11 @@ export namespace Prisma {
      * Skip the first `n` UserProfiles.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserProfiles.
+     */
     distinct?: UserProfileScalarFieldEnum | UserProfileScalarFieldEnum[]
   }
 
@@ -7472,6 +7641,11 @@ export namespace Prisma {
      * Skip the first `n` SocialIdentities.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SocialIdentities.
+     */
     distinct?: SocialIdentityScalarFieldEnum | SocialIdentityScalarFieldEnum[]
   }
 
@@ -8612,6 +8786,11 @@ export namespace Prisma {
      * Skip the first `n` UserSessions.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserSessions.
+     */
     distinct?: UserSessionScalarFieldEnum | UserSessionScalarFieldEnum[]
   }
 
@@ -8844,16 +9023,19 @@ export namespace Prisma {
 
   export type ProjectAvgAggregateOutputType = {
     id: number | null
+    userId: number | null
     totalArea: Decimal | null
   }
 
   export type ProjectSumAggregateOutputType = {
     id: bigint | null
+    userId: bigint | null
     totalArea: Decimal | null
   }
 
   export type ProjectMinAggregateOutputType = {
     id: bigint | null
+    userId: bigint | null
     name: string | null
     slug: string | null
     investorName: string | null
@@ -8866,11 +9048,14 @@ export namespace Prisma {
     addressText: string | null
     totalArea: Decimal | null
     status: $Enums.ProjectStatus | null
+    approvalStatus: $Enums.ProjectApprovalStatus | null
     description: string | null
+    createdAt: Date | null
   }
 
   export type ProjectMaxAggregateOutputType = {
     id: bigint | null
+    userId: bigint | null
     name: string | null
     slug: string | null
     investorName: string | null
@@ -8883,11 +9068,14 @@ export namespace Prisma {
     addressText: string | null
     totalArea: Decimal | null
     status: $Enums.ProjectStatus | null
+    approvalStatus: $Enums.ProjectApprovalStatus | null
     description: string | null
+    createdAt: Date | null
   }
 
   export type ProjectCountAggregateOutputType = {
     id: number
+    userId: number
     name: number
     slug: number
     investorName: number
@@ -8900,23 +9088,28 @@ export namespace Prisma {
     addressText: number
     totalArea: number
     status: number
+    approvalStatus: number
     description: number
+    createdAt: number
     _all: number
   }
 
 
   export type ProjectAvgAggregateInputType = {
     id?: true
+    userId?: true
     totalArea?: true
   }
 
   export type ProjectSumAggregateInputType = {
     id?: true
+    userId?: true
     totalArea?: true
   }
 
   export type ProjectMinAggregateInputType = {
     id?: true
+    userId?: true
     name?: true
     slug?: true
     investorName?: true
@@ -8929,11 +9122,14 @@ export namespace Prisma {
     addressText?: true
     totalArea?: true
     status?: true
+    approvalStatus?: true
     description?: true
+    createdAt?: true
   }
 
   export type ProjectMaxAggregateInputType = {
     id?: true
+    userId?: true
     name?: true
     slug?: true
     investorName?: true
@@ -8946,11 +9142,14 @@ export namespace Prisma {
     addressText?: true
     totalArea?: true
     status?: true
+    approvalStatus?: true
     description?: true
+    createdAt?: true
   }
 
   export type ProjectCountAggregateInputType = {
     id?: true
+    userId?: true
     name?: true
     slug?: true
     investorName?: true
@@ -8963,7 +9162,9 @@ export namespace Prisma {
     addressText?: true
     totalArea?: true
     status?: true
+    approvalStatus?: true
     description?: true
+    createdAt?: true
     _all?: true
   }
 
@@ -9055,6 +9256,7 @@ export namespace Prisma {
 
   export type ProjectGroupByOutputType = {
     id: bigint
+    userId: bigint
     name: string
     slug: string
     investorName: string | null
@@ -9067,7 +9269,9 @@ export namespace Prisma {
     addressText: string | null
     totalArea: Decimal | null
     status: $Enums.ProjectStatus | null
+    approvalStatus: $Enums.ProjectApprovalStatus
     description: string | null
+    createdAt: Date
     _count: ProjectCountAggregateOutputType | null
     _avg: ProjectAvgAggregateOutputType | null
     _sum: ProjectSumAggregateOutputType | null
@@ -9091,6 +9295,7 @@ export namespace Prisma {
 
   export type ProjectSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    userId?: boolean
     name?: boolean
     slug?: boolean
     investorName?: boolean
@@ -9103,13 +9308,18 @@ export namespace Prisma {
     addressText?: boolean
     totalArea?: boolean
     status?: boolean
+    approvalStatus?: boolean
     description?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
     listings?: boolean | Project$listingsArgs<ExtArgs>
+    media?: boolean | Project$mediaArgs<ExtArgs>
     _count?: boolean | ProjectCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["project"]>
 
   export type ProjectSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    userId?: boolean
     name?: boolean
     slug?: boolean
     investorName?: boolean
@@ -9122,11 +9332,15 @@ export namespace Prisma {
     addressText?: boolean
     totalArea?: boolean
     status?: boolean
+    approvalStatus?: boolean
     description?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["project"]>
 
   export type ProjectSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    userId?: boolean
     name?: boolean
     slug?: boolean
     investorName?: boolean
@@ -9139,11 +9353,15 @@ export namespace Prisma {
     addressText?: boolean
     totalArea?: boolean
     status?: boolean
+    approvalStatus?: boolean
     description?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["project"]>
 
   export type ProjectSelectScalar = {
     id?: boolean
+    userId?: boolean
     name?: boolean
     slug?: boolean
     investorName?: boolean
@@ -9156,24 +9374,35 @@ export namespace Prisma {
     addressText?: boolean
     totalArea?: boolean
     status?: boolean
+    approvalStatus?: boolean
     description?: boolean
+    createdAt?: boolean
   }
 
-  export type ProjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "investorName" | "provinceCode" | "provinceName" | "districtCode" | "districtName" | "wardCode" | "wardName" | "addressText" | "totalArea" | "status" | "description", ExtArgs["result"]["project"]>
+  export type ProjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "name" | "slug" | "investorName" | "provinceCode" | "provinceName" | "districtCode" | "districtName" | "wardCode" | "wardName" | "addressText" | "totalArea" | "status" | "approvalStatus" | "description" | "createdAt", ExtArgs["result"]["project"]>
   export type ProjectInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
     listings?: boolean | Project$listingsArgs<ExtArgs>
+    media?: boolean | Project$mediaArgs<ExtArgs>
     _count?: boolean | ProjectCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type ProjectIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type ProjectIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type ProjectIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type ProjectIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
 
   export type $ProjectPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Project"
     objects: {
+      user: Prisma.$UserPayload<ExtArgs>
       listings: Prisma.$ListingPayload<ExtArgs>[]
+      media: Prisma.$ProjectMediaPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: bigint
+      userId: bigint
       name: string
       slug: string
       investorName: string | null
@@ -9186,7 +9415,9 @@ export namespace Prisma {
       addressText: string | null
       totalArea: Prisma.Decimal | null
       status: $Enums.ProjectStatus | null
+      approvalStatus: $Enums.ProjectApprovalStatus
       description: string | null
+      createdAt: Date
     }, ExtArgs["result"]["project"]>
     composites: {}
   }
@@ -9581,7 +9812,9 @@ export namespace Prisma {
    */
   export interface Prisma__ProjectClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     listings<T extends Project$listingsArgs<ExtArgs> = {}>(args?: Subset<T, Project$listingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ListingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    media<T extends Project$mediaArgs<ExtArgs> = {}>(args?: Subset<T, Project$mediaArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectMediaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9612,6 +9845,7 @@ export namespace Prisma {
    */
   interface ProjectFieldRefs {
     readonly id: FieldRef<"Project", 'BigInt'>
+    readonly userId: FieldRef<"Project", 'BigInt'>
     readonly name: FieldRef<"Project", 'String'>
     readonly slug: FieldRef<"Project", 'String'>
     readonly investorName: FieldRef<"Project", 'String'>
@@ -9624,7 +9858,9 @@ export namespace Prisma {
     readonly addressText: FieldRef<"Project", 'String'>
     readonly totalArea: FieldRef<"Project", 'Decimal'>
     readonly status: FieldRef<"Project", 'ProjectStatus'>
+    readonly approvalStatus: FieldRef<"Project", 'ProjectApprovalStatus'>
     readonly description: FieldRef<"Project", 'String'>
+    readonly createdAt: FieldRef<"Project", 'DateTime'>
   }
     
 
@@ -9821,6 +10057,11 @@ export namespace Prisma {
      * Skip the first `n` Projects.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Projects.
+     */
     distinct?: ProjectScalarFieldEnum | ProjectScalarFieldEnum[]
   }
 
@@ -9874,6 +10115,10 @@ export namespace Prisma {
      */
     data: ProjectCreateManyInput | ProjectCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -9944,6 +10189,10 @@ export namespace Prisma {
      * Limit how many Projects to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -10037,6 +10286,30 @@ export namespace Prisma {
   }
 
   /**
+   * Project.media
+   */
+  export type Project$mediaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectMedia
+     */
+    select?: ProjectMediaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectMedia
+     */
+    omit?: ProjectMediaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectMediaInclude<ExtArgs> | null
+    where?: ProjectMediaWhereInput
+    orderBy?: ProjectMediaOrderByWithRelationInput | ProjectMediaOrderByWithRelationInput[]
+    cursor?: ProjectMediaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ProjectMediaScalarFieldEnum | ProjectMediaScalarFieldEnum[]
+  }
+
+  /**
    * Project without action
    */
   export type ProjectDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10052,6 +10325,1111 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: ProjectInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ProjectMedia
+   */
+
+  export type AggregateProjectMedia = {
+    _count: ProjectMediaCountAggregateOutputType | null
+    _avg: ProjectMediaAvgAggregateOutputType | null
+    _sum: ProjectMediaSumAggregateOutputType | null
+    _min: ProjectMediaMinAggregateOutputType | null
+    _max: ProjectMediaMaxAggregateOutputType | null
+  }
+
+  export type ProjectMediaAvgAggregateOutputType = {
+    id: number | null
+    projectId: number | null
+    sortOrder: number | null
+  }
+
+  export type ProjectMediaSumAggregateOutputType = {
+    id: bigint | null
+    projectId: bigint | null
+    sortOrder: number | null
+  }
+
+  export type ProjectMediaMinAggregateOutputType = {
+    id: bigint | null
+    projectId: bigint | null
+    originalUrl: string | null
+    isPrimary: boolean | null
+    sortOrder: number | null
+  }
+
+  export type ProjectMediaMaxAggregateOutputType = {
+    id: bigint | null
+    projectId: bigint | null
+    originalUrl: string | null
+    isPrimary: boolean | null
+    sortOrder: number | null
+  }
+
+  export type ProjectMediaCountAggregateOutputType = {
+    id: number
+    projectId: number
+    originalUrl: number
+    isPrimary: number
+    sortOrder: number
+    _all: number
+  }
+
+
+  export type ProjectMediaAvgAggregateInputType = {
+    id?: true
+    projectId?: true
+    sortOrder?: true
+  }
+
+  export type ProjectMediaSumAggregateInputType = {
+    id?: true
+    projectId?: true
+    sortOrder?: true
+  }
+
+  export type ProjectMediaMinAggregateInputType = {
+    id?: true
+    projectId?: true
+    originalUrl?: true
+    isPrimary?: true
+    sortOrder?: true
+  }
+
+  export type ProjectMediaMaxAggregateInputType = {
+    id?: true
+    projectId?: true
+    originalUrl?: true
+    isPrimary?: true
+    sortOrder?: true
+  }
+
+  export type ProjectMediaCountAggregateInputType = {
+    id?: true
+    projectId?: true
+    originalUrl?: true
+    isPrimary?: true
+    sortOrder?: true
+    _all?: true
+  }
+
+  export type ProjectMediaAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ProjectMedia to aggregate.
+     */
+    where?: ProjectMediaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProjectMedias to fetch.
+     */
+    orderBy?: ProjectMediaOrderByWithRelationInput | ProjectMediaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ProjectMediaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProjectMedias from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProjectMedias.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ProjectMedias
+    **/
+    _count?: true | ProjectMediaCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ProjectMediaAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ProjectMediaSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ProjectMediaMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ProjectMediaMaxAggregateInputType
+  }
+
+  export type GetProjectMediaAggregateType<T extends ProjectMediaAggregateArgs> = {
+        [P in keyof T & keyof AggregateProjectMedia]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateProjectMedia[P]>
+      : GetScalarType<T[P], AggregateProjectMedia[P]>
+  }
+
+
+
+
+  export type ProjectMediaGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProjectMediaWhereInput
+    orderBy?: ProjectMediaOrderByWithAggregationInput | ProjectMediaOrderByWithAggregationInput[]
+    by: ProjectMediaScalarFieldEnum[] | ProjectMediaScalarFieldEnum
+    having?: ProjectMediaScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ProjectMediaCountAggregateInputType | true
+    _avg?: ProjectMediaAvgAggregateInputType
+    _sum?: ProjectMediaSumAggregateInputType
+    _min?: ProjectMediaMinAggregateInputType
+    _max?: ProjectMediaMaxAggregateInputType
+  }
+
+  export type ProjectMediaGroupByOutputType = {
+    id: bigint
+    projectId: bigint
+    originalUrl: string
+    isPrimary: boolean
+    sortOrder: number
+    _count: ProjectMediaCountAggregateOutputType | null
+    _avg: ProjectMediaAvgAggregateOutputType | null
+    _sum: ProjectMediaSumAggregateOutputType | null
+    _min: ProjectMediaMinAggregateOutputType | null
+    _max: ProjectMediaMaxAggregateOutputType | null
+  }
+
+  type GetProjectMediaGroupByPayload<T extends ProjectMediaGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ProjectMediaGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ProjectMediaGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ProjectMediaGroupByOutputType[P]>
+            : GetScalarType<T[P], ProjectMediaGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ProjectMediaSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    projectId?: boolean
+    originalUrl?: boolean
+    isPrimary?: boolean
+    sortOrder?: boolean
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["projectMedia"]>
+
+  export type ProjectMediaSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    projectId?: boolean
+    originalUrl?: boolean
+    isPrimary?: boolean
+    sortOrder?: boolean
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["projectMedia"]>
+
+  export type ProjectMediaSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    projectId?: boolean
+    originalUrl?: boolean
+    isPrimary?: boolean
+    sortOrder?: boolean
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["projectMedia"]>
+
+  export type ProjectMediaSelectScalar = {
+    id?: boolean
+    projectId?: boolean
+    originalUrl?: boolean
+    isPrimary?: boolean
+    sortOrder?: boolean
+  }
+
+  export type ProjectMediaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "projectId" | "originalUrl" | "isPrimary" | "sortOrder", ExtArgs["result"]["projectMedia"]>
+  export type ProjectMediaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+  }
+  export type ProjectMediaIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+  }
+  export type ProjectMediaIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+  }
+
+  export type $ProjectMediaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ProjectMedia"
+    objects: {
+      project: Prisma.$ProjectPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: bigint
+      projectId: bigint
+      originalUrl: string
+      isPrimary: boolean
+      sortOrder: number
+    }, ExtArgs["result"]["projectMedia"]>
+    composites: {}
+  }
+
+  type ProjectMediaGetPayload<S extends boolean | null | undefined | ProjectMediaDefaultArgs> = $Result.GetResult<Prisma.$ProjectMediaPayload, S>
+
+  type ProjectMediaCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ProjectMediaFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ProjectMediaCountAggregateInputType | true
+    }
+
+  export interface ProjectMediaDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ProjectMedia'], meta: { name: 'ProjectMedia' } }
+    /**
+     * Find zero or one ProjectMedia that matches the filter.
+     * @param {ProjectMediaFindUniqueArgs} args - Arguments to find a ProjectMedia
+     * @example
+     * // Get one ProjectMedia
+     * const projectMedia = await prisma.projectMedia.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ProjectMediaFindUniqueArgs>(args: SelectSubset<T, ProjectMediaFindUniqueArgs<ExtArgs>>): Prisma__ProjectMediaClient<$Result.GetResult<Prisma.$ProjectMediaPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ProjectMedia that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ProjectMediaFindUniqueOrThrowArgs} args - Arguments to find a ProjectMedia
+     * @example
+     * // Get one ProjectMedia
+     * const projectMedia = await prisma.projectMedia.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ProjectMediaFindUniqueOrThrowArgs>(args: SelectSubset<T, ProjectMediaFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ProjectMediaClient<$Result.GetResult<Prisma.$ProjectMediaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ProjectMedia that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectMediaFindFirstArgs} args - Arguments to find a ProjectMedia
+     * @example
+     * // Get one ProjectMedia
+     * const projectMedia = await prisma.projectMedia.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ProjectMediaFindFirstArgs>(args?: SelectSubset<T, ProjectMediaFindFirstArgs<ExtArgs>>): Prisma__ProjectMediaClient<$Result.GetResult<Prisma.$ProjectMediaPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ProjectMedia that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectMediaFindFirstOrThrowArgs} args - Arguments to find a ProjectMedia
+     * @example
+     * // Get one ProjectMedia
+     * const projectMedia = await prisma.projectMedia.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ProjectMediaFindFirstOrThrowArgs>(args?: SelectSubset<T, ProjectMediaFindFirstOrThrowArgs<ExtArgs>>): Prisma__ProjectMediaClient<$Result.GetResult<Prisma.$ProjectMediaPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ProjectMedias that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectMediaFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ProjectMedias
+     * const projectMedias = await prisma.projectMedia.findMany()
+     * 
+     * // Get first 10 ProjectMedias
+     * const projectMedias = await prisma.projectMedia.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const projectMediaWithIdOnly = await prisma.projectMedia.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ProjectMediaFindManyArgs>(args?: SelectSubset<T, ProjectMediaFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectMediaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ProjectMedia.
+     * @param {ProjectMediaCreateArgs} args - Arguments to create a ProjectMedia.
+     * @example
+     * // Create one ProjectMedia
+     * const ProjectMedia = await prisma.projectMedia.create({
+     *   data: {
+     *     // ... data to create a ProjectMedia
+     *   }
+     * })
+     * 
+     */
+    create<T extends ProjectMediaCreateArgs>(args: SelectSubset<T, ProjectMediaCreateArgs<ExtArgs>>): Prisma__ProjectMediaClient<$Result.GetResult<Prisma.$ProjectMediaPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ProjectMedias.
+     * @param {ProjectMediaCreateManyArgs} args - Arguments to create many ProjectMedias.
+     * @example
+     * // Create many ProjectMedias
+     * const projectMedia = await prisma.projectMedia.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ProjectMediaCreateManyArgs>(args?: SelectSubset<T, ProjectMediaCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ProjectMedias and returns the data saved in the database.
+     * @param {ProjectMediaCreateManyAndReturnArgs} args - Arguments to create many ProjectMedias.
+     * @example
+     * // Create many ProjectMedias
+     * const projectMedia = await prisma.projectMedia.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ProjectMedias and only return the `id`
+     * const projectMediaWithIdOnly = await prisma.projectMedia.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ProjectMediaCreateManyAndReturnArgs>(args?: SelectSubset<T, ProjectMediaCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectMediaPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ProjectMedia.
+     * @param {ProjectMediaDeleteArgs} args - Arguments to delete one ProjectMedia.
+     * @example
+     * // Delete one ProjectMedia
+     * const ProjectMedia = await prisma.projectMedia.delete({
+     *   where: {
+     *     // ... filter to delete one ProjectMedia
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ProjectMediaDeleteArgs>(args: SelectSubset<T, ProjectMediaDeleteArgs<ExtArgs>>): Prisma__ProjectMediaClient<$Result.GetResult<Prisma.$ProjectMediaPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ProjectMedia.
+     * @param {ProjectMediaUpdateArgs} args - Arguments to update one ProjectMedia.
+     * @example
+     * // Update one ProjectMedia
+     * const projectMedia = await prisma.projectMedia.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ProjectMediaUpdateArgs>(args: SelectSubset<T, ProjectMediaUpdateArgs<ExtArgs>>): Prisma__ProjectMediaClient<$Result.GetResult<Prisma.$ProjectMediaPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ProjectMedias.
+     * @param {ProjectMediaDeleteManyArgs} args - Arguments to filter ProjectMedias to delete.
+     * @example
+     * // Delete a few ProjectMedias
+     * const { count } = await prisma.projectMedia.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ProjectMediaDeleteManyArgs>(args?: SelectSubset<T, ProjectMediaDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ProjectMedias.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectMediaUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ProjectMedias
+     * const projectMedia = await prisma.projectMedia.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ProjectMediaUpdateManyArgs>(args: SelectSubset<T, ProjectMediaUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ProjectMedias and returns the data updated in the database.
+     * @param {ProjectMediaUpdateManyAndReturnArgs} args - Arguments to update many ProjectMedias.
+     * @example
+     * // Update many ProjectMedias
+     * const projectMedia = await prisma.projectMedia.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ProjectMedias and only return the `id`
+     * const projectMediaWithIdOnly = await prisma.projectMedia.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ProjectMediaUpdateManyAndReturnArgs>(args: SelectSubset<T, ProjectMediaUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectMediaPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ProjectMedia.
+     * @param {ProjectMediaUpsertArgs} args - Arguments to update or create a ProjectMedia.
+     * @example
+     * // Update or create a ProjectMedia
+     * const projectMedia = await prisma.projectMedia.upsert({
+     *   create: {
+     *     // ... data to create a ProjectMedia
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ProjectMedia we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ProjectMediaUpsertArgs>(args: SelectSubset<T, ProjectMediaUpsertArgs<ExtArgs>>): Prisma__ProjectMediaClient<$Result.GetResult<Prisma.$ProjectMediaPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ProjectMedias.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectMediaCountArgs} args - Arguments to filter ProjectMedias to count.
+     * @example
+     * // Count the number of ProjectMedias
+     * const count = await prisma.projectMedia.count({
+     *   where: {
+     *     // ... the filter for the ProjectMedias we want to count
+     *   }
+     * })
+    **/
+    count<T extends ProjectMediaCountArgs>(
+      args?: Subset<T, ProjectMediaCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ProjectMediaCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ProjectMedia.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectMediaAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ProjectMediaAggregateArgs>(args: Subset<T, ProjectMediaAggregateArgs>): Prisma.PrismaPromise<GetProjectMediaAggregateType<T>>
+
+    /**
+     * Group by ProjectMedia.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectMediaGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ProjectMediaGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ProjectMediaGroupByArgs['orderBy'] }
+        : { orderBy?: ProjectMediaGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ProjectMediaGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetProjectMediaGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ProjectMedia model
+   */
+  readonly fields: ProjectMediaFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ProjectMedia.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ProjectMediaClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    project<T extends ProjectDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProjectDefaultArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ProjectMedia model
+   */
+  interface ProjectMediaFieldRefs {
+    readonly id: FieldRef<"ProjectMedia", 'BigInt'>
+    readonly projectId: FieldRef<"ProjectMedia", 'BigInt'>
+    readonly originalUrl: FieldRef<"ProjectMedia", 'String'>
+    readonly isPrimary: FieldRef<"ProjectMedia", 'Boolean'>
+    readonly sortOrder: FieldRef<"ProjectMedia", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ProjectMedia findUnique
+   */
+  export type ProjectMediaFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectMedia
+     */
+    select?: ProjectMediaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectMedia
+     */
+    omit?: ProjectMediaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectMediaInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectMedia to fetch.
+     */
+    where: ProjectMediaWhereUniqueInput
+  }
+
+  /**
+   * ProjectMedia findUniqueOrThrow
+   */
+  export type ProjectMediaFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectMedia
+     */
+    select?: ProjectMediaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectMedia
+     */
+    omit?: ProjectMediaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectMediaInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectMedia to fetch.
+     */
+    where: ProjectMediaWhereUniqueInput
+  }
+
+  /**
+   * ProjectMedia findFirst
+   */
+  export type ProjectMediaFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectMedia
+     */
+    select?: ProjectMediaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectMedia
+     */
+    omit?: ProjectMediaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectMediaInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectMedia to fetch.
+     */
+    where?: ProjectMediaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProjectMedias to fetch.
+     */
+    orderBy?: ProjectMediaOrderByWithRelationInput | ProjectMediaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ProjectMedias.
+     */
+    cursor?: ProjectMediaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProjectMedias from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProjectMedias.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProjectMedias.
+     */
+    distinct?: ProjectMediaScalarFieldEnum | ProjectMediaScalarFieldEnum[]
+  }
+
+  /**
+   * ProjectMedia findFirstOrThrow
+   */
+  export type ProjectMediaFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectMedia
+     */
+    select?: ProjectMediaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectMedia
+     */
+    omit?: ProjectMediaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectMediaInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectMedia to fetch.
+     */
+    where?: ProjectMediaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProjectMedias to fetch.
+     */
+    orderBy?: ProjectMediaOrderByWithRelationInput | ProjectMediaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ProjectMedias.
+     */
+    cursor?: ProjectMediaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProjectMedias from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProjectMedias.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProjectMedias.
+     */
+    distinct?: ProjectMediaScalarFieldEnum | ProjectMediaScalarFieldEnum[]
+  }
+
+  /**
+   * ProjectMedia findMany
+   */
+  export type ProjectMediaFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectMedia
+     */
+    select?: ProjectMediaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectMedia
+     */
+    omit?: ProjectMediaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectMediaInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectMedias to fetch.
+     */
+    where?: ProjectMediaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProjectMedias to fetch.
+     */
+    orderBy?: ProjectMediaOrderByWithRelationInput | ProjectMediaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ProjectMedias.
+     */
+    cursor?: ProjectMediaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProjectMedias from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProjectMedias.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProjectMedias.
+     */
+    distinct?: ProjectMediaScalarFieldEnum | ProjectMediaScalarFieldEnum[]
+  }
+
+  /**
+   * ProjectMedia create
+   */
+  export type ProjectMediaCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectMedia
+     */
+    select?: ProjectMediaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectMedia
+     */
+    omit?: ProjectMediaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectMediaInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ProjectMedia.
+     */
+    data: XOR<ProjectMediaCreateInput, ProjectMediaUncheckedCreateInput>
+  }
+
+  /**
+   * ProjectMedia createMany
+   */
+  export type ProjectMediaCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ProjectMedias.
+     */
+    data: ProjectMediaCreateManyInput | ProjectMediaCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ProjectMedia createManyAndReturn
+   */
+  export type ProjectMediaCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectMedia
+     */
+    select?: ProjectMediaSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectMedia
+     */
+    omit?: ProjectMediaOmit<ExtArgs> | null
+    /**
+     * The data used to create many ProjectMedias.
+     */
+    data: ProjectMediaCreateManyInput | ProjectMediaCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectMediaIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ProjectMedia update
+   */
+  export type ProjectMediaUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectMedia
+     */
+    select?: ProjectMediaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectMedia
+     */
+    omit?: ProjectMediaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectMediaInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ProjectMedia.
+     */
+    data: XOR<ProjectMediaUpdateInput, ProjectMediaUncheckedUpdateInput>
+    /**
+     * Choose, which ProjectMedia to update.
+     */
+    where: ProjectMediaWhereUniqueInput
+  }
+
+  /**
+   * ProjectMedia updateMany
+   */
+  export type ProjectMediaUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ProjectMedias.
+     */
+    data: XOR<ProjectMediaUpdateManyMutationInput, ProjectMediaUncheckedUpdateManyInput>
+    /**
+     * Filter which ProjectMedias to update
+     */
+    where?: ProjectMediaWhereInput
+    /**
+     * Limit how many ProjectMedias to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ProjectMedia updateManyAndReturn
+   */
+  export type ProjectMediaUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectMedia
+     */
+    select?: ProjectMediaSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectMedia
+     */
+    omit?: ProjectMediaOmit<ExtArgs> | null
+    /**
+     * The data used to update ProjectMedias.
+     */
+    data: XOR<ProjectMediaUpdateManyMutationInput, ProjectMediaUncheckedUpdateManyInput>
+    /**
+     * Filter which ProjectMedias to update
+     */
+    where?: ProjectMediaWhereInput
+    /**
+     * Limit how many ProjectMedias to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectMediaIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ProjectMedia upsert
+   */
+  export type ProjectMediaUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectMedia
+     */
+    select?: ProjectMediaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectMedia
+     */
+    omit?: ProjectMediaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectMediaInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ProjectMedia to update in case it exists.
+     */
+    where: ProjectMediaWhereUniqueInput
+    /**
+     * In case the ProjectMedia found by the `where` argument doesn't exist, create a new ProjectMedia with this data.
+     */
+    create: XOR<ProjectMediaCreateInput, ProjectMediaUncheckedCreateInput>
+    /**
+     * In case the ProjectMedia was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ProjectMediaUpdateInput, ProjectMediaUncheckedUpdateInput>
+  }
+
+  /**
+   * ProjectMedia delete
+   */
+  export type ProjectMediaDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectMedia
+     */
+    select?: ProjectMediaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectMedia
+     */
+    omit?: ProjectMediaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectMediaInclude<ExtArgs> | null
+    /**
+     * Filter which ProjectMedia to delete.
+     */
+    where: ProjectMediaWhereUniqueInput
+  }
+
+  /**
+   * ProjectMedia deleteMany
+   */
+  export type ProjectMediaDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ProjectMedias to delete
+     */
+    where?: ProjectMediaWhereInput
+    /**
+     * Limit how many ProjectMedias to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ProjectMedia without action
+   */
+  export type ProjectMediaDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectMedia
+     */
+    select?: ProjectMediaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectMedia
+     */
+    omit?: ProjectMediaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectMediaInclude<ExtArgs> | null
   }
 
 
@@ -10886,6 +12264,11 @@ export namespace Prisma {
      * Skip the first `n` PropertyTypes.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PropertyTypes.
+     */
     distinct?: PropertyTypeScalarFieldEnum | PropertyTypeScalarFieldEnum[]
   }
 
@@ -12364,6 +13747,11 @@ export namespace Prisma {
      * Skip the first `n` Listings.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Listings.
+     */
     distinct?: ListingScalarFieldEnum | ListingScalarFieldEnum[]
   }
 
@@ -13644,6 +15032,11 @@ export namespace Prisma {
      * Skip the first `n` ListingMedias.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ListingMedias.
+     */
     distinct?: ListingMediaScalarFieldEnum | ListingMediaScalarFieldEnum[]
   }
 
@@ -14662,6 +16055,11 @@ export namespace Prisma {
      * Skip the first `n` ListingFingerprints.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ListingFingerprints.
+     */
     distinct?: ListingFingerprintScalarFieldEnum | ListingFingerprintScalarFieldEnum[]
   }
 
@@ -15752,6 +17150,11 @@ export namespace Prisma {
      * Skip the first `n` SavedSearches.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SavedSearches.
+     */
     distinct?: SavedSearchScalarFieldEnum | SavedSearchScalarFieldEnum[]
   }
 
@@ -16887,6 +18290,11 @@ export namespace Prisma {
      * Skip the first `n` Conversations.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Conversations.
+     */
     distinct?: ConversationScalarFieldEnum | ConversationScalarFieldEnum[]
   }
 
@@ -18041,6 +19449,11 @@ export namespace Prisma {
      * Skip the first `n` Messages.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Messages.
+     */
     distinct?: MessageScalarFieldEnum | MessageScalarFieldEnum[]
   }
 
@@ -19175,6 +20588,11 @@ export namespace Prisma {
      * Skip the first `n` Reports.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Reports.
+     */
     distinct?: ReportScalarFieldEnum | ReportScalarFieldEnum[]
   }
 
@@ -20328,6 +21746,11 @@ export namespace Prisma {
      * Skip the first `n` AuditLogs.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AuditLogs.
+     */
     distinct?: AuditLogScalarFieldEnum | AuditLogScalarFieldEnum[]
   }
 
@@ -21442,6 +22865,11 @@ export namespace Prisma {
      * Skip the first `n` FavoriteListings.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of FavoriteListings.
+     */
     distinct?: FavoriteListingScalarFieldEnum | FavoriteListingScalarFieldEnum[]
   }
 
@@ -22503,6 +23931,11 @@ export namespace Prisma {
      * Skip the first `n` spatial_ref_sys.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of spatial_ref_sys.
+     */
     distinct?: Spatial_ref_sysScalarFieldEnum | Spatial_ref_sysScalarFieldEnum[]
   }
 
@@ -22790,6 +24223,7 @@ export namespace Prisma {
 
   export const ProjectScalarFieldEnum: {
     id: 'id',
+    userId: 'userId',
     name: 'name',
     slug: 'slug',
     investorName: 'investorName',
@@ -22802,10 +24236,23 @@ export namespace Prisma {
     addressText: 'addressText',
     totalArea: 'totalArea',
     status: 'status',
-    description: 'description'
+    approvalStatus: 'approvalStatus',
+    description: 'description',
+    createdAt: 'createdAt'
   };
 
   export type ProjectScalarFieldEnum = (typeof ProjectScalarFieldEnum)[keyof typeof ProjectScalarFieldEnum]
+
+
+  export const ProjectMediaScalarFieldEnum: {
+    id: 'id',
+    projectId: 'projectId',
+    originalUrl: 'originalUrl',
+    isPrimary: 'isPrimary',
+    sortOrder: 'sortOrder'
+  };
+
+  export type ProjectMediaScalarFieldEnum = (typeof ProjectMediaScalarFieldEnum)[keyof typeof ProjectMediaScalarFieldEnum]
 
 
   export const PropertyTypeScalarFieldEnum: {
@@ -23178,6 +24625,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'ProjectApprovalStatus'
+   */
+  export type EnumProjectApprovalStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProjectApprovalStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'ProjectApprovalStatus[]'
+   */
+  export type ListEnumProjectApprovalStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProjectApprovalStatus[]'>
+    
+
+
+  /**
    * Reference to a field of type 'ListingType'
    */
   export type EnumListingTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ListingType'>
@@ -23369,6 +24830,7 @@ export namespace Prisma {
     conversationsSell?: ConversationListRelationFilter
     favoriteListings?: FavoriteListingListRelationFilter
     listings?: ListingListRelationFilter
+    projects?: ProjectListRelationFilter
     sentMessages?: MessageListRelationFilter
     reports?: ReportListRelationFilter
     savedSearches?: SavedSearchListRelationFilter
@@ -23395,6 +24857,7 @@ export namespace Prisma {
     conversationsSell?: ConversationOrderByRelationAggregateInput
     favoriteListings?: FavoriteListingOrderByRelationAggregateInput
     listings?: ListingOrderByRelationAggregateInput
+    projects?: ProjectOrderByRelationAggregateInput
     sentMessages?: MessageOrderByRelationAggregateInput
     reports?: ReportOrderByRelationAggregateInput
     savedSearches?: SavedSearchOrderByRelationAggregateInput
@@ -23424,6 +24887,7 @@ export namespace Prisma {
     conversationsSell?: ConversationListRelationFilter
     favoriteListings?: FavoriteListingListRelationFilter
     listings?: ListingListRelationFilter
+    projects?: ProjectListRelationFilter
     sentMessages?: MessageListRelationFilter
     reports?: ReportListRelationFilter
     savedSearches?: SavedSearchListRelationFilter
@@ -23796,6 +25260,7 @@ export namespace Prisma {
     OR?: ProjectWhereInput[]
     NOT?: ProjectWhereInput | ProjectWhereInput[]
     id?: BigIntFilter<"Project"> | bigint | number
+    userId?: BigIntFilter<"Project"> | bigint | number
     name?: StringFilter<"Project"> | string
     slug?: StringFilter<"Project"> | string
     investorName?: StringNullableFilter<"Project"> | string | null
@@ -23808,12 +25273,17 @@ export namespace Prisma {
     addressText?: StringNullableFilter<"Project"> | string | null
     totalArea?: DecimalNullableFilter<"Project"> | Decimal | DecimalJsLike | number | string | null
     status?: EnumProjectStatusNullableFilter<"Project"> | $Enums.ProjectStatus | null
+    approvalStatus?: EnumProjectApprovalStatusFilter<"Project"> | $Enums.ProjectApprovalStatus
     description?: StringNullableFilter<"Project"> | string | null
+    createdAt?: DateTimeFilter<"Project"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     listings?: ListingListRelationFilter
+    media?: ProjectMediaListRelationFilter
   }
 
   export type ProjectOrderByWithRelationInput = {
     id?: SortOrder
+    userId?: SortOrder
     name?: SortOrder
     slug?: SortOrder
     investorName?: SortOrderInput | SortOrder
@@ -23826,8 +25296,12 @@ export namespace Prisma {
     addressText?: SortOrderInput | SortOrder
     totalArea?: SortOrderInput | SortOrder
     status?: SortOrderInput | SortOrder
+    approvalStatus?: SortOrder
     description?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
     listings?: ListingOrderByRelationAggregateInput
+    media?: ProjectMediaOrderByRelationAggregateInput
   }
 
   export type ProjectWhereUniqueInput = Prisma.AtLeast<{
@@ -23836,6 +25310,7 @@ export namespace Prisma {
     AND?: ProjectWhereInput | ProjectWhereInput[]
     OR?: ProjectWhereInput[]
     NOT?: ProjectWhereInput | ProjectWhereInput[]
+    userId?: BigIntFilter<"Project"> | bigint | number
     name?: StringFilter<"Project"> | string
     investorName?: StringNullableFilter<"Project"> | string | null
     provinceCode?: StringNullableFilter<"Project"> | string | null
@@ -23847,12 +25322,17 @@ export namespace Prisma {
     addressText?: StringNullableFilter<"Project"> | string | null
     totalArea?: DecimalNullableFilter<"Project"> | Decimal | DecimalJsLike | number | string | null
     status?: EnumProjectStatusNullableFilter<"Project"> | $Enums.ProjectStatus | null
+    approvalStatus?: EnumProjectApprovalStatusFilter<"Project"> | $Enums.ProjectApprovalStatus
     description?: StringNullableFilter<"Project"> | string | null
+    createdAt?: DateTimeFilter<"Project"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     listings?: ListingListRelationFilter
+    media?: ProjectMediaListRelationFilter
   }, "id" | "slug">
 
   export type ProjectOrderByWithAggregationInput = {
     id?: SortOrder
+    userId?: SortOrder
     name?: SortOrder
     slug?: SortOrder
     investorName?: SortOrderInput | SortOrder
@@ -23865,7 +25345,9 @@ export namespace Prisma {
     addressText?: SortOrderInput | SortOrder
     totalArea?: SortOrderInput | SortOrder
     status?: SortOrderInput | SortOrder
+    approvalStatus?: SortOrder
     description?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
     _count?: ProjectCountOrderByAggregateInput
     _avg?: ProjectAvgOrderByAggregateInput
     _max?: ProjectMaxOrderByAggregateInput
@@ -23878,6 +25360,7 @@ export namespace Prisma {
     OR?: ProjectScalarWhereWithAggregatesInput[]
     NOT?: ProjectScalarWhereWithAggregatesInput | ProjectScalarWhereWithAggregatesInput[]
     id?: BigIntWithAggregatesFilter<"Project"> | bigint | number
+    userId?: BigIntWithAggregatesFilter<"Project"> | bigint | number
     name?: StringWithAggregatesFilter<"Project"> | string
     slug?: StringWithAggregatesFilter<"Project"> | string
     investorName?: StringNullableWithAggregatesFilter<"Project"> | string | null
@@ -23890,7 +25373,66 @@ export namespace Prisma {
     addressText?: StringNullableWithAggregatesFilter<"Project"> | string | null
     totalArea?: DecimalNullableWithAggregatesFilter<"Project"> | Decimal | DecimalJsLike | number | string | null
     status?: EnumProjectStatusNullableWithAggregatesFilter<"Project"> | $Enums.ProjectStatus | null
+    approvalStatus?: EnumProjectApprovalStatusWithAggregatesFilter<"Project"> | $Enums.ProjectApprovalStatus
     description?: StringNullableWithAggregatesFilter<"Project"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Project"> | Date | string
+  }
+
+  export type ProjectMediaWhereInput = {
+    AND?: ProjectMediaWhereInput | ProjectMediaWhereInput[]
+    OR?: ProjectMediaWhereInput[]
+    NOT?: ProjectMediaWhereInput | ProjectMediaWhereInput[]
+    id?: BigIntFilter<"ProjectMedia"> | bigint | number
+    projectId?: BigIntFilter<"ProjectMedia"> | bigint | number
+    originalUrl?: StringFilter<"ProjectMedia"> | string
+    isPrimary?: BoolFilter<"ProjectMedia"> | boolean
+    sortOrder?: IntFilter<"ProjectMedia"> | number
+    project?: XOR<ProjectScalarRelationFilter, ProjectWhereInput>
+  }
+
+  export type ProjectMediaOrderByWithRelationInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    originalUrl?: SortOrder
+    isPrimary?: SortOrder
+    sortOrder?: SortOrder
+    project?: ProjectOrderByWithRelationInput
+  }
+
+  export type ProjectMediaWhereUniqueInput = Prisma.AtLeast<{
+    id?: bigint | number
+    AND?: ProjectMediaWhereInput | ProjectMediaWhereInput[]
+    OR?: ProjectMediaWhereInput[]
+    NOT?: ProjectMediaWhereInput | ProjectMediaWhereInput[]
+    projectId?: BigIntFilter<"ProjectMedia"> | bigint | number
+    originalUrl?: StringFilter<"ProjectMedia"> | string
+    isPrimary?: BoolFilter<"ProjectMedia"> | boolean
+    sortOrder?: IntFilter<"ProjectMedia"> | number
+    project?: XOR<ProjectScalarRelationFilter, ProjectWhereInput>
+  }, "id">
+
+  export type ProjectMediaOrderByWithAggregationInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    originalUrl?: SortOrder
+    isPrimary?: SortOrder
+    sortOrder?: SortOrder
+    _count?: ProjectMediaCountOrderByAggregateInput
+    _avg?: ProjectMediaAvgOrderByAggregateInput
+    _max?: ProjectMediaMaxOrderByAggregateInput
+    _min?: ProjectMediaMinOrderByAggregateInput
+    _sum?: ProjectMediaSumOrderByAggregateInput
+  }
+
+  export type ProjectMediaScalarWhereWithAggregatesInput = {
+    AND?: ProjectMediaScalarWhereWithAggregatesInput | ProjectMediaScalarWhereWithAggregatesInput[]
+    OR?: ProjectMediaScalarWhereWithAggregatesInput[]
+    NOT?: ProjectMediaScalarWhereWithAggregatesInput | ProjectMediaScalarWhereWithAggregatesInput[]
+    id?: BigIntWithAggregatesFilter<"ProjectMedia"> | bigint | number
+    projectId?: BigIntWithAggregatesFilter<"ProjectMedia"> | bigint | number
+    originalUrl?: StringWithAggregatesFilter<"ProjectMedia"> | string
+    isPrimary?: BoolWithAggregatesFilter<"ProjectMedia"> | boolean
+    sortOrder?: IntWithAggregatesFilter<"ProjectMedia"> | number
   }
 
   export type PropertyTypeWhereInput = {
@@ -24739,6 +26281,7 @@ export namespace Prisma {
     conversationsSell?: ConversationCreateNestedManyWithoutSellerInput
     favoriteListings?: FavoriteListingCreateNestedManyWithoutUserInput
     listings?: ListingCreateNestedManyWithoutUserInput
+    projects?: ProjectCreateNestedManyWithoutUserInput
     sentMessages?: MessageCreateNestedManyWithoutSenderInput
     reports?: ReportCreateNestedManyWithoutReporterInput
     savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
@@ -24765,6 +26308,7 @@ export namespace Prisma {
     conversationsSell?: ConversationUncheckedCreateNestedManyWithoutSellerInput
     favoriteListings?: FavoriteListingUncheckedCreateNestedManyWithoutUserInput
     listings?: ListingUncheckedCreateNestedManyWithoutUserInput
+    projects?: ProjectUncheckedCreateNestedManyWithoutUserInput
     sentMessages?: MessageUncheckedCreateNestedManyWithoutSenderInput
     reports?: ReportUncheckedCreateNestedManyWithoutReporterInput
     savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
@@ -24791,6 +26335,7 @@ export namespace Prisma {
     conversationsSell?: ConversationUpdateManyWithoutSellerNestedInput
     favoriteListings?: FavoriteListingUpdateManyWithoutUserNestedInput
     listings?: ListingUpdateManyWithoutUserNestedInput
+    projects?: ProjectUpdateManyWithoutUserNestedInput
     sentMessages?: MessageUpdateManyWithoutSenderNestedInput
     reports?: ReportUpdateManyWithoutReporterNestedInput
     savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
@@ -24817,6 +26362,7 @@ export namespace Prisma {
     conversationsSell?: ConversationUncheckedUpdateManyWithoutSellerNestedInput
     favoriteListings?: FavoriteListingUncheckedUpdateManyWithoutUserNestedInput
     listings?: ListingUncheckedUpdateManyWithoutUserNestedInput
+    projects?: ProjectUncheckedUpdateManyWithoutUserNestedInput
     sentMessages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
     reports?: ReportUncheckedUpdateManyWithoutReporterNestedInput
     savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
@@ -25235,12 +26781,17 @@ export namespace Prisma {
     addressText?: string | null
     totalArea?: Decimal | DecimalJsLike | number | string | null
     status?: $Enums.ProjectStatus | null
+    approvalStatus?: $Enums.ProjectApprovalStatus
     description?: string | null
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutProjectsInput
     listings?: ListingCreateNestedManyWithoutProjectInput
+    media?: ProjectMediaCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateInput = {
     id?: bigint | number
+    userId: bigint | number
     name: string
     slug: string
     investorName?: string | null
@@ -25253,8 +26804,11 @@ export namespace Prisma {
     addressText?: string | null
     totalArea?: Decimal | DecimalJsLike | number | string | null
     status?: $Enums.ProjectStatus | null
+    approvalStatus?: $Enums.ProjectApprovalStatus
     description?: string | null
+    createdAt?: Date | string
     listings?: ListingUncheckedCreateNestedManyWithoutProjectInput
+    media?: ProjectMediaUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUpdateInput = {
@@ -25271,12 +26825,17 @@ export namespace Prisma {
     addressText?: NullableStringFieldUpdateOperationsInput | string | null
     totalArea?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: NullableEnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus | null
+    approvalStatus?: EnumProjectApprovalStatusFieldUpdateOperationsInput | $Enums.ProjectApprovalStatus
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutProjectsNestedInput
     listings?: ListingUpdateManyWithoutProjectNestedInput
+    media?: ProjectMediaUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
+    userId?: BigIntFieldUpdateOperationsInput | bigint | number
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     investorName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -25289,12 +26848,16 @@ export namespace Prisma {
     addressText?: NullableStringFieldUpdateOperationsInput | string | null
     totalArea?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: NullableEnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus | null
+    approvalStatus?: EnumProjectApprovalStatusFieldUpdateOperationsInput | $Enums.ProjectApprovalStatus
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     listings?: ListingUncheckedUpdateManyWithoutProjectNestedInput
+    media?: ProjectMediaUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectCreateManyInput = {
     id?: bigint | number
+    userId: bigint | number
     name: string
     slug: string
     investorName?: string | null
@@ -25307,7 +26870,9 @@ export namespace Prisma {
     addressText?: string | null
     totalArea?: Decimal | DecimalJsLike | number | string | null
     status?: $Enums.ProjectStatus | null
+    approvalStatus?: $Enums.ProjectApprovalStatus
     description?: string | null
+    createdAt?: Date | string
   }
 
   export type ProjectUpdateManyMutationInput = {
@@ -25324,11 +26889,14 @@ export namespace Prisma {
     addressText?: NullableStringFieldUpdateOperationsInput | string | null
     totalArea?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: NullableEnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus | null
+    approvalStatus?: EnumProjectApprovalStatusFieldUpdateOperationsInput | $Enums.ProjectApprovalStatus
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ProjectUncheckedUpdateManyInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
+    userId?: BigIntFieldUpdateOperationsInput | bigint | number
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     investorName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -25341,7 +26909,64 @@ export namespace Prisma {
     addressText?: NullableStringFieldUpdateOperationsInput | string | null
     totalArea?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: NullableEnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus | null
+    approvalStatus?: EnumProjectApprovalStatusFieldUpdateOperationsInput | $Enums.ProjectApprovalStatus
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProjectMediaCreateInput = {
+    id?: bigint | number
+    originalUrl: string
+    isPrimary?: boolean
+    sortOrder?: number
+    project: ProjectCreateNestedOneWithoutMediaInput
+  }
+
+  export type ProjectMediaUncheckedCreateInput = {
+    id?: bigint | number
+    projectId: bigint | number
+    originalUrl: string
+    isPrimary?: boolean
+    sortOrder?: number
+  }
+
+  export type ProjectMediaUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    originalUrl?: StringFieldUpdateOperationsInput | string
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    project?: ProjectUpdateOneRequiredWithoutMediaNestedInput
+  }
+
+  export type ProjectMediaUncheckedUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    projectId?: BigIntFieldUpdateOperationsInput | bigint | number
+    originalUrl?: StringFieldUpdateOperationsInput | string
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
+    sortOrder?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ProjectMediaCreateManyInput = {
+    id?: bigint | number
+    projectId: bigint | number
+    originalUrl: string
+    isPrimary?: boolean
+    sortOrder?: number
+  }
+
+  export type ProjectMediaUpdateManyMutationInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    originalUrl?: StringFieldUpdateOperationsInput | string
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
+    sortOrder?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ProjectMediaUncheckedUpdateManyInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    projectId?: BigIntFieldUpdateOperationsInput | bigint | number
+    originalUrl?: StringFieldUpdateOperationsInput | string
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
+    sortOrder?: IntFieldUpdateOperationsInput | number
   }
 
   export type PropertyTypeCreateInput = {
@@ -26310,6 +27935,12 @@ export namespace Prisma {
     none?: ListingWhereInput
   }
 
+  export type ProjectListRelationFilter = {
+    every?: ProjectWhereInput
+    some?: ProjectWhereInput
+    none?: ProjectWhereInput
+  }
+
   export type MessageListRelationFilter = {
     every?: MessageWhereInput
     some?: MessageWhereInput
@@ -26363,6 +27994,10 @@ export namespace Prisma {
   }
 
   export type ListingOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ProjectOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -26870,8 +28505,26 @@ export namespace Prisma {
     not?: NestedEnumProjectStatusNullableFilter<$PrismaModel> | $Enums.ProjectStatus | null
   }
 
+  export type EnumProjectApprovalStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ProjectApprovalStatus | EnumProjectApprovalStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ProjectApprovalStatus[] | ListEnumProjectApprovalStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ProjectApprovalStatus[] | ListEnumProjectApprovalStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumProjectApprovalStatusFilter<$PrismaModel> | $Enums.ProjectApprovalStatus
+  }
+
+  export type ProjectMediaListRelationFilter = {
+    every?: ProjectMediaWhereInput
+    some?: ProjectMediaWhereInput
+    none?: ProjectMediaWhereInput
+  }
+
+  export type ProjectMediaOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type ProjectCountOrderByAggregateInput = {
     id?: SortOrder
+    userId?: SortOrder
     name?: SortOrder
     slug?: SortOrder
     investorName?: SortOrder
@@ -26884,16 +28537,20 @@ export namespace Prisma {
     addressText?: SortOrder
     totalArea?: SortOrder
     status?: SortOrder
+    approvalStatus?: SortOrder
     description?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type ProjectAvgOrderByAggregateInput = {
     id?: SortOrder
+    userId?: SortOrder
     totalArea?: SortOrder
   }
 
   export type ProjectMaxOrderByAggregateInput = {
     id?: SortOrder
+    userId?: SortOrder
     name?: SortOrder
     slug?: SortOrder
     investorName?: SortOrder
@@ -26906,11 +28563,14 @@ export namespace Prisma {
     addressText?: SortOrder
     totalArea?: SortOrder
     status?: SortOrder
+    approvalStatus?: SortOrder
     description?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type ProjectMinOrderByAggregateInput = {
     id?: SortOrder
+    userId?: SortOrder
     name?: SortOrder
     slug?: SortOrder
     investorName?: SortOrder
@@ -26923,11 +28583,14 @@ export namespace Prisma {
     addressText?: SortOrder
     totalArea?: SortOrder
     status?: SortOrder
+    approvalStatus?: SortOrder
     description?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type ProjectSumOrderByAggregateInput = {
     id?: SortOrder
+    userId?: SortOrder
     totalArea?: SortOrder
   }
 
@@ -26955,6 +28618,57 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedEnumProjectStatusNullableFilter<$PrismaModel>
     _max?: NestedEnumProjectStatusNullableFilter<$PrismaModel>
+  }
+
+  export type EnumProjectApprovalStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ProjectApprovalStatus | EnumProjectApprovalStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ProjectApprovalStatus[] | ListEnumProjectApprovalStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ProjectApprovalStatus[] | ListEnumProjectApprovalStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumProjectApprovalStatusWithAggregatesFilter<$PrismaModel> | $Enums.ProjectApprovalStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumProjectApprovalStatusFilter<$PrismaModel>
+    _max?: NestedEnumProjectApprovalStatusFilter<$PrismaModel>
+  }
+
+  export type ProjectScalarRelationFilter = {
+    is?: ProjectWhereInput
+    isNot?: ProjectWhereInput
+  }
+
+  export type ProjectMediaCountOrderByAggregateInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    originalUrl?: SortOrder
+    isPrimary?: SortOrder
+    sortOrder?: SortOrder
+  }
+
+  export type ProjectMediaAvgOrderByAggregateInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    sortOrder?: SortOrder
+  }
+
+  export type ProjectMediaMaxOrderByAggregateInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    originalUrl?: SortOrder
+    isPrimary?: SortOrder
+    sortOrder?: SortOrder
+  }
+
+  export type ProjectMediaMinOrderByAggregateInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    originalUrl?: SortOrder
+    isPrimary?: SortOrder
+    sortOrder?: SortOrder
+  }
+
+  export type ProjectMediaSumOrderByAggregateInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    sortOrder?: SortOrder
   }
 
   export type PropertyTypeCountOrderByAggregateInput = {
@@ -27833,6 +29547,13 @@ export namespace Prisma {
     connect?: ListingWhereUniqueInput | ListingWhereUniqueInput[]
   }
 
+  export type ProjectCreateNestedManyWithoutUserInput = {
+    create?: XOR<ProjectCreateWithoutUserInput, ProjectUncheckedCreateWithoutUserInput> | ProjectCreateWithoutUserInput[] | ProjectUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ProjectCreateOrConnectWithoutUserInput | ProjectCreateOrConnectWithoutUserInput[]
+    createMany?: ProjectCreateManyUserInputEnvelope
+    connect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+  }
+
   export type MessageCreateNestedManyWithoutSenderInput = {
     create?: XOR<MessageCreateWithoutSenderInput, MessageUncheckedCreateWithoutSenderInput> | MessageCreateWithoutSenderInput[] | MessageUncheckedCreateWithoutSenderInput[]
     connectOrCreate?: MessageCreateOrConnectWithoutSenderInput | MessageCreateOrConnectWithoutSenderInput[]
@@ -27907,6 +29628,13 @@ export namespace Prisma {
     connectOrCreate?: ListingCreateOrConnectWithoutUserInput | ListingCreateOrConnectWithoutUserInput[]
     createMany?: ListingCreateManyUserInputEnvelope
     connect?: ListingWhereUniqueInput | ListingWhereUniqueInput[]
+  }
+
+  export type ProjectUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<ProjectCreateWithoutUserInput, ProjectUncheckedCreateWithoutUserInput> | ProjectCreateWithoutUserInput[] | ProjectUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ProjectCreateOrConnectWithoutUserInput | ProjectCreateOrConnectWithoutUserInput[]
+    createMany?: ProjectCreateManyUserInputEnvelope
+    connect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
   }
 
   export type MessageUncheckedCreateNestedManyWithoutSenderInput = {
@@ -28060,6 +29788,20 @@ export namespace Prisma {
     deleteMany?: ListingScalarWhereInput | ListingScalarWhereInput[]
   }
 
+  export type ProjectUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ProjectCreateWithoutUserInput, ProjectUncheckedCreateWithoutUserInput> | ProjectCreateWithoutUserInput[] | ProjectUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ProjectCreateOrConnectWithoutUserInput | ProjectCreateOrConnectWithoutUserInput[]
+    upsert?: ProjectUpsertWithWhereUniqueWithoutUserInput | ProjectUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ProjectCreateManyUserInputEnvelope
+    set?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    disconnect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    delete?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    connect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    update?: ProjectUpdateWithWhereUniqueWithoutUserInput | ProjectUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ProjectUpdateManyWithWhereWithoutUserInput | ProjectUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ProjectScalarWhereInput | ProjectScalarWhereInput[]
+  }
+
   export type MessageUpdateManyWithoutSenderNestedInput = {
     create?: XOR<MessageCreateWithoutSenderInput, MessageUncheckedCreateWithoutSenderInput> | MessageCreateWithoutSenderInput[] | MessageUncheckedCreateWithoutSenderInput[]
     connectOrCreate?: MessageCreateOrConnectWithoutSenderInput | MessageCreateOrConnectWithoutSenderInput[]
@@ -28210,6 +29952,20 @@ export namespace Prisma {
     deleteMany?: ListingScalarWhereInput | ListingScalarWhereInput[]
   }
 
+  export type ProjectUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ProjectCreateWithoutUserInput, ProjectUncheckedCreateWithoutUserInput> | ProjectCreateWithoutUserInput[] | ProjectUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ProjectCreateOrConnectWithoutUserInput | ProjectCreateOrConnectWithoutUserInput[]
+    upsert?: ProjectUpsertWithWhereUniqueWithoutUserInput | ProjectUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ProjectCreateManyUserInputEnvelope
+    set?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    disconnect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    delete?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    connect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    update?: ProjectUpdateWithWhereUniqueWithoutUserInput | ProjectUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ProjectUpdateManyWithWhereWithoutUserInput | ProjectUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ProjectScalarWhereInput | ProjectScalarWhereInput[]
+  }
+
   export type MessageUncheckedUpdateManyWithoutSenderNestedInput = {
     create?: XOR<MessageCreateWithoutSenderInput, MessageUncheckedCreateWithoutSenderInput> | MessageCreateWithoutSenderInput[] | MessageUncheckedCreateWithoutSenderInput[]
     connectOrCreate?: MessageCreateOrConnectWithoutSenderInput | MessageCreateOrConnectWithoutSenderInput[]
@@ -28344,6 +30100,12 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSessionsInput, UserUpdateWithoutSessionsInput>, UserUncheckedUpdateWithoutSessionsInput>
   }
 
+  export type UserCreateNestedOneWithoutProjectsInput = {
+    create?: XOR<UserCreateWithoutProjectsInput, UserUncheckedCreateWithoutProjectsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutProjectsInput
+    connect?: UserWhereUniqueInput
+  }
+
   export type ListingCreateNestedManyWithoutProjectInput = {
     create?: XOR<ListingCreateWithoutProjectInput, ListingUncheckedCreateWithoutProjectInput> | ListingCreateWithoutProjectInput[] | ListingUncheckedCreateWithoutProjectInput[]
     connectOrCreate?: ListingCreateOrConnectWithoutProjectInput | ListingCreateOrConnectWithoutProjectInput[]
@@ -28351,11 +30113,25 @@ export namespace Prisma {
     connect?: ListingWhereUniqueInput | ListingWhereUniqueInput[]
   }
 
+  export type ProjectMediaCreateNestedManyWithoutProjectInput = {
+    create?: XOR<ProjectMediaCreateWithoutProjectInput, ProjectMediaUncheckedCreateWithoutProjectInput> | ProjectMediaCreateWithoutProjectInput[] | ProjectMediaUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ProjectMediaCreateOrConnectWithoutProjectInput | ProjectMediaCreateOrConnectWithoutProjectInput[]
+    createMany?: ProjectMediaCreateManyProjectInputEnvelope
+    connect?: ProjectMediaWhereUniqueInput | ProjectMediaWhereUniqueInput[]
+  }
+
   export type ListingUncheckedCreateNestedManyWithoutProjectInput = {
     create?: XOR<ListingCreateWithoutProjectInput, ListingUncheckedCreateWithoutProjectInput> | ListingCreateWithoutProjectInput[] | ListingUncheckedCreateWithoutProjectInput[]
     connectOrCreate?: ListingCreateOrConnectWithoutProjectInput | ListingCreateOrConnectWithoutProjectInput[]
     createMany?: ListingCreateManyProjectInputEnvelope
     connect?: ListingWhereUniqueInput | ListingWhereUniqueInput[]
+  }
+
+  export type ProjectMediaUncheckedCreateNestedManyWithoutProjectInput = {
+    create?: XOR<ProjectMediaCreateWithoutProjectInput, ProjectMediaUncheckedCreateWithoutProjectInput> | ProjectMediaCreateWithoutProjectInput[] | ProjectMediaUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ProjectMediaCreateOrConnectWithoutProjectInput | ProjectMediaCreateOrConnectWithoutProjectInput[]
+    createMany?: ProjectMediaCreateManyProjectInputEnvelope
+    connect?: ProjectMediaWhereUniqueInput | ProjectMediaWhereUniqueInput[]
   }
 
   export type NullableDecimalFieldUpdateOperationsInput = {
@@ -28368,6 +30144,18 @@ export namespace Prisma {
 
   export type NullableEnumProjectStatusFieldUpdateOperationsInput = {
     set?: $Enums.ProjectStatus | null
+  }
+
+  export type EnumProjectApprovalStatusFieldUpdateOperationsInput = {
+    set?: $Enums.ProjectApprovalStatus
+  }
+
+  export type UserUpdateOneRequiredWithoutProjectsNestedInput = {
+    create?: XOR<UserCreateWithoutProjectsInput, UserUncheckedCreateWithoutProjectsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutProjectsInput
+    upsert?: UserUpsertWithoutProjectsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutProjectsInput, UserUpdateWithoutProjectsInput>, UserUncheckedUpdateWithoutProjectsInput>
   }
 
   export type ListingUpdateManyWithoutProjectNestedInput = {
@@ -28384,6 +30172,20 @@ export namespace Prisma {
     deleteMany?: ListingScalarWhereInput | ListingScalarWhereInput[]
   }
 
+  export type ProjectMediaUpdateManyWithoutProjectNestedInput = {
+    create?: XOR<ProjectMediaCreateWithoutProjectInput, ProjectMediaUncheckedCreateWithoutProjectInput> | ProjectMediaCreateWithoutProjectInput[] | ProjectMediaUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ProjectMediaCreateOrConnectWithoutProjectInput | ProjectMediaCreateOrConnectWithoutProjectInput[]
+    upsert?: ProjectMediaUpsertWithWhereUniqueWithoutProjectInput | ProjectMediaUpsertWithWhereUniqueWithoutProjectInput[]
+    createMany?: ProjectMediaCreateManyProjectInputEnvelope
+    set?: ProjectMediaWhereUniqueInput | ProjectMediaWhereUniqueInput[]
+    disconnect?: ProjectMediaWhereUniqueInput | ProjectMediaWhereUniqueInput[]
+    delete?: ProjectMediaWhereUniqueInput | ProjectMediaWhereUniqueInput[]
+    connect?: ProjectMediaWhereUniqueInput | ProjectMediaWhereUniqueInput[]
+    update?: ProjectMediaUpdateWithWhereUniqueWithoutProjectInput | ProjectMediaUpdateWithWhereUniqueWithoutProjectInput[]
+    updateMany?: ProjectMediaUpdateManyWithWhereWithoutProjectInput | ProjectMediaUpdateManyWithWhereWithoutProjectInput[]
+    deleteMany?: ProjectMediaScalarWhereInput | ProjectMediaScalarWhereInput[]
+  }
+
   export type ListingUncheckedUpdateManyWithoutProjectNestedInput = {
     create?: XOR<ListingCreateWithoutProjectInput, ListingUncheckedCreateWithoutProjectInput> | ListingCreateWithoutProjectInput[] | ListingUncheckedCreateWithoutProjectInput[]
     connectOrCreate?: ListingCreateOrConnectWithoutProjectInput | ListingCreateOrConnectWithoutProjectInput[]
@@ -28396,6 +30198,34 @@ export namespace Prisma {
     update?: ListingUpdateWithWhereUniqueWithoutProjectInput | ListingUpdateWithWhereUniqueWithoutProjectInput[]
     updateMany?: ListingUpdateManyWithWhereWithoutProjectInput | ListingUpdateManyWithWhereWithoutProjectInput[]
     deleteMany?: ListingScalarWhereInput | ListingScalarWhereInput[]
+  }
+
+  export type ProjectMediaUncheckedUpdateManyWithoutProjectNestedInput = {
+    create?: XOR<ProjectMediaCreateWithoutProjectInput, ProjectMediaUncheckedCreateWithoutProjectInput> | ProjectMediaCreateWithoutProjectInput[] | ProjectMediaUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: ProjectMediaCreateOrConnectWithoutProjectInput | ProjectMediaCreateOrConnectWithoutProjectInput[]
+    upsert?: ProjectMediaUpsertWithWhereUniqueWithoutProjectInput | ProjectMediaUpsertWithWhereUniqueWithoutProjectInput[]
+    createMany?: ProjectMediaCreateManyProjectInputEnvelope
+    set?: ProjectMediaWhereUniqueInput | ProjectMediaWhereUniqueInput[]
+    disconnect?: ProjectMediaWhereUniqueInput | ProjectMediaWhereUniqueInput[]
+    delete?: ProjectMediaWhereUniqueInput | ProjectMediaWhereUniqueInput[]
+    connect?: ProjectMediaWhereUniqueInput | ProjectMediaWhereUniqueInput[]
+    update?: ProjectMediaUpdateWithWhereUniqueWithoutProjectInput | ProjectMediaUpdateWithWhereUniqueWithoutProjectInput[]
+    updateMany?: ProjectMediaUpdateManyWithWhereWithoutProjectInput | ProjectMediaUpdateManyWithWhereWithoutProjectInput[]
+    deleteMany?: ProjectMediaScalarWhereInput | ProjectMediaScalarWhereInput[]
+  }
+
+  export type ProjectCreateNestedOneWithoutMediaInput = {
+    create?: XOR<ProjectCreateWithoutMediaInput, ProjectUncheckedCreateWithoutMediaInput>
+    connectOrCreate?: ProjectCreateOrConnectWithoutMediaInput
+    connect?: ProjectWhereUniqueInput
+  }
+
+  export type ProjectUpdateOneRequiredWithoutMediaNestedInput = {
+    create?: XOR<ProjectCreateWithoutMediaInput, ProjectUncheckedCreateWithoutMediaInput>
+    connectOrCreate?: ProjectCreateOrConnectWithoutMediaInput
+    upsert?: ProjectUpsertWithoutMediaInput
+    connect?: ProjectWhereUniqueInput
+    update?: XOR<XOR<ProjectUpdateToOneWithWhereWithoutMediaInput, ProjectUpdateWithoutMediaInput>, ProjectUncheckedUpdateWithoutMediaInput>
   }
 
   export type ListingCreateNestedManyWithoutPropertyTypeInput = {
@@ -29242,6 +31072,13 @@ export namespace Prisma {
     not?: NestedEnumProjectStatusNullableFilter<$PrismaModel> | $Enums.ProjectStatus | null
   }
 
+  export type NestedEnumProjectApprovalStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ProjectApprovalStatus | EnumProjectApprovalStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ProjectApprovalStatus[] | ListEnumProjectApprovalStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ProjectApprovalStatus[] | ListEnumProjectApprovalStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumProjectApprovalStatusFilter<$PrismaModel> | $Enums.ProjectApprovalStatus
+  }
+
   export type NestedDecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
     in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
@@ -29266,6 +31103,16 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedEnumProjectStatusNullableFilter<$PrismaModel>
     _max?: NestedEnumProjectStatusNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumProjectApprovalStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ProjectApprovalStatus | EnumProjectApprovalStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ProjectApprovalStatus[] | ListEnumProjectApprovalStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ProjectApprovalStatus[] | ListEnumProjectApprovalStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumProjectApprovalStatusWithAggregatesFilter<$PrismaModel> | $Enums.ProjectApprovalStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumProjectApprovalStatusFilter<$PrismaModel>
+    _max?: NestedEnumProjectApprovalStatusFilter<$PrismaModel>
   }
 
   export type NestedEnumListingTypeFilter<$PrismaModel = never> = {
@@ -29751,6 +31598,58 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ProjectCreateWithoutUserInput = {
+    id?: bigint | number
+    name: string
+    slug: string
+    investorName?: string | null
+    provinceCode?: string | null
+    provinceName?: string | null
+    districtCode?: string | null
+    districtName?: string | null
+    wardCode?: string | null
+    wardName?: string | null
+    addressText?: string | null
+    totalArea?: Decimal | DecimalJsLike | number | string | null
+    status?: $Enums.ProjectStatus | null
+    approvalStatus?: $Enums.ProjectApprovalStatus
+    description?: string | null
+    createdAt?: Date | string
+    listings?: ListingCreateNestedManyWithoutProjectInput
+    media?: ProjectMediaCreateNestedManyWithoutProjectInput
+  }
+
+  export type ProjectUncheckedCreateWithoutUserInput = {
+    id?: bigint | number
+    name: string
+    slug: string
+    investorName?: string | null
+    provinceCode?: string | null
+    provinceName?: string | null
+    districtCode?: string | null
+    districtName?: string | null
+    wardCode?: string | null
+    wardName?: string | null
+    addressText?: string | null
+    totalArea?: Decimal | DecimalJsLike | number | string | null
+    status?: $Enums.ProjectStatus | null
+    approvalStatus?: $Enums.ProjectApprovalStatus
+    description?: string | null
+    createdAt?: Date | string
+    listings?: ListingUncheckedCreateNestedManyWithoutProjectInput
+    media?: ProjectMediaUncheckedCreateNestedManyWithoutProjectInput
+  }
+
+  export type ProjectCreateOrConnectWithoutUserInput = {
+    where: ProjectWhereUniqueInput
+    create: XOR<ProjectCreateWithoutUserInput, ProjectUncheckedCreateWithoutUserInput>
+  }
+
+  export type ProjectCreateManyUserInputEnvelope = {
+    data: ProjectCreateManyUserInput | ProjectCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type MessageCreateWithoutSenderInput = {
     id?: bigint | number
     content: string
@@ -30087,6 +31986,45 @@ export namespace Prisma {
     attributes?: JsonFilter<"Listing">
   }
 
+  export type ProjectUpsertWithWhereUniqueWithoutUserInput = {
+    where: ProjectWhereUniqueInput
+    update: XOR<ProjectUpdateWithoutUserInput, ProjectUncheckedUpdateWithoutUserInput>
+    create: XOR<ProjectCreateWithoutUserInput, ProjectUncheckedCreateWithoutUserInput>
+  }
+
+  export type ProjectUpdateWithWhereUniqueWithoutUserInput = {
+    where: ProjectWhereUniqueInput
+    data: XOR<ProjectUpdateWithoutUserInput, ProjectUncheckedUpdateWithoutUserInput>
+  }
+
+  export type ProjectUpdateManyWithWhereWithoutUserInput = {
+    where: ProjectScalarWhereInput
+    data: XOR<ProjectUpdateManyMutationInput, ProjectUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type ProjectScalarWhereInput = {
+    AND?: ProjectScalarWhereInput | ProjectScalarWhereInput[]
+    OR?: ProjectScalarWhereInput[]
+    NOT?: ProjectScalarWhereInput | ProjectScalarWhereInput[]
+    id?: BigIntFilter<"Project"> | bigint | number
+    userId?: BigIntFilter<"Project"> | bigint | number
+    name?: StringFilter<"Project"> | string
+    slug?: StringFilter<"Project"> | string
+    investorName?: StringNullableFilter<"Project"> | string | null
+    provinceCode?: StringNullableFilter<"Project"> | string | null
+    provinceName?: StringNullableFilter<"Project"> | string | null
+    districtCode?: StringNullableFilter<"Project"> | string | null
+    districtName?: StringNullableFilter<"Project"> | string | null
+    wardCode?: StringNullableFilter<"Project"> | string | null
+    wardName?: StringNullableFilter<"Project"> | string | null
+    addressText?: StringNullableFilter<"Project"> | string | null
+    totalArea?: DecimalNullableFilter<"Project"> | Decimal | DecimalJsLike | number | string | null
+    status?: EnumProjectStatusNullableFilter<"Project"> | $Enums.ProjectStatus | null
+    approvalStatus?: EnumProjectApprovalStatusFilter<"Project"> | $Enums.ProjectApprovalStatus
+    description?: StringNullableFilter<"Project"> | string | null
+    createdAt?: DateTimeFilter<"Project"> | Date | string
+  }
+
   export type MessageUpsertWithWhereUniqueWithoutSenderInput = {
     where: MessageWhereUniqueInput
     update: XOR<MessageUpdateWithoutSenderInput, MessageUncheckedUpdateWithoutSenderInput>
@@ -30294,6 +32232,7 @@ export namespace Prisma {
     conversationsSell?: ConversationCreateNestedManyWithoutSellerInput
     favoriteListings?: FavoriteListingCreateNestedManyWithoutUserInput
     listings?: ListingCreateNestedManyWithoutUserInput
+    projects?: ProjectCreateNestedManyWithoutUserInput
     sentMessages?: MessageCreateNestedManyWithoutSenderInput
     reports?: ReportCreateNestedManyWithoutReporterInput
     savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
@@ -30319,6 +32258,7 @@ export namespace Prisma {
     conversationsSell?: ConversationUncheckedCreateNestedManyWithoutSellerInput
     favoriteListings?: FavoriteListingUncheckedCreateNestedManyWithoutUserInput
     listings?: ListingUncheckedCreateNestedManyWithoutUserInput
+    projects?: ProjectUncheckedCreateNestedManyWithoutUserInput
     sentMessages?: MessageUncheckedCreateNestedManyWithoutSenderInput
     reports?: ReportUncheckedCreateNestedManyWithoutReporterInput
     savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
@@ -30360,6 +32300,7 @@ export namespace Prisma {
     conversationsSell?: ConversationUpdateManyWithoutSellerNestedInput
     favoriteListings?: FavoriteListingUpdateManyWithoutUserNestedInput
     listings?: ListingUpdateManyWithoutUserNestedInput
+    projects?: ProjectUpdateManyWithoutUserNestedInput
     sentMessages?: MessageUpdateManyWithoutSenderNestedInput
     reports?: ReportUpdateManyWithoutReporterNestedInput
     savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
@@ -30385,6 +32326,7 @@ export namespace Prisma {
     conversationsSell?: ConversationUncheckedUpdateManyWithoutSellerNestedInput
     favoriteListings?: FavoriteListingUncheckedUpdateManyWithoutUserNestedInput
     listings?: ListingUncheckedUpdateManyWithoutUserNestedInput
+    projects?: ProjectUncheckedUpdateManyWithoutUserNestedInput
     sentMessages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
     reports?: ReportUncheckedUpdateManyWithoutReporterNestedInput
     savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
@@ -30410,6 +32352,7 @@ export namespace Prisma {
     conversationsSell?: ConversationCreateNestedManyWithoutSellerInput
     favoriteListings?: FavoriteListingCreateNestedManyWithoutUserInput
     listings?: ListingCreateNestedManyWithoutUserInput
+    projects?: ProjectCreateNestedManyWithoutUserInput
     sentMessages?: MessageCreateNestedManyWithoutSenderInput
     reports?: ReportCreateNestedManyWithoutReporterInput
     savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
@@ -30435,6 +32378,7 @@ export namespace Prisma {
     conversationsSell?: ConversationUncheckedCreateNestedManyWithoutSellerInput
     favoriteListings?: FavoriteListingUncheckedCreateNestedManyWithoutUserInput
     listings?: ListingUncheckedCreateNestedManyWithoutUserInput
+    projects?: ProjectUncheckedCreateNestedManyWithoutUserInput
     sentMessages?: MessageUncheckedCreateNestedManyWithoutSenderInput
     reports?: ReportUncheckedCreateNestedManyWithoutReporterInput
     savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
@@ -30476,6 +32420,7 @@ export namespace Prisma {
     conversationsSell?: ConversationUpdateManyWithoutSellerNestedInput
     favoriteListings?: FavoriteListingUpdateManyWithoutUserNestedInput
     listings?: ListingUpdateManyWithoutUserNestedInput
+    projects?: ProjectUpdateManyWithoutUserNestedInput
     sentMessages?: MessageUpdateManyWithoutSenderNestedInput
     reports?: ReportUpdateManyWithoutReporterNestedInput
     savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
@@ -30501,6 +32446,7 @@ export namespace Prisma {
     conversationsSell?: ConversationUncheckedUpdateManyWithoutSellerNestedInput
     favoriteListings?: FavoriteListingUncheckedUpdateManyWithoutUserNestedInput
     listings?: ListingUncheckedUpdateManyWithoutUserNestedInput
+    projects?: ProjectUncheckedUpdateManyWithoutUserNestedInput
     sentMessages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
     reports?: ReportUncheckedUpdateManyWithoutReporterNestedInput
     savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
@@ -30526,6 +32472,7 @@ export namespace Prisma {
     conversationsSell?: ConversationCreateNestedManyWithoutSellerInput
     favoriteListings?: FavoriteListingCreateNestedManyWithoutUserInput
     listings?: ListingCreateNestedManyWithoutUserInput
+    projects?: ProjectCreateNestedManyWithoutUserInput
     sentMessages?: MessageCreateNestedManyWithoutSenderInput
     reports?: ReportCreateNestedManyWithoutReporterInput
     savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
@@ -30551,6 +32498,7 @@ export namespace Prisma {
     conversationsSell?: ConversationUncheckedCreateNestedManyWithoutSellerInput
     favoriteListings?: FavoriteListingUncheckedCreateNestedManyWithoutUserInput
     listings?: ListingUncheckedCreateNestedManyWithoutUserInput
+    projects?: ProjectUncheckedCreateNestedManyWithoutUserInput
     sentMessages?: MessageUncheckedCreateNestedManyWithoutSenderInput
     reports?: ReportUncheckedCreateNestedManyWithoutReporterInput
     savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
@@ -30592,6 +32540,7 @@ export namespace Prisma {
     conversationsSell?: ConversationUpdateManyWithoutSellerNestedInput
     favoriteListings?: FavoriteListingUpdateManyWithoutUserNestedInput
     listings?: ListingUpdateManyWithoutUserNestedInput
+    projects?: ProjectUpdateManyWithoutUserNestedInput
     sentMessages?: MessageUpdateManyWithoutSenderNestedInput
     reports?: ReportUpdateManyWithoutReporterNestedInput
     savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
@@ -30617,11 +32566,69 @@ export namespace Prisma {
     conversationsSell?: ConversationUncheckedUpdateManyWithoutSellerNestedInput
     favoriteListings?: FavoriteListingUncheckedUpdateManyWithoutUserNestedInput
     listings?: ListingUncheckedUpdateManyWithoutUserNestedInput
+    projects?: ProjectUncheckedUpdateManyWithoutUserNestedInput
     sentMessages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
     reports?: ReportUncheckedUpdateManyWithoutReporterNestedInput
     savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
     socialIdentities?: SocialIdentityUncheckedUpdateManyWithoutUserNestedInput
     profile?: UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutProjectsInput = {
+    id?: bigint | number
+    publicId?: string
+    phoneNumber?: string | null
+    email?: string | null
+    passwordHash?: string | null
+    securityStamp?: string
+    accountType: $Enums.AccountType
+    status?: $Enums.UserStatus
+    isPhoneVerified?: boolean
+    isEmailVerified?: boolean
+    kycLevel?: number
+    createdAt?: Date | string
+    auditLogs?: AuditLogCreateNestedManyWithoutActorInput
+    conversationsBuy?: ConversationCreateNestedManyWithoutBuyerInput
+    conversationsSell?: ConversationCreateNestedManyWithoutSellerInput
+    favoriteListings?: FavoriteListingCreateNestedManyWithoutUserInput
+    listings?: ListingCreateNestedManyWithoutUserInput
+    sentMessages?: MessageCreateNestedManyWithoutSenderInput
+    reports?: ReportCreateNestedManyWithoutReporterInput
+    savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
+    socialIdentities?: SocialIdentityCreateNestedManyWithoutUserInput
+    profile?: UserProfileCreateNestedOneWithoutUserInput
+    sessions?: UserSessionCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutProjectsInput = {
+    id?: bigint | number
+    publicId?: string
+    phoneNumber?: string | null
+    email?: string | null
+    passwordHash?: string | null
+    securityStamp?: string
+    accountType: $Enums.AccountType
+    status?: $Enums.UserStatus
+    isPhoneVerified?: boolean
+    isEmailVerified?: boolean
+    kycLevel?: number
+    createdAt?: Date | string
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutActorInput
+    conversationsBuy?: ConversationUncheckedCreateNestedManyWithoutBuyerInput
+    conversationsSell?: ConversationUncheckedCreateNestedManyWithoutSellerInput
+    favoriteListings?: FavoriteListingUncheckedCreateNestedManyWithoutUserInput
+    listings?: ListingUncheckedCreateNestedManyWithoutUserInput
+    sentMessages?: MessageUncheckedCreateNestedManyWithoutSenderInput
+    reports?: ReportUncheckedCreateNestedManyWithoutReporterInput
+    savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
+    socialIdentities?: SocialIdentityUncheckedCreateNestedManyWithoutUserInput
+    profile?: UserProfileUncheckedCreateNestedOneWithoutUserInput
+    sessions?: UserSessionUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutProjectsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutProjectsInput, UserUncheckedCreateWithoutProjectsInput>
   }
 
   export type ListingCreateWithoutProjectInput = {
@@ -30704,6 +32711,93 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ProjectMediaCreateWithoutProjectInput = {
+    id?: bigint | number
+    originalUrl: string
+    isPrimary?: boolean
+    sortOrder?: number
+  }
+
+  export type ProjectMediaUncheckedCreateWithoutProjectInput = {
+    id?: bigint | number
+    originalUrl: string
+    isPrimary?: boolean
+    sortOrder?: number
+  }
+
+  export type ProjectMediaCreateOrConnectWithoutProjectInput = {
+    where: ProjectMediaWhereUniqueInput
+    create: XOR<ProjectMediaCreateWithoutProjectInput, ProjectMediaUncheckedCreateWithoutProjectInput>
+  }
+
+  export type ProjectMediaCreateManyProjectInputEnvelope = {
+    data: ProjectMediaCreateManyProjectInput | ProjectMediaCreateManyProjectInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserUpsertWithoutProjectsInput = {
+    update: XOR<UserUpdateWithoutProjectsInput, UserUncheckedUpdateWithoutProjectsInput>
+    create: XOR<UserCreateWithoutProjectsInput, UserUncheckedCreateWithoutProjectsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutProjectsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutProjectsInput, UserUncheckedUpdateWithoutProjectsInput>
+  }
+
+  export type UserUpdateWithoutProjectsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    publicId?: StringFieldUpdateOperationsInput | string
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    securityStamp?: StringFieldUpdateOperationsInput | string
+    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    isPhoneVerified?: BoolFieldUpdateOperationsInput | boolean
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    kycLevel?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    auditLogs?: AuditLogUpdateManyWithoutActorNestedInput
+    conversationsBuy?: ConversationUpdateManyWithoutBuyerNestedInput
+    conversationsSell?: ConversationUpdateManyWithoutSellerNestedInput
+    favoriteListings?: FavoriteListingUpdateManyWithoutUserNestedInput
+    listings?: ListingUpdateManyWithoutUserNestedInput
+    sentMessages?: MessageUpdateManyWithoutSenderNestedInput
+    reports?: ReportUpdateManyWithoutReporterNestedInput
+    savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
+    socialIdentities?: SocialIdentityUpdateManyWithoutUserNestedInput
+    profile?: UserProfileUpdateOneWithoutUserNestedInput
+    sessions?: UserSessionUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutProjectsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    publicId?: StringFieldUpdateOperationsInput | string
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    securityStamp?: StringFieldUpdateOperationsInput | string
+    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    isPhoneVerified?: BoolFieldUpdateOperationsInput | boolean
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    kycLevel?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
+    conversationsBuy?: ConversationUncheckedUpdateManyWithoutBuyerNestedInput
+    conversationsSell?: ConversationUncheckedUpdateManyWithoutSellerNestedInput
+    favoriteListings?: FavoriteListingUncheckedUpdateManyWithoutUserNestedInput
+    listings?: ListingUncheckedUpdateManyWithoutUserNestedInput
+    sentMessages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
+    reports?: ReportUncheckedUpdateManyWithoutReporterNestedInput
+    savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+    socialIdentities?: SocialIdentityUncheckedUpdateManyWithoutUserNestedInput
+    profile?: UserProfileUncheckedUpdateOneWithoutUserNestedInput
+    sessions?: UserSessionUncheckedUpdateManyWithoutUserNestedInput
+  }
+
   export type ListingUpsertWithWhereUniqueWithoutProjectInput = {
     where: ListingWhereUniqueInput
     update: XOR<ListingUpdateWithoutProjectInput, ListingUncheckedUpdateWithoutProjectInput>
@@ -30718,6 +32812,133 @@ export namespace Prisma {
   export type ListingUpdateManyWithWhereWithoutProjectInput = {
     where: ListingScalarWhereInput
     data: XOR<ListingUpdateManyMutationInput, ListingUncheckedUpdateManyWithoutProjectInput>
+  }
+
+  export type ProjectMediaUpsertWithWhereUniqueWithoutProjectInput = {
+    where: ProjectMediaWhereUniqueInput
+    update: XOR<ProjectMediaUpdateWithoutProjectInput, ProjectMediaUncheckedUpdateWithoutProjectInput>
+    create: XOR<ProjectMediaCreateWithoutProjectInput, ProjectMediaUncheckedCreateWithoutProjectInput>
+  }
+
+  export type ProjectMediaUpdateWithWhereUniqueWithoutProjectInput = {
+    where: ProjectMediaWhereUniqueInput
+    data: XOR<ProjectMediaUpdateWithoutProjectInput, ProjectMediaUncheckedUpdateWithoutProjectInput>
+  }
+
+  export type ProjectMediaUpdateManyWithWhereWithoutProjectInput = {
+    where: ProjectMediaScalarWhereInput
+    data: XOR<ProjectMediaUpdateManyMutationInput, ProjectMediaUncheckedUpdateManyWithoutProjectInput>
+  }
+
+  export type ProjectMediaScalarWhereInput = {
+    AND?: ProjectMediaScalarWhereInput | ProjectMediaScalarWhereInput[]
+    OR?: ProjectMediaScalarWhereInput[]
+    NOT?: ProjectMediaScalarWhereInput | ProjectMediaScalarWhereInput[]
+    id?: BigIntFilter<"ProjectMedia"> | bigint | number
+    projectId?: BigIntFilter<"ProjectMedia"> | bigint | number
+    originalUrl?: StringFilter<"ProjectMedia"> | string
+    isPrimary?: BoolFilter<"ProjectMedia"> | boolean
+    sortOrder?: IntFilter<"ProjectMedia"> | number
+  }
+
+  export type ProjectCreateWithoutMediaInput = {
+    id?: bigint | number
+    name: string
+    slug: string
+    investorName?: string | null
+    provinceCode?: string | null
+    provinceName?: string | null
+    districtCode?: string | null
+    districtName?: string | null
+    wardCode?: string | null
+    wardName?: string | null
+    addressText?: string | null
+    totalArea?: Decimal | DecimalJsLike | number | string | null
+    status?: $Enums.ProjectStatus | null
+    approvalStatus?: $Enums.ProjectApprovalStatus
+    description?: string | null
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutProjectsInput
+    listings?: ListingCreateNestedManyWithoutProjectInput
+  }
+
+  export type ProjectUncheckedCreateWithoutMediaInput = {
+    id?: bigint | number
+    userId: bigint | number
+    name: string
+    slug: string
+    investorName?: string | null
+    provinceCode?: string | null
+    provinceName?: string | null
+    districtCode?: string | null
+    districtName?: string | null
+    wardCode?: string | null
+    wardName?: string | null
+    addressText?: string | null
+    totalArea?: Decimal | DecimalJsLike | number | string | null
+    status?: $Enums.ProjectStatus | null
+    approvalStatus?: $Enums.ProjectApprovalStatus
+    description?: string | null
+    createdAt?: Date | string
+    listings?: ListingUncheckedCreateNestedManyWithoutProjectInput
+  }
+
+  export type ProjectCreateOrConnectWithoutMediaInput = {
+    where: ProjectWhereUniqueInput
+    create: XOR<ProjectCreateWithoutMediaInput, ProjectUncheckedCreateWithoutMediaInput>
+  }
+
+  export type ProjectUpsertWithoutMediaInput = {
+    update: XOR<ProjectUpdateWithoutMediaInput, ProjectUncheckedUpdateWithoutMediaInput>
+    create: XOR<ProjectCreateWithoutMediaInput, ProjectUncheckedCreateWithoutMediaInput>
+    where?: ProjectWhereInput
+  }
+
+  export type ProjectUpdateToOneWithWhereWithoutMediaInput = {
+    where?: ProjectWhereInput
+    data: XOR<ProjectUpdateWithoutMediaInput, ProjectUncheckedUpdateWithoutMediaInput>
+  }
+
+  export type ProjectUpdateWithoutMediaInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    investorName?: NullableStringFieldUpdateOperationsInput | string | null
+    provinceCode?: NullableStringFieldUpdateOperationsInput | string | null
+    provinceName?: NullableStringFieldUpdateOperationsInput | string | null
+    districtCode?: NullableStringFieldUpdateOperationsInput | string | null
+    districtName?: NullableStringFieldUpdateOperationsInput | string | null
+    wardCode?: NullableStringFieldUpdateOperationsInput | string | null
+    wardName?: NullableStringFieldUpdateOperationsInput | string | null
+    addressText?: NullableStringFieldUpdateOperationsInput | string | null
+    totalArea?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    status?: NullableEnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus | null
+    approvalStatus?: EnumProjectApprovalStatusFieldUpdateOperationsInput | $Enums.ProjectApprovalStatus
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutProjectsNestedInput
+    listings?: ListingUpdateManyWithoutProjectNestedInput
+  }
+
+  export type ProjectUncheckedUpdateWithoutMediaInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    userId?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    investorName?: NullableStringFieldUpdateOperationsInput | string | null
+    provinceCode?: NullableStringFieldUpdateOperationsInput | string | null
+    provinceName?: NullableStringFieldUpdateOperationsInput | string | null
+    districtCode?: NullableStringFieldUpdateOperationsInput | string | null
+    districtName?: NullableStringFieldUpdateOperationsInput | string | null
+    wardCode?: NullableStringFieldUpdateOperationsInput | string | null
+    wardName?: NullableStringFieldUpdateOperationsInput | string | null
+    addressText?: NullableStringFieldUpdateOperationsInput | string | null
+    totalArea?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    status?: NullableEnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus | null
+    approvalStatus?: EnumProjectApprovalStatusFieldUpdateOperationsInput | $Enums.ProjectApprovalStatus
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    listings?: ListingUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type ListingCreateWithoutPropertyTypeInput = {
@@ -30914,11 +33135,16 @@ export namespace Prisma {
     addressText?: string | null
     totalArea?: Decimal | DecimalJsLike | number | string | null
     status?: $Enums.ProjectStatus | null
+    approvalStatus?: $Enums.ProjectApprovalStatus
     description?: string | null
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutProjectsInput
+    media?: ProjectMediaCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutListingsInput = {
     id?: bigint | number
+    userId: bigint | number
     name: string
     slug: string
     investorName?: string | null
@@ -30931,7 +33157,10 @@ export namespace Prisma {
     addressText?: string | null
     totalArea?: Decimal | DecimalJsLike | number | string | null
     status?: $Enums.ProjectStatus | null
+    approvalStatus?: $Enums.ProjectApprovalStatus
     description?: string | null
+    createdAt?: Date | string
+    media?: ProjectMediaUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutListingsInput = {
@@ -30970,6 +33199,7 @@ export namespace Prisma {
     conversationsBuy?: ConversationCreateNestedManyWithoutBuyerInput
     conversationsSell?: ConversationCreateNestedManyWithoutSellerInput
     favoriteListings?: FavoriteListingCreateNestedManyWithoutUserInput
+    projects?: ProjectCreateNestedManyWithoutUserInput
     sentMessages?: MessageCreateNestedManyWithoutSenderInput
     reports?: ReportCreateNestedManyWithoutReporterInput
     savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
@@ -30995,6 +33225,7 @@ export namespace Prisma {
     conversationsBuy?: ConversationUncheckedCreateNestedManyWithoutBuyerInput
     conversationsSell?: ConversationUncheckedCreateNestedManyWithoutSellerInput
     favoriteListings?: FavoriteListingUncheckedCreateNestedManyWithoutUserInput
+    projects?: ProjectUncheckedCreateNestedManyWithoutUserInput
     sentMessages?: MessageUncheckedCreateNestedManyWithoutSenderInput
     reports?: ReportUncheckedCreateNestedManyWithoutReporterInput
     savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
@@ -31125,11 +33356,16 @@ export namespace Prisma {
     addressText?: NullableStringFieldUpdateOperationsInput | string | null
     totalArea?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: NullableEnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus | null
+    approvalStatus?: EnumProjectApprovalStatusFieldUpdateOperationsInput | $Enums.ProjectApprovalStatus
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutProjectsNestedInput
+    media?: ProjectMediaUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutListingsInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
+    userId?: BigIntFieldUpdateOperationsInput | bigint | number
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     investorName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -31142,7 +33378,10 @@ export namespace Prisma {
     addressText?: NullableStringFieldUpdateOperationsInput | string | null
     totalArea?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     status?: NullableEnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus | null
+    approvalStatus?: EnumProjectApprovalStatusFieldUpdateOperationsInput | $Enums.ProjectApprovalStatus
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    media?: ProjectMediaUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type PropertyTypeUpsertWithoutListingsInput = {
@@ -31193,6 +33432,7 @@ export namespace Prisma {
     conversationsBuy?: ConversationUpdateManyWithoutBuyerNestedInput
     conversationsSell?: ConversationUpdateManyWithoutSellerNestedInput
     favoriteListings?: FavoriteListingUpdateManyWithoutUserNestedInput
+    projects?: ProjectUpdateManyWithoutUserNestedInput
     sentMessages?: MessageUpdateManyWithoutSenderNestedInput
     reports?: ReportUpdateManyWithoutReporterNestedInput
     savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
@@ -31218,6 +33458,7 @@ export namespace Prisma {
     conversationsBuy?: ConversationUncheckedUpdateManyWithoutBuyerNestedInput
     conversationsSell?: ConversationUncheckedUpdateManyWithoutSellerNestedInput
     favoriteListings?: FavoriteListingUncheckedUpdateManyWithoutUserNestedInput
+    projects?: ProjectUncheckedUpdateManyWithoutUserNestedInput
     sentMessages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
     reports?: ReportUncheckedUpdateManyWithoutReporterNestedInput
     savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
@@ -31416,6 +33657,7 @@ export namespace Prisma {
     conversationsSell?: ConversationCreateNestedManyWithoutSellerInput
     favoriteListings?: FavoriteListingCreateNestedManyWithoutUserInput
     listings?: ListingCreateNestedManyWithoutUserInput
+    projects?: ProjectCreateNestedManyWithoutUserInput
     sentMessages?: MessageCreateNestedManyWithoutSenderInput
     reports?: ReportCreateNestedManyWithoutReporterInput
     socialIdentities?: SocialIdentityCreateNestedManyWithoutUserInput
@@ -31441,6 +33683,7 @@ export namespace Prisma {
     conversationsSell?: ConversationUncheckedCreateNestedManyWithoutSellerInput
     favoriteListings?: FavoriteListingUncheckedCreateNestedManyWithoutUserInput
     listings?: ListingUncheckedCreateNestedManyWithoutUserInput
+    projects?: ProjectUncheckedCreateNestedManyWithoutUserInput
     sentMessages?: MessageUncheckedCreateNestedManyWithoutSenderInput
     reports?: ReportUncheckedCreateNestedManyWithoutReporterInput
     socialIdentities?: SocialIdentityUncheckedCreateNestedManyWithoutUserInput
@@ -31482,6 +33725,7 @@ export namespace Prisma {
     conversationsSell?: ConversationUpdateManyWithoutSellerNestedInput
     favoriteListings?: FavoriteListingUpdateManyWithoutUserNestedInput
     listings?: ListingUpdateManyWithoutUserNestedInput
+    projects?: ProjectUpdateManyWithoutUserNestedInput
     sentMessages?: MessageUpdateManyWithoutSenderNestedInput
     reports?: ReportUpdateManyWithoutReporterNestedInput
     socialIdentities?: SocialIdentityUpdateManyWithoutUserNestedInput
@@ -31507,6 +33751,7 @@ export namespace Prisma {
     conversationsSell?: ConversationUncheckedUpdateManyWithoutSellerNestedInput
     favoriteListings?: FavoriteListingUncheckedUpdateManyWithoutUserNestedInput
     listings?: ListingUncheckedUpdateManyWithoutUserNestedInput
+    projects?: ProjectUncheckedUpdateManyWithoutUserNestedInput
     sentMessages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
     reports?: ReportUncheckedUpdateManyWithoutReporterNestedInput
     socialIdentities?: SocialIdentityUncheckedUpdateManyWithoutUserNestedInput
@@ -31531,6 +33776,7 @@ export namespace Prisma {
     conversationsSell?: ConversationCreateNestedManyWithoutSellerInput
     favoriteListings?: FavoriteListingCreateNestedManyWithoutUserInput
     listings?: ListingCreateNestedManyWithoutUserInput
+    projects?: ProjectCreateNestedManyWithoutUserInput
     sentMessages?: MessageCreateNestedManyWithoutSenderInput
     reports?: ReportCreateNestedManyWithoutReporterInput
     savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
@@ -31556,6 +33802,7 @@ export namespace Prisma {
     conversationsSell?: ConversationUncheckedCreateNestedManyWithoutSellerInput
     favoriteListings?: FavoriteListingUncheckedCreateNestedManyWithoutUserInput
     listings?: ListingUncheckedCreateNestedManyWithoutUserInput
+    projects?: ProjectUncheckedCreateNestedManyWithoutUserInput
     sentMessages?: MessageUncheckedCreateNestedManyWithoutSenderInput
     reports?: ReportUncheckedCreateNestedManyWithoutReporterInput
     savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
@@ -31661,6 +33908,7 @@ export namespace Prisma {
     conversationsBuy?: ConversationCreateNestedManyWithoutBuyerInput
     favoriteListings?: FavoriteListingCreateNestedManyWithoutUserInput
     listings?: ListingCreateNestedManyWithoutUserInput
+    projects?: ProjectCreateNestedManyWithoutUserInput
     sentMessages?: MessageCreateNestedManyWithoutSenderInput
     reports?: ReportCreateNestedManyWithoutReporterInput
     savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
@@ -31686,6 +33934,7 @@ export namespace Prisma {
     conversationsBuy?: ConversationUncheckedCreateNestedManyWithoutBuyerInput
     favoriteListings?: FavoriteListingUncheckedCreateNestedManyWithoutUserInput
     listings?: ListingUncheckedCreateNestedManyWithoutUserInput
+    projects?: ProjectUncheckedCreateNestedManyWithoutUserInput
     sentMessages?: MessageUncheckedCreateNestedManyWithoutSenderInput
     reports?: ReportUncheckedCreateNestedManyWithoutReporterInput
     savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
@@ -31755,6 +34004,7 @@ export namespace Prisma {
     conversationsSell?: ConversationUpdateManyWithoutSellerNestedInput
     favoriteListings?: FavoriteListingUpdateManyWithoutUserNestedInput
     listings?: ListingUpdateManyWithoutUserNestedInput
+    projects?: ProjectUpdateManyWithoutUserNestedInput
     sentMessages?: MessageUpdateManyWithoutSenderNestedInput
     reports?: ReportUpdateManyWithoutReporterNestedInput
     savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
@@ -31780,6 +34030,7 @@ export namespace Prisma {
     conversationsSell?: ConversationUncheckedUpdateManyWithoutSellerNestedInput
     favoriteListings?: FavoriteListingUncheckedUpdateManyWithoutUserNestedInput
     listings?: ListingUncheckedUpdateManyWithoutUserNestedInput
+    projects?: ProjectUncheckedUpdateManyWithoutUserNestedInput
     sentMessages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
     reports?: ReportUncheckedUpdateManyWithoutReporterNestedInput
     savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
@@ -31897,6 +34148,7 @@ export namespace Prisma {
     conversationsBuy?: ConversationUpdateManyWithoutBuyerNestedInput
     favoriteListings?: FavoriteListingUpdateManyWithoutUserNestedInput
     listings?: ListingUpdateManyWithoutUserNestedInput
+    projects?: ProjectUpdateManyWithoutUserNestedInput
     sentMessages?: MessageUpdateManyWithoutSenderNestedInput
     reports?: ReportUpdateManyWithoutReporterNestedInput
     savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
@@ -31922,6 +34174,7 @@ export namespace Prisma {
     conversationsBuy?: ConversationUncheckedUpdateManyWithoutBuyerNestedInput
     favoriteListings?: FavoriteListingUncheckedUpdateManyWithoutUserNestedInput
     listings?: ListingUncheckedUpdateManyWithoutUserNestedInput
+    projects?: ProjectUncheckedUpdateManyWithoutUserNestedInput
     sentMessages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
     reports?: ReportUncheckedUpdateManyWithoutReporterNestedInput
     savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
@@ -31987,6 +34240,7 @@ export namespace Prisma {
     conversationsSell?: ConversationCreateNestedManyWithoutSellerInput
     favoriteListings?: FavoriteListingCreateNestedManyWithoutUserInput
     listings?: ListingCreateNestedManyWithoutUserInput
+    projects?: ProjectCreateNestedManyWithoutUserInput
     reports?: ReportCreateNestedManyWithoutReporterInput
     savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
     socialIdentities?: SocialIdentityCreateNestedManyWithoutUserInput
@@ -32012,6 +34266,7 @@ export namespace Prisma {
     conversationsSell?: ConversationUncheckedCreateNestedManyWithoutSellerInput
     favoriteListings?: FavoriteListingUncheckedCreateNestedManyWithoutUserInput
     listings?: ListingUncheckedCreateNestedManyWithoutUserInput
+    projects?: ProjectUncheckedCreateNestedManyWithoutUserInput
     reports?: ReportUncheckedCreateNestedManyWithoutReporterInput
     savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
     socialIdentities?: SocialIdentityUncheckedCreateNestedManyWithoutUserInput
@@ -32082,6 +34337,7 @@ export namespace Prisma {
     conversationsSell?: ConversationUpdateManyWithoutSellerNestedInput
     favoriteListings?: FavoriteListingUpdateManyWithoutUserNestedInput
     listings?: ListingUpdateManyWithoutUserNestedInput
+    projects?: ProjectUpdateManyWithoutUserNestedInput
     reports?: ReportUpdateManyWithoutReporterNestedInput
     savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
     socialIdentities?: SocialIdentityUpdateManyWithoutUserNestedInput
@@ -32107,6 +34363,7 @@ export namespace Prisma {
     conversationsSell?: ConversationUncheckedUpdateManyWithoutSellerNestedInput
     favoriteListings?: FavoriteListingUncheckedUpdateManyWithoutUserNestedInput
     listings?: ListingUncheckedUpdateManyWithoutUserNestedInput
+    projects?: ProjectUncheckedUpdateManyWithoutUserNestedInput
     reports?: ReportUncheckedUpdateManyWithoutReporterNestedInput
     savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
     socialIdentities?: SocialIdentityUncheckedUpdateManyWithoutUserNestedInput
@@ -32207,6 +34464,7 @@ export namespace Prisma {
     conversationsSell?: ConversationCreateNestedManyWithoutSellerInput
     favoriteListings?: FavoriteListingCreateNestedManyWithoutUserInput
     listings?: ListingCreateNestedManyWithoutUserInput
+    projects?: ProjectCreateNestedManyWithoutUserInput
     sentMessages?: MessageCreateNestedManyWithoutSenderInput
     savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
     socialIdentities?: SocialIdentityCreateNestedManyWithoutUserInput
@@ -32232,6 +34490,7 @@ export namespace Prisma {
     conversationsSell?: ConversationUncheckedCreateNestedManyWithoutSellerInput
     favoriteListings?: FavoriteListingUncheckedCreateNestedManyWithoutUserInput
     listings?: ListingUncheckedCreateNestedManyWithoutUserInput
+    projects?: ProjectUncheckedCreateNestedManyWithoutUserInput
     sentMessages?: MessageUncheckedCreateNestedManyWithoutSenderInput
     savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
     socialIdentities?: SocialIdentityUncheckedCreateNestedManyWithoutUserInput
@@ -32354,6 +34613,7 @@ export namespace Prisma {
     conversationsSell?: ConversationUpdateManyWithoutSellerNestedInput
     favoriteListings?: FavoriteListingUpdateManyWithoutUserNestedInput
     listings?: ListingUpdateManyWithoutUserNestedInput
+    projects?: ProjectUpdateManyWithoutUserNestedInput
     sentMessages?: MessageUpdateManyWithoutSenderNestedInput
     savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
     socialIdentities?: SocialIdentityUpdateManyWithoutUserNestedInput
@@ -32379,6 +34639,7 @@ export namespace Prisma {
     conversationsSell?: ConversationUncheckedUpdateManyWithoutSellerNestedInput
     favoriteListings?: FavoriteListingUncheckedUpdateManyWithoutUserNestedInput
     listings?: ListingUncheckedUpdateManyWithoutUserNestedInput
+    projects?: ProjectUncheckedUpdateManyWithoutUserNestedInput
     sentMessages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
     savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
     socialIdentities?: SocialIdentityUncheckedUpdateManyWithoutUserNestedInput
@@ -32403,6 +34664,7 @@ export namespace Prisma {
     conversationsSell?: ConversationCreateNestedManyWithoutSellerInput
     favoriteListings?: FavoriteListingCreateNestedManyWithoutUserInput
     listings?: ListingCreateNestedManyWithoutUserInput
+    projects?: ProjectCreateNestedManyWithoutUserInput
     sentMessages?: MessageCreateNestedManyWithoutSenderInput
     reports?: ReportCreateNestedManyWithoutReporterInput
     savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
@@ -32428,6 +34690,7 @@ export namespace Prisma {
     conversationsSell?: ConversationUncheckedCreateNestedManyWithoutSellerInput
     favoriteListings?: FavoriteListingUncheckedCreateNestedManyWithoutUserInput
     listings?: ListingUncheckedCreateNestedManyWithoutUserInput
+    projects?: ProjectUncheckedCreateNestedManyWithoutUserInput
     sentMessages?: MessageUncheckedCreateNestedManyWithoutSenderInput
     reports?: ReportUncheckedCreateNestedManyWithoutReporterInput
     savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
@@ -32469,6 +34732,7 @@ export namespace Prisma {
     conversationsSell?: ConversationUpdateManyWithoutSellerNestedInput
     favoriteListings?: FavoriteListingUpdateManyWithoutUserNestedInput
     listings?: ListingUpdateManyWithoutUserNestedInput
+    projects?: ProjectUpdateManyWithoutUserNestedInput
     sentMessages?: MessageUpdateManyWithoutSenderNestedInput
     reports?: ReportUpdateManyWithoutReporterNestedInput
     savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
@@ -32494,6 +34758,7 @@ export namespace Prisma {
     conversationsSell?: ConversationUncheckedUpdateManyWithoutSellerNestedInput
     favoriteListings?: FavoriteListingUncheckedUpdateManyWithoutUserNestedInput
     listings?: ListingUncheckedUpdateManyWithoutUserNestedInput
+    projects?: ProjectUncheckedUpdateManyWithoutUserNestedInput
     sentMessages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
     reports?: ReportUncheckedUpdateManyWithoutReporterNestedInput
     savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
@@ -32594,6 +34859,7 @@ export namespace Prisma {
     conversationsBuy?: ConversationCreateNestedManyWithoutBuyerInput
     conversationsSell?: ConversationCreateNestedManyWithoutSellerInput
     listings?: ListingCreateNestedManyWithoutUserInput
+    projects?: ProjectCreateNestedManyWithoutUserInput
     sentMessages?: MessageCreateNestedManyWithoutSenderInput
     reports?: ReportCreateNestedManyWithoutReporterInput
     savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
@@ -32619,6 +34885,7 @@ export namespace Prisma {
     conversationsBuy?: ConversationUncheckedCreateNestedManyWithoutBuyerInput
     conversationsSell?: ConversationUncheckedCreateNestedManyWithoutSellerInput
     listings?: ListingUncheckedCreateNestedManyWithoutUserInput
+    projects?: ProjectUncheckedCreateNestedManyWithoutUserInput
     sentMessages?: MessageUncheckedCreateNestedManyWithoutSenderInput
     reports?: ReportUncheckedCreateNestedManyWithoutReporterInput
     savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
@@ -32741,6 +35008,7 @@ export namespace Prisma {
     conversationsBuy?: ConversationUpdateManyWithoutBuyerNestedInput
     conversationsSell?: ConversationUpdateManyWithoutSellerNestedInput
     listings?: ListingUpdateManyWithoutUserNestedInput
+    projects?: ProjectUpdateManyWithoutUserNestedInput
     sentMessages?: MessageUpdateManyWithoutSenderNestedInput
     reports?: ReportUpdateManyWithoutReporterNestedInput
     savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
@@ -32766,6 +35034,7 @@ export namespace Prisma {
     conversationsBuy?: ConversationUncheckedUpdateManyWithoutBuyerNestedInput
     conversationsSell?: ConversationUncheckedUpdateManyWithoutSellerNestedInput
     listings?: ListingUncheckedUpdateManyWithoutUserNestedInput
+    projects?: ProjectUncheckedUpdateManyWithoutUserNestedInput
     sentMessages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
     reports?: ReportUncheckedUpdateManyWithoutReporterNestedInput
     savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
@@ -32837,6 +35106,25 @@ export namespace Prisma {
     publishedAt?: Date | string | null
     expiredAt?: Date | string | null
     attributes: JsonNullValueInput | InputJsonValue
+  }
+
+  export type ProjectCreateManyUserInput = {
+    id?: bigint | number
+    name: string
+    slug: string
+    investorName?: string | null
+    provinceCode?: string | null
+    provinceName?: string | null
+    districtCode?: string | null
+    districtName?: string | null
+    wardCode?: string | null
+    wardName?: string | null
+    addressText?: string | null
+    totalArea?: Decimal | DecimalJsLike | number | string | null
+    status?: $Enums.ProjectStatus | null
+    approvalStatus?: $Enums.ProjectApprovalStatus
+    description?: string | null
+    createdAt?: Date | string
   }
 
   export type MessageCreateManySenderInput = {
@@ -33096,6 +35384,67 @@ export namespace Prisma {
     attributes?: JsonNullValueInput | InputJsonValue
   }
 
+  export type ProjectUpdateWithoutUserInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    investorName?: NullableStringFieldUpdateOperationsInput | string | null
+    provinceCode?: NullableStringFieldUpdateOperationsInput | string | null
+    provinceName?: NullableStringFieldUpdateOperationsInput | string | null
+    districtCode?: NullableStringFieldUpdateOperationsInput | string | null
+    districtName?: NullableStringFieldUpdateOperationsInput | string | null
+    wardCode?: NullableStringFieldUpdateOperationsInput | string | null
+    wardName?: NullableStringFieldUpdateOperationsInput | string | null
+    addressText?: NullableStringFieldUpdateOperationsInput | string | null
+    totalArea?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    status?: NullableEnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus | null
+    approvalStatus?: EnumProjectApprovalStatusFieldUpdateOperationsInput | $Enums.ProjectApprovalStatus
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    listings?: ListingUpdateManyWithoutProjectNestedInput
+    media?: ProjectMediaUpdateManyWithoutProjectNestedInput
+  }
+
+  export type ProjectUncheckedUpdateWithoutUserInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    investorName?: NullableStringFieldUpdateOperationsInput | string | null
+    provinceCode?: NullableStringFieldUpdateOperationsInput | string | null
+    provinceName?: NullableStringFieldUpdateOperationsInput | string | null
+    districtCode?: NullableStringFieldUpdateOperationsInput | string | null
+    districtName?: NullableStringFieldUpdateOperationsInput | string | null
+    wardCode?: NullableStringFieldUpdateOperationsInput | string | null
+    wardName?: NullableStringFieldUpdateOperationsInput | string | null
+    addressText?: NullableStringFieldUpdateOperationsInput | string | null
+    totalArea?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    status?: NullableEnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus | null
+    approvalStatus?: EnumProjectApprovalStatusFieldUpdateOperationsInput | $Enums.ProjectApprovalStatus
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    listings?: ListingUncheckedUpdateManyWithoutProjectNestedInput
+    media?: ProjectMediaUncheckedUpdateManyWithoutProjectNestedInput
+  }
+
+  export type ProjectUncheckedUpdateManyWithoutUserInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    investorName?: NullableStringFieldUpdateOperationsInput | string | null
+    provinceCode?: NullableStringFieldUpdateOperationsInput | string | null
+    provinceName?: NullableStringFieldUpdateOperationsInput | string | null
+    districtCode?: NullableStringFieldUpdateOperationsInput | string | null
+    districtName?: NullableStringFieldUpdateOperationsInput | string | null
+    wardCode?: NullableStringFieldUpdateOperationsInput | string | null
+    wardName?: NullableStringFieldUpdateOperationsInput | string | null
+    addressText?: NullableStringFieldUpdateOperationsInput | string | null
+    totalArea?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    status?: NullableEnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus | null
+    approvalStatus?: EnumProjectApprovalStatusFieldUpdateOperationsInput | $Enums.ProjectApprovalStatus
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type MessageUpdateWithoutSenderInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     content?: StringFieldUpdateOperationsInput | string
@@ -33277,6 +35626,13 @@ export namespace Prisma {
     attributes: JsonNullValueInput | InputJsonValue
   }
 
+  export type ProjectMediaCreateManyProjectInput = {
+    id?: bigint | number
+    originalUrl: string
+    isPrimary?: boolean
+    sortOrder?: number
+  }
+
   export type ListingUpdateWithoutProjectInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     title?: StringFieldUpdateOperationsInput | string
@@ -33376,6 +35732,27 @@ export namespace Prisma {
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     expiredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     attributes?: JsonNullValueInput | InputJsonValue
+  }
+
+  export type ProjectMediaUpdateWithoutProjectInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    originalUrl?: StringFieldUpdateOperationsInput | string
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
+    sortOrder?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ProjectMediaUncheckedUpdateWithoutProjectInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    originalUrl?: StringFieldUpdateOperationsInput | string
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
+    sortOrder?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ProjectMediaUncheckedUpdateManyWithoutProjectInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    originalUrl?: StringFieldUpdateOperationsInput | string
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
+    sortOrder?: IntFieldUpdateOperationsInput | number
   }
 
   export type ListingCreateManyPropertyTypeInput = {
