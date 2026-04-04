@@ -1,0 +1,429 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+  provider   = "postgresql"
+  extensions = [postgis]
+}
+
+model User {
+  id                BigInt            @id @default(autoincrement())
+  publicId          String            @unique @default(uuid()) @map("public_id")
+  phoneNumber       String?           @unique @map("phone_number") @db.VarChar(15)
+  email             String?           @unique @db.VarChar(255)
+  passwordHash      String?           @map("password_hash")
+  securityStamp     String            @default(uuid()) @map("security_stamp")
+  accountType       AccountType       @map("account_type")
+  status            UserStatus        @default(PENDING_VERIFICATION)
+  isPhoneVerified   Boolean           @default(false) @map("is_phone_verified")
+  isEmailVerified   Boolean           @default(false) @map("is_email_verified")
+  kycLevel          Int               @default(0) @map("kyc_level")
+  createdAt         DateTime          @default(now()) @map("created_at") @db.Timestamptz(6)
+  auditLogs         AuditLog[]
+  conversationsBuy  Conversation[]    @relation("BuyerConversations")
+  conversationsSell Conversation[]    @relation("SellerConversations")
+  favoriteListings  FavoriteListing[]
+  listings          Listing[]
+  projects          Project[]
+  sentMessages      Message[]
+  reports           Report[]
+  savedSearches     SavedSearch[]
+  socialIdentities  SocialIdentity[]
+  profile           UserProfile?
+  sessions          UserSession[]
+
+  @@index([phoneNumber])
+  @@map("users")
+}
+
+model OTP {
+  id        Int      @id @default(autoincrement())
+  phone     String?  @db.VarChar(15)
+  email     String?  @db.VarChar(255)
+  code      String   @db.VarChar(6)
+  type      OTPType  @default(REGISTER)
+  expiresAt DateTime @map("expires_at") @db.Timestamptz(6)
+  isUsed    Boolean  @default(false) @map("is_used")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@index([phone, email, type, isUsed])
+  @@map("otps")
+}
+
+model UserProfile {
+  userId              BigInt  @id @map("user_id")
+  displayName         String  @map("display_name") @db.VarChar(100)
+  avatarUrl           String? @map("avatar_url")
+  coverUrl            String? @map("cover_url")
+  bio                 String?
+  address             String?
+  taxCode             String? @map("tax_code") @db.VarChar(20)
+  identityCardNumber  String? @map("identity_card_number") @db.VarChar(50)
+  brokerLicenseNumber String? @map("broker_license_number") @db.VarChar(50)
+  websiteUrl          String? @map("website_url")
+  socialLinks         Json?   @map("social_links")
+  zaloContactPhone    String? @map("zalo_contact_phone") @db.VarChar(20)
+  user                User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_profiles")
+}
+
+model SocialIdentity {
+  id             BigInt         @id @default(autoincrement())
+  userId         BigInt         @map("user_id")
+  provider       SocialProvider
+  providerUserId String         @map("provider_user_id") @db.VarChar(255)
+  email          String?
+  name           String?
+  accessToken    String?        @map("access_token")
+  refreshToken   String?        @map("refresh_token")
+  tokenExpiresAt DateTime?      @map("token_expires_at") @db.Timestamptz(6)
+  lastLoginAt    DateTime?      @map("last_login_at") @db.Timestamptz(6)
+  user           User           @relation(fields: [userId], references: [id])
+
+  @@unique([provider, providerUserId])
+  @@map("social_identities")
+}
+
+model UserSession {
+  id            String   @id @default(uuid())
+  userId        BigInt   @map("user_id")
+  ipAddress     String?  @map("ip_address")
+  userAgent     String?  @map("user_agent")
+  deviceInfo    Json?    @map("device_info")
+  locationGuess String?  @map("location_guess")
+  expiresAt     DateTime @map("expires_at") @db.Timestamptz(6)
+  isRevoked     Boolean  @default(false) @map("is_revoked")
+  lastActiveAt  DateTime @map("last_active_at") @db.Timestamptz(6)
+  user          User     @relation(fields: [userId], references: [id])
+
+  @@map("user_sessions")
+}
+
+model Project {
+  id             BigInt                    @id @default(autoincrement())
+  userId         BigInt                    @map("user_id")
+  name           String
+  slug           String                    @unique
+  investorName   String?                   @map("investor_name")
+  provinceCode   String?                   @map("province_code") @db.VarChar(10)
+  provinceName   String?                   @map("province_name")
+  districtCode   String?                   @map("district_code") @db.VarChar(10)
+  districtName   String?                   @map("district_name")
+  wardCode       String?                   @map("ward_code") @db.VarChar(10)
+  wardName       String?                   @map("ward_name")
+  addressText    String?                   @map("address_text")
+  coordinates    Unsupported("geography")?
+  totalArea      Decimal?                  @map("total_area") @db.Decimal(10, 2)
+  status         ProjectStatus?
+  approvalStatus ProjectApprovalStatus     @default(PENDING_REVIEW) @map("approval_status")
+  description    String?
+  createdAt      DateTime                  @default(now()) @map("created_at") @db.Timestamptz(6)
+  user           User                      @relation(fields: [userId], references: [id])
+  listings       Listing[]
+  media          ProjectMedia[]
+
+  @@index([userId])
+  @@index([provinceCode])
+  @@index([districtCode])
+  @@map("projects")
+}
+
+model ProjectMedia {
+  id          BigInt  @id @default(autoincrement())
+  projectId   BigInt  @map("project_id")
+  originalUrl String  @map("original_url")
+  isPrimary   Boolean @default(false) @map("is_primary")
+  sortOrder   Int     @default(0) @map("sort_order")
+  project     Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@map("project_media")
+}
+
+model PropertyType {
+  id       Int       @id @default(autoincrement())
+  name     String
+  listings Listing[]
+
+  @@map("property_types")
+}
+
+model Listing {
+  id              BigInt                    @id @default(autoincrement())
+  userId          BigInt                    @map("user_id")
+  title           String                    @db.VarChar(255)
+  slug            String                    @unique @db.VarChar(300)
+  listingType     ListingType               @map("listing_type")
+  propertyTypeId  Int                       @map("property_type_id")
+  provinceCode    String                    @map("province_code") @db.VarChar(10)
+  provinceName    String                    @map("province_name")
+  provinceSlug    String?                   @map("province_slug")
+  districtCode    String                    @map("district_code") @db.VarChar(10)
+  districtName    String                    @map("district_name")
+  districtSlug    String?                   @map("district_slug")
+  wardCode        String                    @map("ward_code") @db.VarChar(10)
+  wardName        String                    @map("ward_name")
+  wardSlug        String?                   @map("ward_slug")
+  region          Region?
+  projectId       BigInt?                   @map("project_id")
+  addressDisplay  String?                   @map("address_display")
+  coordinates     Unsupported("geography")?
+  price           Decimal?                  @db.Decimal(19, 4)
+  priceUnit       PriceUnit                 @map("price_unit")
+  pricePerM2      Decimal?                  @map("price_per_m2") @db.Decimal(19, 4)
+  areaGross       Decimal                   @map("area_gross") @db.Decimal(10, 2)
+  areaNet         Decimal?                  @map("area_net") @db.Decimal(10, 2)
+  direction       Direction?
+  juridicalStatus JuridicalStatus?          @map("juridical_status")
+  status          ListingStatus             @default(DRAFT)
+  publishedAt     DateTime?                 @map("published_at") @db.Timestamptz(6)
+  expiredAt       DateTime?                 @map("expired_at") @db.Timestamptz(6)
+  searchVector    Unsupported("tsvector")?  @map("search_vector")
+  attributes      Json
+  conversations   Conversation[]
+  favoritedBy     FavoriteListing[]
+  media           ListingMedia[]
+  project         Project?                  @relation(fields: [projectId], references: [id])
+  propertyType    PropertyType              @relation(fields: [propertyTypeId], references: [id])
+  user            User                      @relation(fields: [userId], references: [id])
+  reports         Report[]
+
+  @@index([provinceCode, districtCode, price, areaGross])
+  @@index([expiredAt])
+  @@map("listings")
+}
+
+model ListingMedia {
+  id             BigInt    @id @default(autoincrement())
+  listingId      BigInt    @map("listing_id")
+  mediaType      MediaType @map("media_type")
+  originalUrl    String    @map("original_url")
+  watermarkedUrl String?   @map("watermarked_url")
+  thumbnailUrl   String?   @map("thumbnail_url")
+  caption        String?
+  sortOrder      Int       @default(0) @map("sort_order")
+  isPrimary      Boolean   @default(false) @map("is_primary")
+  phash          String?   @db.VarChar(64)
+  listing        Listing   @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+  @@map("listing_media")
+}
+
+model ListingFingerprint {
+  id            BigInt @id @default(autoincrement())
+  hashSignature String @unique @map("hash_signature")
+
+  @@map("listing_fingerprints")
+}
+
+model SavedSearch {
+  id            BigInt        @id @default(autoincrement())
+  userId        BigInt        @map("user_id")
+  name          String
+  criteria      Json
+  notifyChannel NotifyChannel @map("notify_channel")
+  frequency     String?
+  createdAt     DateTime      @default(now()) @map("created_at")
+  user          User          @relation(fields: [userId], references: [id])
+
+  @@map("saved_searches")
+}
+
+model Conversation {
+  id            String    @id @default(uuid())
+  listingId     BigInt    @map("listing_id")
+  buyerId       BigInt    @map("buyer_id")
+  sellerId      BigInt    @map("seller_id")
+  lastMessage   String?   @map("last_message_content")
+  lastMessageAt DateTime? @map("last_message_at") @db.Timestamptz(6)
+  buyer         User      @relation("BuyerConversations", fields: [buyerId], references: [id])
+  listing       Listing   @relation(fields: [listingId], references: [id])
+  seller        User      @relation("SellerConversations", fields: [sellerId], references: [id])
+  messages      Message[]
+
+  @@map("conversations")
+}
+
+model Message {
+  id             BigInt       @id @default(autoincrement())
+  conversationId String       @map("conversation_id")
+  senderId       BigInt       @map("sender_id")
+  content        String
+  type           MessageType  @default(TEXT)
+  readAt         DateTime?    @map("read_at") @db.Timestamptz(6)
+  createdAt      DateTime     @default(now()) @map("created_at")
+  conversation   Conversation @relation(fields: [conversationId], references: [id])
+  sender         User         @relation(fields: [senderId], references: [id])
+
+  @@map("messages")
+}
+
+model Report {
+  id          BigInt       @id @default(autoincrement())
+  listingId   BigInt       @map("listing_id")
+  reporterId  BigInt       @map("reporter_id")
+  reasonCode  ReportReason @map("reason_code")
+  description String?
+  status      ReportStatus @default(PENDING)
+  createdAt   DateTime     @default(now()) @map("created_at")
+  listing     Listing      @relation(fields: [listingId], references: [id])
+  reporter    User         @relation(fields: [reporterId], references: [id])
+
+  @@map("reports")
+}
+
+model AuditLog {
+  id         BigInt   @id @default(autoincrement())
+  actorId    BigInt?  @map("actor_id")
+  action     String   @db.VarChar(50)
+  entityType String   @map("entity_type") @db.VarChar(50)
+  entityId   String   @map("entity_id") @db.VarChar(50)
+  oldValue   Json?    @map("old_value")
+  newValue   Json?    @map("new_value")
+  ipAddress  String?  @map("ip_address")
+  userAgent  String?  @map("user_agent")
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  actor      User?    @relation(fields: [actorId], references: [id])
+
+  @@map("audit_logs")
+}
+
+model FavoriteListing {
+  id        BigInt   @id @default(autoincrement())
+  userId    BigInt   @map("user_id")
+  listingId BigInt   @map("listing_id")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  listing   Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, listingId])
+  @@map("favorite_listings")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model spatial_ref_sys {
+  srid      Int     @id
+  auth_name String? @db.VarChar(256)
+  auth_srid Int?
+  srtext    String? @db.VarChar(2048)
+  proj4text String? @db.VarChar(2048)
+}
+
+enum AccountType {
+  MEMBER
+  AGENT
+  ADMIN
+}
+
+enum UserStatus {
+  PENDING_VERIFICATION
+  ACTIVE
+  LOCKED
+  BANNED
+}
+
+enum OTPType {
+  REGISTER
+  FORGOT_PASSWORD
+  SET_PASSWORD
+}
+
+enum SocialProvider {
+  FACEBOOK
+  GOOGLE
+  ZALO
+  APPLE
+}
+
+enum ProjectStatus {
+  PLANNING
+  CONSTRUCTION
+  HANDOVER
+}
+
+enum ProjectApprovalStatus {
+  PENDING_REVIEW
+  APPROVED
+  REJECTED
+}
+
+enum ListingType {
+  SALE
+  RENT
+}
+
+enum PriceUnit {
+  VND
+  USD
+  GOLD_TAEL
+}
+
+enum Direction {
+  EAST
+  WEST
+  SOUTH
+  NORTH
+  SE
+  SW
+  NE
+  NW
+}
+
+enum JuridicalStatus {
+  RED_BOOK
+  PINK_BOOK
+  CONTRACT
+  WAITING
+}
+
+enum ListingStatus {
+  DRAFT
+  PENDING_REVIEW
+  PUBLISHED
+  HIDDEN
+  SOLD
+  EXPIRED
+  REJECTED
+}
+
+enum Region {
+  NORTH
+  CENTRAL
+  SOUTH
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
+  YOUTUBE
+  VR_360
+}
+
+enum NotifyChannel {
+  EMAIL
+  PUSH
+  ZALO_ZNS
+}
+
+enum MessageType {
+  TEXT
+  IMAGE
+  LOCATION
+  LISTING_CARD
+}
+
+enum ReportStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+}
+
+enum ReportReason {
+  FAKE_PRICE
+  SOLD
+  WRONG_IMAGE
+  SCAM
+  OTHER
+}
