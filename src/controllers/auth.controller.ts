@@ -31,14 +31,16 @@ import {
   SocialProvider,
   UserStatus,
 } from "@prisma/client";
-import { JWT_REFRESH_EXPIRE } from "../contants/jwtContants.js";
+import {
+  JWT_REFRESH_EXPIRE,
+  JWT_ACCESS_EXPIRE,
+} from "../contants/jwtContants.js";
 import {
   GOOGLE_CLIENT_ID,
   FACEBOOK_APP_ID,
   FACEBOOK_APP_SECRET,
 } from "../contants/socialConstants.js";
 import type { SocialUserInfo } from "../types/social-infor.js";
-import { JWT_ACCESS_EXPIRE } from "../contants/jwtContants.js";
 
 export class AuthController {
   private readonly userRepository: UserRepository;
@@ -311,7 +313,11 @@ export class AuthController {
   async forgotPassword(data: ForgotPasswordRequestDTO): Promise<void> {
     const user = await this.userRepository.findByEmail(data.email);
     if (!user) {
-      throw new AppError("Email không tồn tại trong hệ thống", 404, "USER_NOT_FOUND");
+      throw new AppError(
+        "Email không tồn tại trong hệ thống",
+        404,
+        "USER_NOT_FOUND",
+      );
     }
 
     const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
@@ -332,7 +338,11 @@ export class AuthController {
   async resetPassword(data: ResetPasswordRequestDTO): Promise<void> {
     const user = await this.userRepository.findByEmail(data.email);
     if (!user) {
-      throw new AppError("Email không tồn tại trong hệ thống", 404, "USER_NOT_FOUND");
+      throw new AppError(
+        "Email không tồn tại trong hệ thống",
+        404,
+        "USER_NOT_FOUND",
+      );
     }
 
     const otp = await this.otpRepository.findValidOTP(
@@ -342,10 +352,18 @@ export class AuthController {
     );
 
     if (!otp) {
-      throw new AppError("Mã OTP đã hết hạn hoặc không có yêu cầu nào", 400, "OTP_EXPIRED");
+      throw new AppError(
+        "Mã OTP đã hết hạn hoặc không có yêu cầu nào",
+        400,
+        "OTP_EXPIRED",
+      );
     }
     if (otp.code !== data.otp) {
-      throw new AppError("Mã định danh OTP không chính xác", 400, "INVALID_OTP");
+      throw new AppError(
+        "Mã định danh OTP không chính xác",
+        400,
+        "INVALID_OTP",
+      );
     }
 
     await this.otpRepository.markAsUsed(otp.id);

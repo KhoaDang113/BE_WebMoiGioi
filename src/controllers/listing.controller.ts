@@ -1,7 +1,8 @@
-import { ListingStatus, ListingType, PriceUnit } from '@prisma/client';
-import { AppError } from '../utils/customErrors.js';
-import { UploadService } from '../services/upload.service.js';
-import prisma from '../config/database.js';
+import { ListingStatus, ListingType, PriceUnit } from "@prisma/client";
+import { AppError } from "../utils/customErrors.js";
+import { UploadService } from "../services/upload.service.js";
+import prisma from "../config/database.js";
+import { generateSlug } from "../utils/generateSlug.js";
 
 export class ListingController {
   private readonly uploadService: UploadService;
@@ -10,25 +11,10 @@ export class ListingController {
     this.uploadService = new UploadService();
   }
 
-  // ─── Private Helpers ──────────────────────────────────────────────────────────
-
-  private generateSlug(title: string): string {
-    return (
-      title
-        .toLowerCase()
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
-        .replace(/[^a-z0-9]+/g, '-')
-        .replace(/^-+|-+$/g, '') +
-      '-' +
-      Date.now()
-    );
-  }
-
   // ─── Get Property Types ───────────────────────────────────────────────────────
 
   async getPropertyTypes() {
-    return prisma.propertyType.findMany({ orderBy: { id: 'asc' } });
+    return prisma.propertyType.findMany({ orderBy: { id: "asc" } });
   }
 
   // ─── Get Listing By Id ────────────────────────────────────────────────────────
@@ -38,8 +24,9 @@ export class ListingController {
       where: { id: BigInt(listingId) },
       include: { media: true },
     });
-    if (!listing) throw new AppError('Listing not found', 404);
-    if (listing.userId !== BigInt(userId)) throw new AppError('Permission denied', 403);
+    if (!listing) throw new AppError("Listing not found", 404);
+    if (listing.userId !== BigInt(userId))
+      throw new AppError("Permission denied", 403);
     return listing;
   }
 
@@ -59,7 +46,7 @@ export class ListingController {
       !data.wardCode
     ) {
       throw new AppError(
-        'Missing essential listing information (title, price, address, type, location)',
+        "Missing essential listing information (title, price, address, type, location)",
         400,
       );
     }
@@ -68,9 +55,15 @@ export class ListingController {
 
     // Validate project ownership if projectId is provided
     if (data.projectId) {
-      const project = await prisma.project.findUnique({ where: { id: BigInt(data.projectId) } });
-      if (!project) throw new AppError('Dự án không tồn tại', 404);
-      if (project.userId !== BigInt(userId)) throw new AppError('Bạn không có quyền liên kết tin đăng với dự án này', 403);
+      const project = await prisma.project.findUnique({
+        where: { id: BigInt(data.projectId) },
+      });
+      if (!project) throw new AppError("Dự án không tồn tại", 404);
+      if (project.userId !== BigInt(userId))
+        throw new AppError(
+          "Bạn không có quyền liên kết tin đăng với dự án này",
+          403,
+        );
     }
 
     return prisma.$transaction(async (tx) => {
@@ -78,15 +71,15 @@ export class ListingController {
         data: {
           userId: BigInt(userId),
           title: data.title,
-          slug: this.generateSlug(data.title),
+          slug: generateSlug(data.title),
           listingType: ListingType.SALE,
           propertyTypeId: parseInt(data.propertyTypeId),
           provinceCode: data.provinceCode,
-          provinceName: data.provinceName || '',
-          districtCode: data.districtCode || '',
-          districtName: data.districtName || '',
+          provinceName: data.provinceName || "",
+          districtCode: data.districtCode || "",
+          districtName: data.districtName || "",
           wardCode: data.wardCode,
-          wardName: data.wardName || '',
+          wardName: data.wardName || "",
           provinceSlug: data.provinceSlug || null,
           districtSlug: data.districtSlug || null,
           wardSlug: data.wardSlug || null,
@@ -107,12 +100,12 @@ export class ListingController {
       if (files && files.length > 0) {
         const uploadPromises = files.map((file, i) =>
           this.uploadService
-            .uploadImage(file.buffer, { folder: 'property_listings' })
+            .uploadImage(file.buffer, { folder: "property_listings" })
             .then((url) =>
               tx.listingMedia.create({
                 data: {
                   listingId: newListing.id,
-                  mediaType: 'IMAGE',
+                  mediaType: "IMAGE",
                   originalUrl: url,
                   isPrimary: i === 0,
                   sortOrder: i,
@@ -133,7 +126,7 @@ export class ListingController {
     return prisma.listing.findMany({
       where: { userId: BigInt(userId) },
       include: { media: { where: { isPrimary: true }, take: 1 } },
-      orderBy: { id: 'desc' },
+      orderBy: { id: "desc" },
       take: 50,
     });
   }
@@ -149,19 +142,21 @@ export class ListingController {
     const existing = await this.getListingById(userId, listingId);
 
     const attrBase =
-      typeof existing.attributes === 'object' && existing.attributes
+      typeof existing.attributes === "object" && existing.attributes
         ? (existing.attributes as any)
         : {};
 
     const updateData: any = {};
     if (data.title) updateData.title = data.title;
-    if (data.propertyTypeId) updateData.propertyTypeId = parseInt(data.propertyTypeId);
+    if (data.propertyTypeId)
+      updateData.propertyTypeId = parseInt(data.propertyTypeId);
     if (data.addressDisplay) updateData.addressDisplay = data.addressDisplay;
     if (data.price) updateData.price = parseFloat(data.price);
     if (data.areaGross) updateData.areaGross = parseFloat(data.areaGross);
 
     const newAttributes: any = { ...attrBase };
-    if (data.description !== undefined) newAttributes.description = data.description;
+    if (data.description !== undefined)
+      newAttributes.description = data.description;
     if (data.beds !== undefined) {
       if (data.beds) newAttributes.beds = parseInt(data.beds);
       else delete newAttributes.beds;
@@ -184,9 +179,15 @@ export class ListingController {
 
     if (data.projectId !== undefined) {
       if (data.projectId) {
-        const project = await prisma.project.findUnique({ where: { id: BigInt(data.projectId) } });
-        if (!project) throw new AppError('Dự án không tồn tại', 404);
-        if (project.userId !== BigInt(userId)) throw new AppError('Bạn không có quyền liên kết tin đăng với dự án này', 403);
+        const project = await prisma.project.findUnique({
+          where: { id: BigInt(data.projectId) },
+        });
+        if (!project) throw new AppError("Dự án không tồn tại", 404);
+        if (project.userId !== BigInt(userId))
+          throw new AppError(
+            "Bạn không có quyền liên kết tin đăng với dự án này",
+            403,
+          );
         updateData.projectId = BigInt(data.projectId);
       } else {
         updateData.projectId = null;
@@ -200,15 +201,17 @@ export class ListingController {
       });
 
       if (files && files.length > 0) {
-        await tx.listingMedia.deleteMany({ where: { listingId: BigInt(listingId) } });
+        await tx.listingMedia.deleteMany({
+          where: { listingId: BigInt(listingId) },
+        });
         const uploadPromises = files.map((file, i) =>
           this.uploadService
-            .uploadImage(file.buffer, { folder: 'property_listings' })
+            .uploadImage(file.buffer, { folder: "property_listings" })
             .then((url) =>
               tx.listingMedia.create({
                 data: {
                   listingId: updated.id,
-                  mediaType: 'IMAGE',
+                  mediaType: "IMAGE",
                   originalUrl: url,
                   isPrimary: i === 0,
                   sortOrder: i,
@@ -226,9 +229,12 @@ export class ListingController {
   // ─── Delete Listing ───────────────────────────────────────────────────────────
 
   async deleteListing(userId: string | bigint, listingId: string | bigint) {
-    const listing = await prisma.listing.findUnique({ where: { id: BigInt(listingId) } });
-    if (!listing) throw new AppError('Listing not found', 404);
-    if (listing.userId !== BigInt(userId)) throw new AppError('Permission denied', 403);
+    const listing = await prisma.listing.findUnique({
+      where: { id: BigInt(listingId) },
+    });
+    if (!listing) throw new AppError("Listing not found", 404);
+    if (listing.userId !== BigInt(userId))
+      throw new AppError("Permission denied", 403);
     await prisma.listing.delete({ where: { id: BigInt(listingId) } });
     return true;
   }
@@ -240,10 +246,16 @@ export class ListingController {
     listingId: string | bigint,
     status: ListingStatus,
   ) {
-    const listing = await prisma.listing.findUnique({ where: { id: BigInt(listingId) } });
-    if (!listing) throw new AppError('Listing not found', 404);
-    if (listing.userId !== BigInt(userId)) throw new AppError('Permission denied', 403);
-    return prisma.listing.update({ where: { id: BigInt(listingId) }, data: { status } });
+    const listing = await prisma.listing.findUnique({
+      where: { id: BigInt(listingId) },
+    });
+    if (!listing) throw new AppError("Listing not found", 404);
+    if (listing.userId !== BigInt(userId))
+      throw new AppError("Permission denied", 403);
+    return prisma.listing.update({
+      where: { id: BigInt(listingId) },
+      data: { status },
+    });
   }
 
   // ─── Admin: Get Pending Listings ──────────────────────────────────────────────
@@ -255,7 +267,7 @@ export class ListingController {
         user: { select: { email: true } },
         media: { take: 1 },
       },
-      orderBy: { id: 'desc' },
+      orderBy: { id: "desc" },
     });
   }
 
@@ -266,17 +278,25 @@ export class ListingController {
         media: { take: 1 },
         propertyType: true,
       },
-      orderBy: { id: 'desc' },
+      orderBy: { id: "desc" },
       take: 100, // Limit for now, can add pagination later
     });
   }
 
   // ─── Admin: Update Listing Status ────────────────────────────────────────────
 
-  async updateListingStatusByAdmin(listingId: string | bigint, status: ListingStatus) {
-    const listing = await prisma.listing.findUnique({ where: { id: BigInt(listingId) } });
-    if (!listing) throw new AppError('Listing not found', 404);
-    return prisma.listing.update({ where: { id: BigInt(listingId) }, data: { status } });
+  async updateListingStatusByAdmin(
+    listingId: string | bigint,
+    status: ListingStatus,
+  ) {
+    const listing = await prisma.listing.findUnique({
+      where: { id: BigInt(listingId) },
+    });
+    if (!listing) throw new AppError("Listing not found", 404);
+    return prisma.listing.update({
+      where: { id: BigInt(listingId) },
+      data: { status },
+    });
   }
 
   // ─── Get Public Listings ──────────────────────────────────────────────────────
@@ -292,7 +312,7 @@ export class ListingController {
             id: true,
             name: true,
             slug: true,
-          }
+          },
         },
         user: {
           select: {
@@ -302,7 +322,7 @@ export class ListingController {
           },
         },
       },
-      orderBy: { id: 'desc' },
+      orderBy: { id: "desc" },
       take: 20,
     });
   }
@@ -316,7 +336,9 @@ export class ListingController {
 
     const listing = await prisma.listing.findFirst({
       where: {
-        ...(idBigInt !== undefined ? { id: idBigInt } : { slug: listingId as string }),
+        ...(idBigInt !== undefined
+          ? { id: idBigInt }
+          : { slug: listingId as string }),
         status: ListingStatus.PUBLISHED,
       },
       include: {
@@ -327,7 +349,7 @@ export class ListingController {
             id: true,
             name: true,
             slug: true,
-          }
+          },
         },
         user: {
           select: {
@@ -338,7 +360,7 @@ export class ListingController {
         },
       },
     });
-    if (!listing) throw new AppError('Không tìm thấy bất động sản', 404);
+    if (!listing) throw new AppError("Không tìm thấy bất động sản", 404);
     return listing;
   }
 
@@ -353,12 +375,14 @@ export class ListingController {
 
     // Lấy số tin đăng đang chờ duyệt
     const pendingListings = await prisma.listing.count({
-      where: { status: 'PENDING_REVIEW' as any },
+      where: { status: "PENDING_REVIEW" as any },
     });
 
     // Lấy tổng số bài đăng theo tháng trong năm hiện tại
     // Dùng COALESCE để tính cả listing chưa published (dùng thời điểm hiện tại làm fallback)
-    const rawResult = await prisma.$queryRaw<{ month: number; total: bigint }[]>`
+    const rawResult = await prisma.$queryRaw<
+      { month: number; total: bigint }[]
+    >`
       SELECT EXTRACT(MONTH FROM COALESCE(published_at, NOW()))::int AS month,
              COUNT(*)::bigint AS total
       FROM listings
@@ -372,7 +396,10 @@ export class ListingController {
     const postsByMonth: { name: string; total: number }[] = [];
     for (let m = 1; m <= currentMonth; m++) {
       const found = rawResult.find((r) => r.month === m);
-      postsByMonth.push({ name: `T${m}`, total: found ? Number(found.total) : 0 });
+      postsByMonth.push({
+        name: `T${m}`,
+        total: found ? Number(found.total) : 0,
+      });
     }
 
     return { totalListings, pendingListings, postsByMonth };

@@ -1,1 +1,0 @@
-\nexport * from './index.js';\n

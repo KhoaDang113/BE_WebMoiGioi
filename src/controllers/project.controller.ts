@@ -1,26 +1,14 @@
-import { ProjectApprovalStatus } from '@prisma/client';
-import { AppError } from '../utils/customErrors.js';
-import { UploadService } from '../services/upload.service.js';
-import prisma from '../config/database.js';
+import { ProjectApprovalStatus } from "@prisma/client";
+import { AppError } from "../utils/customErrors.js";
+import { UploadService } from "../services/upload.service.js";
+import prisma from "../config/database.js";
+import { generateSlug } from "../utils/generateSlug.js";
 
 export class ProjectController {
   private readonly uploadService: UploadService;
 
   constructor() {
     this.uploadService = new UploadService();
-  }
-
-  private generateSlug(name: string): string {
-    return (
-      name
-        .toLowerCase()
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
-        .replace(/[^a-z0-9]+/g, '-')
-        .replace(/^-+|-+$/g, '') +
-      '-' +
-      Date.now()
-    );
   }
 
   /**
@@ -33,7 +21,7 @@ export class ProjectController {
     files?: Express.Multer.File[],
   ) {
     if (!data.name) {
-      throw new AppError('Tên dự án là bắt buộc', 400);
+      throw new AppError("Tên dự án là bắt buộc", 400);
     }
 
     return prisma.$transaction(async (tx) => {
@@ -41,7 +29,7 @@ export class ProjectController {
         data: {
           userId: BigInt(userId),
           name: data.name,
-          slug: this.generateSlug(data.name),
+          slug: generateSlug(data.name),
           investorName: data.investorName || null,
           provinceCode: data.provinceCode || null,
           provinceName: data.provinceName || null,
@@ -58,7 +46,7 @@ export class ProjectController {
       if (files && files.length > 0) {
         const uploadPromises = files.map((file, i) =>
           this.uploadService
-            .uploadImage(file.buffer, { folder: 'projects' })
+            .uploadImage(file.buffer, { folder: "projects" })
             .then((url) =>
               tx.projectMedia.create({
                 data: {
@@ -90,7 +78,7 @@ export class ProjectController {
         media: { where: { isPrimary: true }, take: 1 },
         _count: { select: { listings: true } },
       },
-      orderBy: { id: 'desc' },
+      orderBy: { id: "desc" },
     });
   }
 
@@ -102,8 +90,9 @@ export class ProjectController {
       where: { id: BigInt(projectId) },
       include: { media: true },
     });
-    if (!project) throw new AppError('Dự án không tồn tại', 404);
-    if (project.userId !== BigInt(userId)) throw new AppError('Bạn không có quyền truy cập dự án này', 403);
+    if (!project) throw new AppError("Dự án không tồn tại", 404);
+    if (project.userId !== BigInt(userId))
+      throw new AppError("Bạn không có quyền truy cập dự án này", 403);
     return project;
   }
 
@@ -120,14 +109,20 @@ export class ProjectController {
 
     const updateData: any = {};
     if (data.name) updateData.name = data.name;
-    if (data.investorName !== undefined) updateData.investorName = data.investorName;
-    if (data.provinceCode !== undefined) updateData.provinceCode = data.provinceCode;
-    if (data.provinceName !== undefined) updateData.provinceName = data.provinceName;
+    if (data.investorName !== undefined)
+      updateData.investorName = data.investorName;
+    if (data.provinceCode !== undefined)
+      updateData.provinceCode = data.provinceCode;
+    if (data.provinceName !== undefined)
+      updateData.provinceName = data.provinceName;
     if (data.wardCode !== undefined) updateData.wardCode = data.wardCode;
     if (data.wardName !== undefined) updateData.wardName = data.wardName;
-    if (data.addressText !== undefined) updateData.addressText = data.addressText;
-    if (data.totalArea !== undefined) updateData.totalArea = data.totalArea ? parseFloat(data.totalArea) : null;
-    if (data.description !== undefined) updateData.description = data.description;
+    if (data.addressText !== undefined)
+      updateData.addressText = data.addressText;
+    if (data.totalArea !== undefined)
+      updateData.totalArea = data.totalArea ? parseFloat(data.totalArea) : null;
+    if (data.description !== undefined)
+      updateData.description = data.description;
     if (data.status !== undefined) updateData.status = data.status;
 
     return prisma.$transaction(async (tx) => {
@@ -137,10 +132,12 @@ export class ProjectController {
       });
 
       if (files && files.length > 0) {
-        await tx.projectMedia.deleteMany({ where: { projectId: BigInt(projectId) } });
+        await tx.projectMedia.deleteMany({
+          where: { projectId: BigInt(projectId) },
+        });
         const uploadPromises = files.map((file, i) =>
           this.uploadService
-            .uploadImage(file.buffer, { folder: 'projects' })
+            .uploadImage(file.buffer, { folder: "projects" })
             .then((url) =>
               tx.projectMedia.create({
                 data: {
@@ -182,7 +179,7 @@ export class ProjectController {
         approvalStatus: ProjectApprovalStatus.APPROVED,
       },
       select: { id: true, name: true },
-      orderBy: { name: 'asc' },
+      orderBy: { name: "asc" },
     });
   }
 
@@ -197,13 +194,13 @@ export class ProjectController {
         approvalStatus: ProjectApprovalStatus.APPROVED,
       },
       include: {
-        media: { 
-          orderBy: { sortOrder: 'asc' },
-          take: 5 
+        media: {
+          orderBy: { sortOrder: "asc" },
+          take: 5,
         },
         _count: { select: { listings: true } },
       },
-      orderBy: { createdAt: 'desc' },
+      orderBy: { createdAt: "desc" },
     });
   }
 
@@ -220,27 +217,27 @@ export class ProjectController {
         ],
       },
       include: {
-        media: { orderBy: { sortOrder: 'asc' } },
+        media: { orderBy: { sortOrder: "asc" } },
         listings: {
           include: {
             media: {
               where: { isPrimary: true },
-              take: 1
+              take: 1,
             },
             propertyType: true,
             user: {
               select: {
-                profile: { select: { displayName: true } }
-              }
-            }
+                profile: { select: { displayName: true } },
+              },
+            },
           },
-          orderBy: { id: 'desc' }
+          orderBy: { id: "desc" },
         },
       },
     });
 
     if (!project) {
-      throw new AppError('Dự án không tồn tại hoặc chưa được duyệt', 404);
+      throw new AppError("Dự án không tồn tại hoặc chưa được duyệt", 404);
     }
 
     return project;
@@ -265,23 +262,26 @@ export class ProjectController {
         },
         _count: { select: { listings: true } },
       },
-      orderBy: { createdAt: 'desc' },
+      orderBy: { createdAt: "desc" },
     });
   }
 
   /**
    * Update project approval status (Admin).
    */
-  async adminUpdateProjectStatus(projectId: string | bigint, status: ProjectApprovalStatus) {
+  async adminUpdateProjectStatus(
+    projectId: string | bigint,
+    status: ProjectApprovalStatus,
+  ) {
     if (!Object.values(ProjectApprovalStatus).includes(status)) {
-      throw new AppError('Trạng thái không hợp lệ', 400);
+      throw new AppError("Trạng thái không hợp lệ", 400);
     }
 
     const project = await prisma.project.findUnique({
       where: { id: BigInt(projectId) },
     });
 
-    if (!project) throw new AppError('Dự án không tồn tại', 404);
+    if (!project) throw new AppError("Dự án không tồn tại", 404);
 
     return prisma.project.update({
       where: { id: BigInt(projectId) },
