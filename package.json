@@ -12,8 +12,7 @@
     "predev": "npm run buildDev",
     "dev": "concurrently -k \"tsc -w\" \"tsc-alias -w\" \"nodemon dist/index.js\"",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
-    "prisma:generate": "npx prisma generate && npm run patch:prisma",
-    "patch:prisma": "node -e \"const fs=require('fs');const f='src/generated/client/client.js';fs.writeFileSync(f, \\\"\\\\nexport * from './index.js';\\\\n\\\");console.log('Patched client.js for ESM compatibility');\""
+    "prisma:generate": "npx prisma generate"
   },
   "repository": {
     "type": "git",
@@ -44,7 +43,7 @@
     "concurrently": "^9.2.1",
     "jest": "^30.2.0",
     "nodemon": "^3.1.11",
-    "prisma": "^7.3.0",
+    "prisma": "^7.6.0",
     "rimraf": "^6.1.2",
     "supertest": "^7.2.2",
     "ts-jest": "^29.4.6",
@@ -56,7 +55,7 @@
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.3.0",
-    "@prisma/client": "^7.3.0",
+    "@prisma/client": "^7.6.0",
     "bcrypt": "^6.0.0",
     "cloudinary": "^2.9.0",
     "cookie-parser": "^1.4.7",

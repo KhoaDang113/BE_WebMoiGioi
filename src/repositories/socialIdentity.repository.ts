@@ -1,5 +1,5 @@
 import prisma from "../config/database.js";
-import { SocialProvider } from "../generated/client/client.js";
+import { SocialProvider } from "@prisma/client";
 
 export class SocialIdentityRepository {
   async findByProviderAndUserId(provider: SocialProvider, providerUserId: string) {

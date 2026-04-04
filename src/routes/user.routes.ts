@@ -8,7 +8,7 @@ import { UserController } from "../controllers/user.controller.js";
 import { authMiddleware } from "../middlewares/auth.middleware.js";
 import upload from "../middlewares/upload.middleware.js";
 import { authorize } from "../middlewares/role.middleware.js";
-import { AccountType } from "../generated/client/client.js";
+import { AccountType } from "@prisma/client";
 import { Validator } from "../utils/validator.js";
 import { UpdateProfileRequestSchema } from "../dtos/user/update-profile.dto.js";
 import { ChangePasswordRequestSchema } from "../dtos/user/change-password.dto.js";

@@ -1,5 +1,5 @@
 import prisma from "../config/database.js";
-import type { UserSession } from "../generated/client/client.js";
+import type { UserSession } from "@prisma/client";
 
 export class SessionRepository {
   async createSession(

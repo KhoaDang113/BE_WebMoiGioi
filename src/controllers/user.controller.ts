@@ -5,7 +5,7 @@ import { OTPRepository } from "../repositories/otp.repository.js";
 import { EmailService } from "../services/email.service.js";
 import { UploadService } from "../services/upload.service.js";
 import { AppError } from "../utils/customErrors.js";
-import { OTPType } from "../generated/client/client.js";
+import { OTPType } from "@prisma/client";
 import type { UpdateProfileRequestDTO } from "../dtos/user/update-profile.dto.js";
 import type { ChangePasswordRequestDTO } from "../dtos/user/change-password.dto.js";
 import type { SetPasswordDTO } from "../dtos/user/set-password.dto.js";

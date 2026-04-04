@@ -10,15 +10,14 @@ import { authorize } from "../middlewares/role.middleware.js";
 import { CreateReportRequestSchema } from "../dtos/report/create-report.dto.js";
 import { UpdateReportStatusRequestSchema } from "../dtos/report/update-report.dto.js";
 import { Validator } from "../utils/validator.js";
-import { AccountType } from "../generated/client/client.js";
+import { AccountType } from "@prisma/client";
 import { AppError } from "../utils/customErrors.js";
 
 const router = Router();
 const reportController = new ReportController();
 
-// All report routes require admin auth
+// All report routes require authentication
 router.use(authMiddleware);
-router.use(authorize(AccountType.ADMIN));
 
 /**
  * POST /api/v1/reports/export
@@ -27,6 +26,7 @@ router.use(authorize(AccountType.ADMIN));
  */
 router.post(
   "/export",
+  authorize(AccountType.ADMIN),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { types } = req.body;

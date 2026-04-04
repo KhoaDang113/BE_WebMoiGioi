@@ -7,7 +7,7 @@ export const LoginRequestSchema = z.object({
 
 export type LoginRequestDTO = z.infer<typeof LoginRequestSchema>;
 
-import type { AccountType, UserStatus } from "../../generated/client/client.js";
+import type { AccountType, UserStatus } from "@prisma/client";
 
 export interface LoginResponseDTO {
   accessToken: string;

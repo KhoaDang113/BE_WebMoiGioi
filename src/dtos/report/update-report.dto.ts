@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { ReportStatus } from "../../generated/client/client.js";
+import { ReportStatus } from "@prisma/client";
 
 export const UpdateReportStatusRequestSchema = z.object({
   status: z.nativeEnum(ReportStatus, {

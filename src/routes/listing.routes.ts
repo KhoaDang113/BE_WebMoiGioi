@@ -9,7 +9,7 @@ import { FavoriteController } from "../controllers/favorite.controller.js";
 import { authMiddleware } from "../middlewares/auth.middleware.js";
 import upload from "../middlewares/upload.middleware.js";
 import { authorize } from "../middlewares/role.middleware.js";
-import { AccountType, ListingStatus } from "../generated/client/client.js";
+import { AccountType, ListingStatus } from "@prisma/client";
 import { AppError } from "../utils/customErrors.js";
 
 const router = Router();
@@ -96,6 +96,19 @@ router.get(
 );
 
 router.get(
+  "/admin/all",
+  authorize(AccountType.ADMIN),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const data = await listingController.getAdminAllListings();
+      res.status(200).json({ success: true, data });
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+
+router.get(
   "/admin/dashboard-stats",
   authorize(AccountType.ADMIN),
   async (req: Request, res: Response, next: NextFunction) => {
@@ -128,6 +141,7 @@ router.post(
         wardName,
         beds,
         rooms,
+        projectId,
       } = req.body;
       const files = req.files as Express.Multer.File[];
       const newListing = await listingController.createListing(
@@ -147,6 +161,7 @@ router.post(
           wardName,
           beds,
           rooms,
+          projectId,
         },
         files,
       );
@@ -196,6 +211,7 @@ router.put(
         wardName,
         beds,
         rooms,
+        projectId,
       } = req.body;
       const files = req.files as Express.Multer.File[];
       const updated = await listingController.updateListing(
@@ -216,6 +232,7 @@ router.put(
           wardName,
           beds,
           rooms,
+          projectId,
         },
         files,
       );
