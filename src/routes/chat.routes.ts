@@ -64,6 +64,31 @@ router.post(
   },
 );
 
+router.get(
+  "/conversations/:conversationId",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const userId = req.user?.userId;
+      const conversationId = req.params.conversationId as string;
+      if (!userId) {
+        res.status(401).json({ success: false, message: "Unauthorized" });
+        return;
+      }
+      if (!conversationId) {
+        res.status(400).json({ success: false, message: "Thiếu conversationId" });
+        return;
+      }
+      const conversation = await chatController.getConversationById(
+        conversationId,
+        userId.toString(),
+      );
+      res.status(200).json({ success: true, data: conversation });
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+
 router.post(
   "/conversations/:conversationId/file",
   uploadChatFile.single("file"),

@@ -19,8 +19,12 @@ export class ChatHandler {
     socket.on("leave_room", (roomId: string) => this.handleLeaveRoom(roomId));
     socket.on(
       "send_message",
-      (data: { roomId: string; message: string; senderId: string }) =>
-        this.handleMessage(data),
+      (data: {
+        roomId: string;
+        message: string;
+        senderId: string;
+        conversationId: string;
+      }) => this.handleMessage(data),
     );
   }
 
@@ -61,6 +65,7 @@ export class ChatHandler {
       senderId: data.senderId,
       message: data.message,
       timestamp: new Date(),
+      conversationId: data.roomId,
     });
     console.log("Gửi tin nhắn thành công");
   }
