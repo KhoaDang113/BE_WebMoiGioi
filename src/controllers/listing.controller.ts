@@ -285,4 +285,40 @@ export class ListingController {
     if (!listing) throw new AppError('Không tìm thấy bất động sản', 404);
     return listing;
   }
+
+  // ─── Admin: Get Dashboard Stats ───────────────────────────────────────────────
+
+  async getDashboardStats() {
+    const now = new Date();
+    const currentYear = now.getFullYear();
+
+    // Lấy tổng số tin đăng
+    const totalListings = await prisma.listing.count();
+
+    // Lấy số tin đăng đang chờ duyệt
+    const pendingListings = await prisma.listing.count({
+      where: { status: 'PENDING_REVIEW' as any },
+    });
+
+    // Lấy tổng số bài đăng theo tháng trong năm hiện tại
+    // Dùng COALESCE để tính cả listing chưa published (dùng thời điểm hiện tại làm fallback)
+    const rawResult = await prisma.$queryRaw<{ month: number; total: bigint }[]>`
+      SELECT EXTRACT(MONTH FROM COALESCE(published_at, NOW()))::int AS month,
+             COUNT(*)::bigint AS total
+      FROM listings
+      WHERE EXTRACT(YEAR FROM COALESCE(published_at, NOW())) = ${currentYear}
+      GROUP BY month
+      ORDER BY month ASC
+    `;
+
+    // Tạo mảng đủ từ T1 đến tháng hiện tại
+    const currentMonth = now.getMonth() + 1; // 1-indexed
+    const postsByMonth: { name: string; total: number }[] = [];
+    for (let m = 1; m <= currentMonth; m++) {
+      const found = rawResult.find((r) => r.month === m);
+      postsByMonth.push({ name: `T${m}`, total: found ? Number(found.total) : 0 });
+    }
+
+    return { totalListings, pendingListings, postsByMonth };
+  }
 }

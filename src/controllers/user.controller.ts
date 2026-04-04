@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import prisma from "../config/database.js";
 import { UserRepository } from "../repositories/user.repository.js";
 import { OTPRepository } from "../repositories/otp.repository.js";
 import { EmailService } from "../services/email.service.js";
@@ -220,6 +221,44 @@ export class UserController {
     return this.userRepo.updateUser(id, {
       status: "PENDING_VERIFICATION" as any,
     });
+  }
+
+  // ─── Get Dashboard User Stats ─────────────────────────────────────────────────
+
+  async getDashboardUserCount() {
+    const now = new Date();
+    const startOfThisMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const startOfLastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+    const endOfLastMonth = new Date(now.getFullYear(), now.getMonth(), 0, 23, 59, 59);
+
+    const [totalNonAdmin, thisMonthCount, lastMonthCount] = await Promise.all([
+      prisma.user.count({
+        where: { accountType: { not: 'ADMIN' as any } },
+      }),
+      prisma.user.count({
+        where: {
+          accountType: { not: 'ADMIN' as any },
+          createdAt: { gte: startOfThisMonth },
+        },
+      }),
+      prisma.user.count({
+        where: {
+          accountType: { not: 'ADMIN' as any },
+          createdAt: { gte: startOfLastMonth, lte: endOfLastMonth },
+        },
+      }),
+    ]);
+
+    const changePercent = lastMonthCount > 0
+      ? ((thisMonthCount - lastMonthCount) / lastMonthCount) * 100
+      : thisMonthCount > 0 ? 100 : 0;
+
+    return {
+      total: totalNonAdmin,
+      thisMonth: thisMonthCount,
+      lastMonth: lastMonthCount,
+      changePercent: parseFloat(changePercent.toFixed(1)),
+    };
   }
 
   // ─── Get Pending Brokers ──────────────────────────────────────────────────────
