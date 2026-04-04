@@ -95,6 +95,19 @@ router.get(
   },
 );
 
+router.get(
+  "/admin/dashboard-stats",
+  authorize(AccountType.ADMIN),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const data = await listingController.getDashboardStats();
+      res.status(200).json({ success: true, data });
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+
 router.post(
   "/",
   upload.array("images", 10),
