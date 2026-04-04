@@ -13,6 +13,10 @@ import {
   GoogleLoginRequestSchema,
   FacebookLoginRequestSchema,
 } from "../dtos/auth/social-login.dto.js";
+import {
+  ForgotPasswordRequestSchema,
+  ResetPasswordRequestSchema,
+} from "../dtos/auth/forgot-password.dto.js";
 import { Validator } from "../utils/validator.js";
 
 const router = Router();
@@ -177,6 +181,38 @@ router.post(
       );
       setAuthCookies(res, result.accessToken, result.refreshToken);
       res.status(200).json({ success: true, data: result.user });
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+
+router.post(
+  "/forgot-password",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const data = Validator.validate(ForgotPasswordRequestSchema, req.body);
+      await authController.forgotPassword(data);
+      res.status(200).json({
+        success: true,
+        message: "Mã OTP đã được gửi đến email của bạn.",
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+
+router.post(
+  "/reset-password",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const data = Validator.validate(ResetPasswordRequestSchema, req.body);
+      await authController.resetPassword(data);
+      res.status(200).json({
+        success: true,
+        message: "Mật khẩu đã được thiết lập lại thành công.",
+      });
     } catch (error) {
       next(error);
     }
