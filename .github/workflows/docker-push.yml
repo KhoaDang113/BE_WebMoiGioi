@@ -60,24 +60,9 @@ jobs:
           script: |
             # Di chuyển vào thư mục chứa dự án trên VPS 
             cd ~/bds
-            
-            # Kéo image mới nhất của BE từ Docker Hub
-            docker pull ${{ secrets.DOCKER_USERNAME }}/be-webmoigioi:latest
-            
-            # Dừng và Xoá container cũ nếu có
-            docker stop be_webmoigioi_container || true
-            docker rm be_webmoigioi_container || true
-            
-            # Khởi động container mới - Ánh xạ cổng 3000 và truyền file .env từ VPS
-            docker run -d \
-              --name be_webmoigioi_container \
-              -p 3000:3000 \
-              --env-file .env \
-              --restart always \
-              ${{ secrets.DOCKER_USERNAME }}/be-webmoigioi:latest
-            
-            # In ra màn hình console để kiểm tra nó đang chạy
-            docker ps | grep be_webmoigioi_container
-            
-            # Xoá bớt cái Image cũ để tránh bị báo lỗi đầy ổ cứng VPS
-            docker image prune -f
+
+            # Kéo image mới nhất của BE từ Docker Hub thông qua Compose
+            docker-compose pull backend
+
+            # Khởi động lại container backend với image mới nhất
+            docker-compose up -d backend
