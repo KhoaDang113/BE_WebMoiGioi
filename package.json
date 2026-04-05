@@ -5,8 +5,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "rimraf dist && npx tsc && tsc-alias ",
-    "buildDev": "rimraf dist && npx tsc",
+    "build": "npx rimraf dist && npx tsc && npx tsc-alias",
+    "buildDev": "npx rimraf dist && npx tsc",
     "prestart": "npm run build",
     "start": "node dist/index.js",
     "predev": "npm run buildDev",

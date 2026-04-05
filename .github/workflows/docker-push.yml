@@ -62,7 +62,7 @@ jobs:
             cd ~/bds
 
             # Kéo image mới nhất của BE từ Docker Hub thông qua Compose
-            docker-compose pull backend
+            docker compose pull backend
 
             # Khởi động lại container backend với image mới nhất
-            docker-compose up -d backend
+            docker compose up -d backend

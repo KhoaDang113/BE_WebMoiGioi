@@ -1,0 +1,41 @@
+services:
+  # ==========================================
+  # BACKEND SERVICE
+  # ==========================================
+  backend:
+    image: khoadang113/be-webmoigioi:latest
+    container_name: be_webmoigioi_container
+    ports:
+      - "3000:3000"
+    restart: always
+    # Nạp các biến môi trường từ tệp .env (hoặc .env.be)
+    env_file:
+      - .env.be
+    networks:
+      - bds-network
+
+  # ==========================================
+  # FRONTEND SERVICE
+  # ==========================================
+  frontend:
+    image: Zangestsru/fe_bds:latest
+    container_name: fe_bds_container
+    ports:
+      - "81:80"
+    restart: always
+    # Nạp các biến môi trường từ tệp .env.fe (NẾU Frontend của bạn là Next.js SSR)
+    # Nếu Frontend của bạn là React/Vite SPA (chỉ có nginx), bạn CÓ THỂ BỎ mục env_file này
+    env_file:
+      - .env.fe
+    networks:
+      - bds-network
+    # Phụ thuộc Backend: Chờ BE chạy trước thì tui mới lên sóng
+    depends_on:
+      - backend
+
+# ==========================================
+# KHỞI TẠO MẠNG ÁO CHUNG (Tùy chọn nâng cao)
+# ==========================================
+networks:
+  bds-network:
+    driver: bridge
