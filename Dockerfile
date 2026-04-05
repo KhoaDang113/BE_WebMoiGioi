@@ -45,4 +45,4 @@ COPY prisma ./prisma
 EXPOSE 3000
 
 # Run the application
-CMD ["npm", "start"]
+CMD ["node", "dist/index.js"]
