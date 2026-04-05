@@ -265,4 +265,55 @@ router.patch(
   },
 );
 
+// ─── Admin Broker Management ──────────────────────────────────────────────────
+
+router.get(
+  "/admin/brokers",
+  authMiddleware,
+  authorize(AccountType.ADMIN),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const data = await userController.getAllBrokers(req.query as any);
+      res.status(200).json({ success: true, data });
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+
+router.get(
+  "/admin/broker-stats",
+  authMiddleware,
+  authorize(AccountType.ADMIN),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const data = await userController.getBrokerStats();
+      res.status(200).json({ success: true, data });
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+
+router.patch(
+  "/admin/brokers/:id/status",
+  authMiddleware,
+  authorize(AccountType.ADMIN),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const id = req.params.id as string;
+      const { status } = req.body;
+      const result = await userController.toggleBrokerStatus(id, status);
+      res.status(200).json({
+        success: true,
+        message: status === "LOCKED" ? "Đã khóa tài khoản môi giới" : "Đã mở khóa tài khoản",
+        data: result,
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+
 export default router;
+
