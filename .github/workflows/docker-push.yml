@@ -40,3 +40,44 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/be-webmoigioi:latest
             ${{ secrets.DOCKER_USERNAME }}/be-webmoigioi:${{ github.sha }}
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build-and-push
+    if: |
+      github.ref == 'refs/heads/main' || 
+      github.ref == 'refs/heads/develop' || 
+      github.ref == 'refs/heads/cicd/setup'
+
+    steps:
+      - name: Deploy Backend to Server via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          port: ${{ secrets.SSH_PORT }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            # Di chuyển vào thư mục chứa dự án trên VPS 
+            cd ~/bds
+            
+            # Kéo image mới nhất của BE từ Docker Hub
+            docker pull ${{ secrets.DOCKER_USERNAME }}/be-webmoigioi:latest
+            
+            # Dừng và Xoá container cũ nếu có
+            docker stop be_webmoigioi_container || true
+            docker rm be_webmoigioi_container || true
+            
+            # Khởi động container mới - Ánh xạ cổng 3000 và truyền file .env từ VPS
+            docker run -d \
+              --name be_webmoigioi_container \
+              -p 3000:3000 \
+              --env-file .env \
+              --restart always \
+              ${{ secrets.DOCKER_USERNAME }}/be-webmoigioi:latest
+            
+            # In ra màn hình console để kiểm tra nó đang chạy
+            docker ps | grep be_webmoigioi_container
+            
+            # Xoá bớt cái Image cũ để tránh bị báo lỗi đầy ổ cứng VPS
+            docker image prune -f
