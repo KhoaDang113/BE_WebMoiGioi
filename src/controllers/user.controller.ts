@@ -282,4 +282,118 @@ export class UserController {
     }
     return this.userRepo.updateUser(id, { status: "ACTIVE" });
   }
+
+  // ─── Admin Users CRUD ─────────────────────────────────────────────────────────
+
+  async getAllUsers(query: any) {
+    // Simple implementation for now. You might want to parse pagination out of query.
+    return this.userRepo.findManyWithProfile({
+      include: { profile: true },
+      orderBy: { createdAt: "desc" }
+    });
+  }
+
+  async updateUser(userId: string, data: { status?: any, accountType?: any }) {
+    const id = BigInt(userId);
+    return this.userRepo.updateUser(id, data);
+  }
+
+  // ─── Admin Broker Management ──────────────────────────────────────────────────
+
+  async getAllBrokers(query: {
+    page?: string;
+    limit?: string;
+    search?: string;
+    status?: string;
+  }) {
+    const page = Math.max(1, parseInt(query.page || "1", 10));
+    const limit = Math.min(50, Math.max(1, parseInt(query.limit || "10", 10)));
+    const skip = (page - 1) * limit;
+
+    const where: any = {
+      accountType: "AGENT" as any,
+    };
+
+    if (query.status && query.status !== "ALL") {
+      where.status = query.status;
+    }
+
+    if (query.search) {
+      const searchTerm = query.search.trim();
+      where.OR = [
+        { email: { contains: searchTerm, mode: "insensitive" } },
+        { phoneNumber: { contains: searchTerm, mode: "insensitive" } },
+        {
+          profile: {
+            displayName: { contains: searchTerm, mode: "insensitive" },
+          },
+        },
+      ];
+    }
+
+    const [brokers, total] = await Promise.all([
+      prisma.user.findMany({
+        where,
+        include: {
+          profile: true,
+          _count: {
+            select: { listings: true },
+          },
+        },
+        orderBy: { createdAt: "desc" },
+        skip,
+        take: limit,
+      }),
+      prisma.user.count({ where }),
+    ]);
+
+    return {
+      brokers,
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit),
+      },
+    };
+  }
+
+  async getBrokerStats() {
+    const now = new Date();
+    const startOfThisMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+
+    const [total, active, locked, newThisMonth] = await Promise.all([
+      prisma.user.count({ where: { accountType: "AGENT" as any } }),
+      prisma.user.count({
+        where: { accountType: "AGENT" as any, status: "ACTIVE" as any },
+      }),
+      prisma.user.count({
+        where: { accountType: "AGENT" as any, status: "LOCKED" as any },
+      }),
+      prisma.user.count({
+        where: {
+          accountType: "AGENT" as any,
+          createdAt: { gte: startOfThisMonth },
+        },
+      }),
+    ]);
+
+    return { total, active, locked, newThisMonth };
+  }
+
+  async toggleBrokerStatus(brokerId: string, newStatus: string) {
+    const id = BigInt(brokerId);
+    const user = await this.userRepo.findById(id);
+    if (!user) throw new AppError("Broker not found", 404, "BROKER_NOT_FOUND");
+    if (user.accountType !== "AGENT") {
+      throw new AppError("User is not a broker", 400, "NOT_A_BROKER");
+    }
+
+    const validStatuses = ["ACTIVE", "LOCKED"];
+    if (!validStatuses.includes(newStatus)) {
+      throw new AppError("Invalid status", 400, "INVALID_STATUS");
+    }
+
+    return this.userRepo.updateUser(id, { status: newStatus });
+  }
 }
