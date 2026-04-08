@@ -45,7 +45,18 @@ router.post(
         }
       }
 
-      await reportController.generateReport(types, res);
+      const { buffer, fileName } = await reportController.generateReport(types as any[]);
+
+      res.setHeader(
+        "Content-Type",
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      );
+      res.setHeader(
+        "Content-Disposition",
+        `attachment; filename="${fileName}"`,
+      );
+
+      res.end(buffer);
     } catch (error) {
       next(error);
     }
