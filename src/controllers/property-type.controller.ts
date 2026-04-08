@@ -1,123 +1,72 @@
-import type { Request, Response, NextFunction } from "express";
 import { PropertyTypeRepository } from "../repositories/property-type.repository.js";
+import { AppError } from "../utils/customErrors.js";
 
-const propertyTypeRepo = new PropertyTypeRepository();
+export class PropertyTypeController {
+  private readonly propertyTypeRepo: PropertyTypeRepository;
 
-export const getAllPropertyTypes = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const types = await propertyTypeRepo.findAll();
-    res.status(200).json({
-      success: true,
-      data: types,
-    });
-  } catch (error) {
-    next(error);
+  constructor() {
+    this.propertyTypeRepo = new PropertyTypeRepository();
   }
-};
 
-export const createPropertyType = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  try {
-    const { name } = req.body;
-    
-    if (!name || name.trim() === '') {
-      res.status(400).json({
-        success: false,
-        message: "Tên danh mục không được để trống",
-      });
-      return;
+  async getAll() {
+    return this.propertyTypeRepo.findAll();
+  }
+
+  async create(name: string) {
+    if (!name || name.trim() === "") {
+      throw new AppError("Tên danh mục không được để trống", 400);
     }
 
-    const existingType = await propertyTypeRepo.findByName(name.trim());
+    const existingType = await this.propertyTypeRepo.findByName(name.trim());
     if (existingType) {
-      res.status(400).json({
-        success: false,
-        message: "Tên danh mục đã tồn tại",
-      });
-      return;
+      throw new AppError("Tên danh mục đã tồn tại", 400);
     }
 
-    const newType = await propertyTypeRepo.create({ name: name.trim() });
-    
-    res.status(201).json({
-      success: true,
-      message: "Tạo danh mục thành công",
-      data: newType,
-    });
-  } catch (error) {
-    next(error);
+    return this.propertyTypeRepo.create({ name: name.trim() });
   }
-};
 
-export const updatePropertyType = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  try {
-    const id = parseInt(req.params.id as string, 10);
-    const { name } = req.body;
-
+  async update(id: number, name: string) {
     if (isNaN(id)) {
-      res.status(400).json({ success: false, message: "ID không hợp lệ" });
-      return;
+      throw new AppError("ID không hợp lệ", 400);
     }
 
-    if (!name || name.trim() === '') {
-      res.status(400).json({ success: false, message: "Tên danh mục không được để trống" });
-      return;
+    if (!name || name.trim() === "") {
+      throw new AppError("Tên danh mục không được để trống", 400);
     }
 
-    const existingType = await propertyTypeRepo.findById(id);
+    const existingType = await this.propertyTypeRepo.findById(id);
     if (!existingType) {
-      res.status(404).json({ success: false, message: "Không tìm thấy danh mục" });
-      return;
+      throw new AppError("Không tìm thấy danh mục", 404);
     }
 
-    const duplicateType = await propertyTypeRepo.findByName(name.trim());
+    const duplicateType = await this.propertyTypeRepo.findByName(name.trim());
     if (duplicateType && duplicateType.id !== id) {
-      res.status(400).json({ success: false, message: "Tên danh mục đã tồn tại" });
-      return;
+      throw new AppError("Tên danh mục đã tồn tại", 400);
     }
 
-    const updatedType = await propertyTypeRepo.update(id, { name: name.trim() });
-
-    res.status(200).json({
-      success: true,
-      message: "Cập nhật danh mục thành công",
-      data: updatedType,
-    });
-  } catch (error) {
-    next(error);
+    return this.propertyTypeRepo.update(id, { name: name.trim() });
   }
-};
 
-export const deletePropertyType = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  try {
-    const id = parseInt(req.params.id as string, 10);
-
+  async delete(id: number) {
     if (isNaN(id)) {
-       res.status(400).json({ success: false, message: "ID không hợp lệ" });
-       return;
+      throw new AppError("ID không hợp lệ", 400);
     }
 
-    const existingType = await propertyTypeRepo.findById(id);
+    const existingType = await this.propertyTypeRepo.findById(id);
     if (!existingType) {
-       res.status(404).json({ success: false, message: "Không tìm thấy danh mục" });
-       return;
+      throw new AppError("Không tìm thấy danh mục", 404);
     }
 
-    const linkedListingsCount = await propertyTypeRepo.getCountListingsAssigned(id);
+    const linkedListingsCount =
+      await this.propertyTypeRepo.getCountListingsAssigned(id);
     if (linkedListingsCount > 0) {
-      res.status(400).json({ 
-        success: false, 
-        message: `Không thể xóa vì danh mục đang được sử dụng bởi ${linkedListingsCount} bài đăng.` 
-      });
-      return;
+      throw new AppError(
+        `Không thể xóa vì danh mục đang được sử dụng bởi ${linkedListingsCount} bài đăng.`,
+        400,
+      );
     }
 
-    await propertyTypeRepo.delete(id);
-
-    res.status(200).json({
-      success: true,
-      message: "Xóa danh mục thành công",
-    });
-  } catch (error) {
-    next(error);
+    await this.propertyTypeRepo.delete(id);
+    return true;
   }
-};
+}

@@ -84,7 +84,7 @@ export class UserRepository {
     });
   }
 
-  
+
 
   async createSocialUser(data: {
     email?: string | null;
