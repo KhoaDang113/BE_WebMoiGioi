@@ -74,13 +74,37 @@ router.get(
 
 router.get(
   "/favorites",
-  favoriteController.getMyFavorites.bind(favoriteController),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const data = await favoriteController.getMyFavorites(req.user!.userId);
+      res.status(200).json({ success: true, data });
+    } catch (error) {
+      next(error);
+    }
+  },
 );
+
 
 router.post(
   "/favorites/toggle/:id",
-  favoriteController.toggleFavorite.bind(favoriteController),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const id = req.params.id as string;
+      const result = await favoriteController.toggleFavorite(
+        req.user!.userId,
+        id,
+      );
+      res.status(result.action === "added" ? 201 : 200).json({
+        success: true,
+        message: result.message,
+        data: { action: result.action },
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
 );
+
 
 router.get(
   "/admin/pending",

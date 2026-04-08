@@ -1,6 +1,5 @@
 import ExcelJS from "exceljs";
 import prisma from "../config/database.js";
-import type { Response } from "express";
 import { ReportRepository } from "../repositories/report.repository.js";
 import type { CreateReportRequest } from "../dtos/report/create-report.dto.js";
 import type { UpdateReportStatusRequest } from "../dtos/report/update-report.dto.js";
@@ -326,7 +325,7 @@ export class ReportController {
   // ═══════════════════════════════════════════════════════════════════════════
   // MAIN: Generate Excel report with selected sheets
   // ═══════════════════════════════════════════════════════════════════════════
-  async generateReport(reportTypes: ReportType[], res: Response) {
+  async generateReport(reportTypes: ReportType[]) {
     const workbook = new ExcelJS.Workbook();
     workbook.creator = "WebMoiGioi Admin";
     workbook.created = new Date();
@@ -352,14 +351,12 @@ export class ReportController {
     const dateStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
     const fileName = `BaoCao_${dateStr}.xlsx`;
 
-    res.setHeader(
-      "Content-Type",
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-    );
-    res.setHeader("Content-Disposition", `attachment; filename="${fileName}"`);
+    const buffer = await workbook.xlsx.writeBuffer();
 
-    await workbook.xlsx.write(res);
-    res.end();
+    return {
+      buffer,
+      fileName,
+    };
   }
 
   async createReport(reporterId: bigint, data: CreateReportRequest) {
